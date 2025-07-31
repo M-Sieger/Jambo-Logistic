@@ -1,0 +1,50 @@
+/* src/styles/base.css */
+
+:root {
+  --color-primary: #ff914d;
+  --color-accent: #e95c1f;
+  --color-dark: #1e1e1e;
+  --color-bg: #fffdf8;
+  --color-footer: #002f34;
+  --color-footer-text: #d0e5dd;
+  --font-headline: 'Poppins', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-dark);
+  font-family: var(--font-body);
+}
+
+/* Utility-Klassen */
+.section {
+  padding: 4rem 1.5rem;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.headline-xl {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-family: var(--font-headline);
+  font-weight: 600;
+}
+
+.button-primary {
+  background-color: var(--color-primary);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button-primary:hover {
+  background-color: var(--color-accent);
+}
