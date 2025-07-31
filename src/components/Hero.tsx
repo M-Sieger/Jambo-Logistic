@@ -6,29 +6,30 @@ import styles from '../styles/Hero.module.css';
 type HeroProps = {
   headline: string;
   subline: string;
-  ctaText: string;
-  imageUrl: string;
+  ctaLabel: string;
   onCTAClick?: () => void;
+  backgroundUrl?: string;
 };
 
 export default function Hero({
   headline,
   subline,
-  ctaText,
-  imageUrl,
+  ctaLabel,
   onCTAClick,
+  backgroundUrl = '/assets/container-ship.jpg',
 }: HeroProps) {
   return (
     <section
       className={styles.hero}
-      style={{ backgroundImage: `url(${imageUrl})` }}
+      style={{ backgroundImage: `url(${backgroundUrl})` }}
+      data-aos="fade-in"
     >
       <div className={styles.overlay}>
         <div className={styles.content}>
-          <h1 className={styles.headline}>{headline}</h1>
-          <p className={styles.subline}>{subline}</p>
+          <h1>{headline}</h1>
+          <p>{subline}</p>
           <button className={styles.cta} onClick={onCTAClick}>
-            {ctaText}
+            {ctaLabel}
           </button>
         </div>
       </div>
