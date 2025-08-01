@@ -1,0 +1,47 @@
+.stepsSection {
+  padding: 4rem 1rem;
+  text-align: center;
+  background-color: #fff;
+}
+
+.heading {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.stepsWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+}
+
+.stepCard {
+  flex: 1 1 250px;
+  max-width: 300px;
+  background: #f9f9f9;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease;
+}
+
+.stepCard:hover {
+  transform: translateY(-4px);
+}
+
+.icon {
+  height: 50px;
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.description {
+  font-size: 0.95rem;
+  color: #444;
+}
