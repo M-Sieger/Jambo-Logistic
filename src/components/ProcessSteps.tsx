@@ -1,3 +1,4 @@
+// src/components/ProcessSteps.tsx
 import React from 'react';
 
 import styles from '../styles/ProcessSteps.module.css';
@@ -14,17 +15,24 @@ type ProcessStepsProps = {
 
 export default function ProcessSteps({ steps }: ProcessStepsProps) {
   return (
-    <section className={`steps-section ${styles.stepsSection}`}>
+    <section className="steps-section">
       <div className="container">
-        <h2 className="headline-xl">So einfach funktioniert’s</h2>
-        <div className={styles.stepsWrapper}>
-          {steps.map((step, i) => (
-            <div className={styles.stepCard} key={i} data-aos="fade-up" data-aos-delay={i * 100}>
-              <h3 className={styles.title}>{step.title}</h3>
-              <p className={styles.description}>{step.description}</p>
-            </div>
-          ))}
-        </div>
+        <section className={styles.steps} id="steps">
+          <h2 className={styles.headline}>So einfach funktioniert’s</h2>
+          <div className={styles.grid}>
+            {steps.map((step, i) => (
+              <div
+                className={styles.card}
+                key={i}
+                data-aos="fade-up"
+                data-aos-delay={i * 100}
+              >
+                <h3 className={styles.title}>{step.title}</h3>
+                <p className={styles.description}>{step.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
       </div>
     </section>
   );

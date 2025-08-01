@@ -1,5 +1,3 @@
-/* src/styles/base.css */
-
 :root {
   --color-primary: #ff914d;
   --color-accent: #e95c1f;
@@ -12,14 +10,24 @@
 }
 
 body {
-  background-color: var(--color-bg);
+  margin: 0;
+  padding: 0;
+  background: none; /* war: var(--color-bg) → blockierte alles */
   color: var(--color-dark);
   font-family: var(--font-body);
 }
 
-/* Utility-Klassen */
+/* Entferne zentriertes Root-Layout */
+#root {
+  all: unset;
+  display: block;
+}
+
+/* Section Utility */
 .section {
   padding: 4rem 1.5rem;
+  width: 100%;
+  display: block;
 }
 
 .container {

@@ -1,6 +1,7 @@
-import './styles/global.css';
+// CSS-Imports
+import './styles/global.css';   // enthält reset + base
+import './styles/Layout.css';
 
-// src/main.tsx
 import React from 'react';
 
 import ReactDOM from 'react-dom/client';

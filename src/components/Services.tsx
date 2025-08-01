@@ -1,4 +1,3 @@
-// src/components/Services.tsx
 import React from 'react';
 
 import styles from '../styles/Services.module.css';
@@ -6,7 +5,7 @@ import styles from '../styles/Services.module.css';
 type ServiceItem = {
   title: string;
   description: string;
-  icon: string; // emoji oder Pfad zu Icon
+  icon: string;
 };
 
 type ServicesProps = {
@@ -28,8 +27,8 @@ export default function Services({ services }: ServicesProps) {
                 data-aos-delay={i * 100}
               >
                 <div className={styles.icon}>{item.icon}</div>
-                <h3>{item.title}</h3>
-                <p>{item.description}</p>
+                <h3 className={styles.title}>{item.title}</h3>
+                <p className={styles.description}>{item.description}</p>
               </div>
             ))}
           </div>

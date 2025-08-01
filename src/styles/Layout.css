@@ -1,29 +1,42 @@
+/* Container */
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
 
+/* Sichtbarkeit maximieren */
+body {
+  background-color: #d3760c !important;
+}
+
+/* AboutBox (via .about aus CSS Module) */
+.about {
+  background-color: #070707 !important;
+}
+
+/* Services (globale Klasse verwendet in Component) */
 .services-section {
-  background-color: #fffdf8;
-  padding: 4rem 0;
+  background-color: #fff3e0 !important;
 }
 
+/* Steps (globale Klasse verwendet in Component) */
 .steps-section {
-  background-color: #ffffff;
-  padding: 4rem 0;
+  background-color: #fff7eb !important;
 }
 
+/* TrustBox (via .trust aus CSS Module) */
+.trust {
+  background-color: #fefaf2 !important;
+}
+
+/* Contact (globale Klasse verwendet in Component) */
 .contact-section {
-  background-color: #fceee0;
-  padding: 4rem 0;
+  background-color: #000000 !important;
 }
 
-.trust-section {
-  background-color: #fffdf8;
-  padding: 4rem 0;
-}
-.about-section {
-  background-color: #fffdf8;
-  padding: 4rem 0;
+/* Footer – global gesetzt */
+footer {
+  background-color: #002f34;
+  color: #d0e5dd;
 }

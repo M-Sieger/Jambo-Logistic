@@ -1,47 +1,45 @@
-.stepsSection {
-  padding: 4rem 1rem;
+.steps {
   text-align: center;
-  background-color: #fff;
+  padding: 4rem 0;
 }
 
-.heading {
-  font-size: 2rem;
-  margin-bottom: 2rem;
+.headline {
+  font-size: 2.2rem;
+  margin-bottom: 2.5rem;
+  font-family: 'Raleway', sans-serif;
+  color: #2b1d0e;
 }
 
-.stepsWrapper {
+.grid {
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
   justify-content: center;
 }
 
-.stepCard {
+.card {
+  background: #ffffff;
   flex: 1 1 250px;
   max-width: 300px;
-  background: #f9f9f9;
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  padding: 2rem;
+  border-radius: 1.2rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f0e5da;
   transition: transform 0.2s ease;
 }
 
-.stepCard:hover {
+.card:hover {
   transform: translateY(-4px);
-}
-
-.icon {
-  height: 50px;
-  margin-bottom: 1rem;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
 }
 
 .title {
-  font-weight: bold;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
+  font-weight: 600;
   margin-bottom: 0.5rem;
 }
 
 .description {
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: #444;
 }
