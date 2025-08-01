@@ -1,0 +1,29 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.services-section {
+  background-color: #fffdf8;
+  padding: 4rem 0;
+}
+
+.steps-section {
+  background-color: #ffffff;
+  padding: 4rem 0;
+}
+
+.contact-section {
+  background-color: #fceee0;
+  padding: 4rem 0;
+}
+
+.trust-section {
+  background-color: #fffdf8;
+  padding: 4rem 0;
+}
+.about-section {
+  background-color: #fffdf8;
+  padding: 4rem 0;
+}
