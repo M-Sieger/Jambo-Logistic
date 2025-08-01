@@ -3,34 +3,9 @@
   text-align: center;
 }
 
-.trust h2 {
-  font-size: 2rem;
-  margin-bottom: 2.5rem;
-}
-
 .grid {
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
   justify-content: center;
-}
-
-.card {
-  background-color: white;
-  padding: 1.5rem;
-  border-radius: 0.75rem;
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
-  flex: 1 1 240px;
-  max-width: 300px;
-  transition: transform 0.3s ease;
-}
-
-.card:hover {
-  transform: translateY(-6px);
-}
-
-.icon {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-  color: var(--color-primary);
 }

@@ -1,16 +1,8 @@
+/* src/styles/Contact.module.css */
+
 .contact {
   padding: 4rem 1rem;
   text-align: center;
-}
-
-.contact h2 {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-}
-
-.contact p {
-  margin-bottom: 2rem;
-  color: #333;
 }
 
 .actions {
@@ -18,35 +10,4 @@
   flex-wrap: wrap;
   gap: 1rem;
   justify-content: center;
-}
-
-.button,
-.buttonOutline {
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  font-weight: bold;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.button {
-  background-color: var(--color-primary);
-  color: white;
-  border: none;
-}
-
-.button:hover {
-  background-color: var(--color-accent);
-}
-
-.buttonOutline {
-  border: 2px solid var(--color-primary);
-  color: var(--color-primary);
-  background: transparent;
-}
-
-.buttonOutline:hover {
-  background-color: var(--color-primary);
-  color: white;
 }

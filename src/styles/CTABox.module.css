@@ -3,17 +3,6 @@
   padding: 2rem 1rem;
 }
 
-.headline {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-.subline {
-  font-size: 1rem;
-  margin-bottom: 2rem;
-  color: #444;
-}
-
 .buttons {
   display: flex;
   flex-direction: column;
@@ -21,34 +10,6 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 1rem;
-}
-
-.primaryButton,
-.secondaryButton {
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  font-weight: 600;
-  text-decoration: none;
-  transition: background 0.3s ease;
-  width: fit-content;
-}
-
-.primaryButton {
-  background-color: #ff924c;
-  color: white;
-}
-
-.primaryButton:hover {
-  background-color: #e57d35;
-}
-
-.secondaryButton {
-  border: 2px solid #ff924c;
-  color: #ff924c;
-}
-
-.secondaryButton:hover {
-  background-color: #fff3eb;
 }
 
 .link a {

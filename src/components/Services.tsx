@@ -1,5 +1,7 @@
+// src/components/Services.tsx
 import React from 'react';
 
+import global from '../styles/GlobalPolish.module.css';
 import styles from '../styles/Services.module.css';
 
 type ServiceItem = {
@@ -14,21 +16,21 @@ type ServicesProps = {
 
 export default function Services({ services }: ServicesProps) {
   return (
-    <section className="services-section">
+    <section className="services-section section--light">
       <div className="container">
         <section className={styles.services} id="services">
-          <h2 className="headline-xl">Unsere Versandarten</h2>
+          <h2 className={global.headline}>Unsere Versandarten</h2>
           <div className={styles.grid}>
             {services.map((item, i) => (
               <div
-                className={styles.card}
+                className={`${global.card} ${styles.card}`}
                 key={i}
                 data-aos="fade-up"
                 data-aos-delay={i * 100}
               >
-                <div className={styles.icon}>{item.icon}</div>
-                <h3 className={styles.title}>{item.title}</h3>
-                <p className={styles.description}>{item.description}</p>
+                <div className={global.iconBox}>{item.icon}</div>
+                <h3 className={global.subline}>{item.title}</h3>
+                <p className={global.textMuted}>{item.description}</p>
               </div>
             ))}
           </div>

@@ -17,16 +17,6 @@
   max-width: 500px;
 }
 
-.info h2 {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-}
-
-.info p {
-  color: #444;
-  margin-bottom: 1rem;
-}
-
 .info ul {
   list-style: none;
   padding: 0;

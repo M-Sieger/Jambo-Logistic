@@ -1,0 +1,94 @@
+/* Buttons */
+.button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  background-color: #e67e22;
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  text-align: center;
+}
+
+.button:hover {
+  background-color: #cf5e0f;
+}
+
+.button--outline {
+  background: transparent;
+  border: 2px solid #e67e22;
+  color: #e67e22;
+}
+
+.button--outline:hover {
+  background-color: #fff7eb;
+}
+
+/* Cards */
+.card {
+  background-color: white;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+/* Headlines */
+.headline {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 1rem;
+}
+
+.subline {
+  font-size: 1.125rem;
+  color: #666;
+  line-height: 1.5;
+}
+
+/* Section Modifier */
+.section--light {
+  background-color: #fff9f2;
+}
+
+.section--neutral {
+  background-color: #fff3e0;
+}
+
+.section--dark {
+  background-color: #1c1c1c;
+  color: #fdfdfd;
+}
+
+/* Text Styles */
+.textMuted {
+  color: #777;
+  font-size: 0.95rem;
+}
+
+.center {
+  text-align: center;
+}
+
+.iconBox {
+  font-size: 1.5rem;
+  opacity: 0.85;
+  margin-bottom: 0.5rem;
+}
+
+/* Shadow Utility */
+.shadowSoft {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.shadowStrong {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+}

@@ -1,6 +1,7 @@
 // src/components/ProcessSteps.tsx
 import React from 'react';
 
+import global from '../styles/GlobalPolish.module.css';
 import styles from '../styles/ProcessSteps.module.css';
 
 type Step = {
@@ -15,20 +16,21 @@ type ProcessStepsProps = {
 
 export default function ProcessSteps({ steps }: ProcessStepsProps) {
   return (
-    <section className="steps-section">
+    <section className="steps-section section--neutral">
       <div className="container">
         <section className={styles.steps} id="steps">
-          <h2 className={styles.headline}>So einfach funktioniert’s</h2>
+          <h2 className={global.headline}>So einfach funktioniert’s</h2>
           <div className={styles.grid}>
             {steps.map((step, i) => (
               <div
-                className={styles.card}
+                className={`${global.card} ${styles.card}`}
                 key={i}
                 data-aos="fade-up"
                 data-aos-delay={i * 100}
               >
-                <h3 className={styles.title}>{step.title}</h3>
-                <p className={styles.description}>{step.description}</p>
+                <div className={global.iconBox}>{step.icon}</div>
+                <h3 className={global.subline}>{step.title}</h3>
+                <p className={global.textMuted}>{step.description}</p>
               </div>
             ))}
           </div>

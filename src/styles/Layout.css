@@ -1,42 +1,52 @@
-/* Container */
+/* Layout-Only Struktur – keine UI-Komponenten mehr! */
+
+/* 1. Globales Grid & Container */
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
 
-/* Sichtbarkeit maximieren */
+/* 2. Hintergrund der Seite (globaler Verlauf) */
 body {
-  background-color: #d3760c !important;
+  background: linear-gradient(180deg, #fdf6ec, #fff3e0 30%, #e67e22 100%);
+  font-family: var(--font-body);
+  color: var(--color-dark);
+  margin: 0;
 }
 
-/* AboutBox (via .about aus CSS Module) */
-.about {
-  background-color: #070707 !important;
+/* 3. Einheitliche Section-Spaces */
+section {
+  padding-block: 5rem;
+  padding-inline: 1.5rem;
+  position: relative;
 }
 
-/* Services (globale Klasse verwendet in Component) */
-.services-section {
-  background-color: #fff3e0 !important;
+.section--tight {
+  padding-block: 3rem;
+}
+.section--spacious {
+  padding-block: 7rem;
 }
 
-/* Steps (globale Klasse verwendet in Component) */
-.steps-section {
-  background-color: #fff7eb !important;
+/* 4. Container innerhalb von Sections */
+section > .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
 }
 
-/* TrustBox (via .trust aus CSS Module) */
-.trust {
-  background-color: #fefaf2 !important;
+/* 5. Visuelle Trenner (SVG-Wellen etc.) */
+.section-break {
+  width: 100%;
+  height: 64px;
+  overflow: hidden;
+  line-height: 0;
 }
-
-/* Contact (globale Klasse verwendet in Component) */
-.contact-section {
-  background-color: #000000 !important;
-}
-
-/* Footer – global gesetzt */
-footer {
-  background-color: #002f34;
-  color: #d0e5dd;
+.section-break svg {
+  width: 100%;
+  height: 100%;
+  display: block;
 }

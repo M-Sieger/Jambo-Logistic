@@ -2,21 +2,25 @@
 import React from 'react';
 
 import styles from '../styles/AboutBox.module.css';
+import global from '../styles/GlobalPolish.module.css';
 
 type AboutBoxProps = {
   headline: string;
   paragraphs: string[];
   imageUrl?: string;
 };
+
 export default function AboutBox({ headline, paragraphs, imageUrl }: AboutBoxProps) {
   return (
-    <section className="about-section">
+    <section className="about-section section--dark">
       <div className="container">
         <div className={styles.about} id="about">
           <div className={styles.content}>
-            <h2>{headline}</h2>
+            <h2 className={global.headline}>{headline}</h2>
             {paragraphs.map((text, i) => (
-              <p key={i}>{text}</p>
+              <p key={i} className={global.subline}>
+                {text}
+              </p>
             ))}
           </div>
           {imageUrl && (

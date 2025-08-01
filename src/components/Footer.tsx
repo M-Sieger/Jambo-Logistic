@@ -2,6 +2,7 @@
 import React from 'react';
 
 import styles from '../styles/Footer.module.css';
+import global from '../styles/GlobalPolish.module.css';
 
 type FooterLink = {
   label: string;
@@ -17,16 +18,18 @@ type FooterProps = {
 export default function Footer({ logoUrl, description, links }: FooterProps) {
   return (
     <footer className={styles.footer}>
-      <div className={styles.container}>
+      <div className={`container ${styles.container}`}>
         <div className={styles.left}>
           <img src={logoUrl} alt="Jambo Logistics Logo" className={styles.logo} />
-          <p>{description}</p>
+          <p className={global.textMuted}>{description}</p>
         </div>
         <div className={styles.right}>
           <ul>
             {links.map((link, i) => (
               <li key={i}>
-                <a href={link.href}>{link.label}</a>
+                <a href={link.href} className={global.subline}>
+                  {link.label}
+                </a>
               </li>
             ))}
           </ul>
