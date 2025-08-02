@@ -1,6 +1,10 @@
 .steps {
   text-align: center;
-  padding-block: 4rem;
+  padding: 4rem 1rem;
+  background-image: url('/assets/patterns/kenya-fabric-light.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .grid {
@@ -8,4 +12,5 @@
   flex-wrap: wrap;
   gap: 2rem;
   justify-content: center;
+  margin-top: 2rem;
 }

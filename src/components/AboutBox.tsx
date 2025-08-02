@@ -12,24 +12,20 @@ type AboutBoxProps = {
 
 export default function AboutBox({ headline, paragraphs, imageUrl }: AboutBoxProps) {
   return (
-    <section className="about-section section--dark">
-      <div className="container">
-        <div className={styles.about} id="about">
-          <div className={styles.content}>
-            <h2 className={global.headline}>{headline}</h2>
-            {paragraphs.map((text, i) => (
-              <p key={i} className={global.subline}>
-                {text}
-              </p>
-            ))}
-          </div>
-          {imageUrl && (
-            <div className={styles.imageWrapper}>
-              <img src={imageUrl} alt="Über uns" />
-            </div>
-          )}
-        </div>
+    <section id="about" className={`about-section section--dark ${styles.about}`}>
+      <h2 className={global.headline}>{headline}</h2>
+      <div className={styles.content}>
+        {paragraphs.map((text, i) => (
+          <p key={i} className={global.subline}>
+            {text}
+          </p>
+        ))}
       </div>
+      {imageUrl && (
+        <div className={styles.imageWrapper}>
+          <img src={imageUrl} alt="Über uns" />
+        </div>
+      )}
     </section>
   );
 }

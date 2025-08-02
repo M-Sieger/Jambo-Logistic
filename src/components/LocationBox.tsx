@@ -22,7 +22,7 @@ export default function LocationBox({
   mapEmbedUrl,
 }: LocationBoxProps) {
   return (
-    <section className={styles.section} id="standorte">
+    <section id="standorte" className={styles.section}>
       <div className={styles.container}>
         <div className={styles.info}>
           <h2>{headline}</h2>
@@ -30,8 +30,10 @@ export default function LocationBox({
           <ul>
             {locations.map((loc, idx) => (
               <li key={idx}>
-                {loc.flag} <strong>{loc.country}:</strong><br />
-                {loc.name}<br />
+                {loc.flag} <strong>{loc.country}:</strong>
+                <br />
+                {loc.name}
+                <br />
                 {loc.address}
               </li>
             ))}

@@ -1,19 +1,24 @@
 .ctaBox {
   text-align: center;
-  padding: 2rem 1rem;
+  padding: 4rem 1rem;
+  background-image: url('/assets/patterns/shipping-overlay.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .buttons {
   display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  align-items: center;
   justify-content: center;
-  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-top: 2rem;
 }
 
 .link a {
   font-size: 0.95rem;
   color: #444;
   text-decoration: underline;
+  display: inline-block;
+  margin-top: 1.5rem;
 }

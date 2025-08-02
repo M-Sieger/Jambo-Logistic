@@ -3,11 +3,16 @@
 .contact {
   padding: 4rem 1rem;
   text-align: center;
+  background-image: url('/assets/patterns/shipping-overlay.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .actions {
+  margin-top: 2rem;
   display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
   justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
 }

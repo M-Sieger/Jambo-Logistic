@@ -1,11 +1,15 @@
 .trust {
-  padding: 4rem 1.5rem;
   text-align: center;
+  padding: 4rem 1rem;
+  background-image: url('/assets/patterns/kenya-fabric-light.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .grid {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 2rem;
-  justify-content: center;
+  margin-top: 3rem;
 }

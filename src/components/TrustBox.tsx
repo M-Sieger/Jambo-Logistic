@@ -17,18 +17,16 @@ type TrustBoxProps = {
 
 export default function TrustBox({ headline, items }: TrustBoxProps) {
   return (
-    <section className={`${styles.trust} section--light`} data-aos="fade-up">
-      <div className="container">
-        <h2 className={global.headline}>{headline}</h2>
-        <div className={styles.grid}>
-          {items.map((item, i) => (
-            <div key={i} className={`${global.card} ${styles.card}`}>
-              {item.icon && <span className={global.iconBox}>{item.icon}</span>}
-              <h3 className={global.subline}>{item.title}</h3>
-              <p className={global.textMuted}>{item.description}</p>
-            </div>
-          ))}
-        </div>
+    <section className={`section--light ${styles.trust}`} data-aos="fade-up">
+      <h2 className={global.headline}>{headline}</h2>
+      <div className={styles.grid}>
+        {items.map((item, i) => (
+          <div key={i} className={`${global.card} ${styles.card}`}>
+            {item.icon && <span className={global.iconBox}>{item.icon}</span>}
+            <h3 className={global.subline}>{item.title}</h3>
+            <p className={global.textMuted}>{item.description}</p>
+          </div>
+        ))}
       </div>
     </section>
   );

@@ -39,21 +39,7 @@ p {
   color: #fff;
 }
 
-.cta {
-  background-color: var(--color-primary);
-  border: none;
-  padding: 0.75rem 1.5rem;
-  font-weight: bold;
-  font-size: 1rem;
-  border-radius: 8px;
-  cursor: pointer;
-  color: white;
-  transition: background 0.2s ease-in-out;
-}
-
-.cta:hover {
-  background-color: var(--color-accent);
-}
+/* Button-Styles wurden entfernt – Nutzung erfolgt über global.button */
 
 @keyframes fadeIn {
   from {

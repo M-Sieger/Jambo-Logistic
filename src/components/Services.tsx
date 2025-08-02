@@ -16,25 +16,21 @@ type ServicesProps = {
 
 export default function Services({ services }: ServicesProps) {
   return (
-    <section className="services-section section--light">
-      <div className="container">
-        <section className={styles.services} id="services">
-          <h2 className={global.headline}>Unsere Versandarten</h2>
-          <div className={styles.grid}>
-            {services.map((item, i) => (
-              <div
-                className={`${global.card} ${styles.card}`}
-                key={i}
-                data-aos="fade-up"
-                data-aos-delay={i * 100}
-              >
-                <div className={global.iconBox}>{item.icon}</div>
-                <h3 className={global.subline}>{item.title}</h3>
-                <p className={global.textMuted}>{item.description}</p>
-              </div>
-            ))}
+    <section id="services" className={`section--light ${styles.services}`}>
+      <h2 className={global.headline}>Unsere Versandarten</h2>
+      <div className={styles.grid}>
+        {services.map((item, i) => (
+          <div
+            className={`${global.card} ${styles.card}`}
+            key={i}
+            data-aos="fade-up"
+            data-aos-delay={i * 100}
+          >
+            <div className={global.iconBox}>{item.icon}</div>
+            <h3 className={global.subline}>{item.title}</h3>
+            <p className={global.textMuted}>{item.description}</p>
           </div>
-        </section>
+        ))}
       </div>
     </section>
   );

@@ -1,10 +1,15 @@
-/* Layout-Only Struktur – keine UI-Komponenten mehr! */
+/* Layout-Only Struktur – keine UI-Komponenten! */
 
 /* 1. Globales Grid & Container */
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1.5rem;
+
+  /* ⚠️ entfernt: display: flex – war Ursache für Layout-Konflikte */
+  /* display: flex;
+  flex-direction: column;
+  gap: 2.5rem; */
 }
 
 /* 2. Hintergrund der Seite (globaler Verlauf) */
@@ -22,6 +27,7 @@ section {
   position: relative;
 }
 
+/* Wenn enger oder weiter nötig – z. B. Hero / Footer */
 .section--tight {
   padding-block: 3rem;
 }
@@ -29,13 +35,13 @@ section {
   padding-block: 7rem;
 }
 
-/* 4. Container innerhalb von Sections */
+/* 4. Container innerhalb von Sections – wird aktuell selten genutzt */
 section > .container {
   max-width: 1200px;
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 2.5rem;
+  padding: 0 1.5rem;
+
+  /* ⚠️ kein display: flex mehr → Konflikte mit Headings & Layouts vermieden */
 }
 
 /* 5. Visuelle Trenner (SVG-Wellen etc.) */

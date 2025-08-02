@@ -12,7 +12,7 @@ type ContactProps = {
 
 export default function Contact({ headline = 'Kontakt', whatsappUrl, email }: ContactProps) {
   return (
-    <section className={`${styles.contact} section--dark`} id="contact">
+    <section id="contact" className={`${styles.contact} section--dark`}>
       <h2 className={global.headline}>{headline}</h2>
       <p className={global.subline}>Wir sind für dich da – persönlich & schnell.</p>
       <div className={styles.actions}>

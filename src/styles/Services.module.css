@@ -1,5 +1,10 @@
 .services {
   text-align: center;
+  padding: 4rem 1rem;
+  background-image: url('/assets/patterns/kenya-fabric-light.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .grid {
