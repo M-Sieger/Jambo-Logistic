@@ -25,7 +25,7 @@ export default function App() {
       />
 
       {/* Break zwischen Hero und Services */}
-      <SectionBreak fill="#fff3e0" />
+      <SectionBreak fill="#00443f" />
 
       <Services
         services={[
@@ -48,7 +48,7 @@ export default function App() {
       />
 
       {/* Break zwischen Services und Steps */}
-      <SectionBreak fill="#fef6ec" flip />
+      <SectionBreak fill="#00443f" flip />
 
       <ProcessSteps
         steps={[
@@ -71,7 +71,7 @@ export default function App() {
       />
 
       {/* Break zwischen Steps und CTA */}
-      <SectionBreak fill="#fffaf4" />
+      <SectionBreak fill="#00443f" />
 
       <CTABox
         whatsappUrl="https://wa.me/491234567890"
@@ -83,7 +83,7 @@ export default function App() {
       />
 
       {/* Break zwischen CTA und About */}
-      <SectionBreak fill="#070707" flip />
+      <SectionBreak fill="#00443f" flip />
 
       <AboutBox
         headline="Wer wir sind"
@@ -95,7 +95,7 @@ export default function App() {
       />
 
       {/* Break zwischen About und Contact */}
-      <SectionBreak fill="#000000" />
+      <SectionBreak fill="#00443f" />
 
       <Contact
         whatsappUrl="https://wa.me/491234567890"
@@ -103,7 +103,7 @@ export default function App() {
       />
 
       {/* Break zwischen Contact und TrustBox */}
-      <SectionBreak fill="#fef6ec" flip />
+      <SectionBreak fill="#00443f" flip />
 
       <TrustBox
         headline="Wem du vertrauen kannst"
@@ -127,7 +127,7 @@ export default function App() {
       />
 
       {/* Break vor dem Standortbereich */}
-      <SectionBreak fill="#fff3e0" />
+      <SectionBreak fill="#00443f" />
 
       <LocationBox
         headline="Unsere Standorte"
