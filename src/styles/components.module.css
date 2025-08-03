@@ -1,0 +1,309 @@
+/* Global Component Styles - Modern Warm Africa Theme */
+
+/* Button Components */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md) var(--spacing-xl);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  line-height: 1;
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-fast);
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  min-height: 48px; /* Touch-friendly */
+}
+
+.buttonPrimary {
+  composes: button;
+  background-color: var(--color-primary);
+  color: var(--color-text-light);
+  box-shadow: var(--shadow-md);
+}
+
+.buttonPrimary:hover {
+  background-color: var(--color-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.buttonSecondary {
+  composes: button;
+  background-color: transparent;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+}
+
+.buttonSecondary:hover {
+  background-color: var(--color-primary);
+  color: var(--color-text-light);
+}
+
+.buttonLarge {
+  padding: var(--spacing-lg) var(--spacing-2xl);
+  font-size: var(--font-size-lg);
+  min-height: 56px;
+}
+
+.buttonSmall {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  font-size: var(--font-size-sm);
+  min-height: 40px;
+}
+
+/* Card Components */
+.card {
+  background-color: var(--color-neutral-light);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+  padding: var(--spacing-xl);
+  transition: all var(--transition-normal);
+  border: 1px solid var(--color-border);
+}
+
+.cardHover:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-xl);
+}
+
+.cardInteractive {
+  composes: card cardHover;
+  cursor: pointer;
+}
+
+.cardDark {
+  composes: card;
+  background-color: var(--color-secondary);
+  color: var(--color-text-light);
+  border-color: var(--color-secondary-light);
+}
+
+.cardDark h1,
+.cardDark h2,
+.cardDark h3,
+.cardDark h4,
+.cardDark h5,
+.cardDark h6 {
+  color: var(--color-text-light);
+}
+
+.cardDark p {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Typography Components */
+.headline {
+  font-size: var(--font-size-4xl);
+  font-weight: 800;
+  line-height: var(--line-height-tight);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-lg);
+}
+
+.headlineLight {
+  composes: headline;
+  color: var(--color-text-light);
+}
+
+.subline {
+  font-size: var(--font-size-xl);
+  font-weight: 400;
+  line-height: var(--line-height-normal);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-xl);
+}
+
+.sublineLight {
+  composes: subline;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.sectionTitle {
+  font-size: var(--font-size-3xl);
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: var(--spacing-2xl);
+  color: var(--color-text-primary);
+}
+
+.sectionTitleLight {
+  composes: sectionTitle;
+  color: var(--color-text-light);
+}
+
+/* Layout Components */
+.grid {
+  display: grid;
+  gap: var(--spacing-xl);
+}
+
+.gridCols1 {
+  composes: grid;
+  grid-template-columns: 1fr;
+}
+
+.gridCols2 {
+  composes: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.gridCols3 {
+  composes: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.gridCols4 {
+  composes: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* Responsive Grid */
+@media (max-width: 767px) {
+  .gridCols2,
+  .gridCols3,
+  .gridCols4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .gridCols3,
+  .gridCols4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.flexCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flexBetween {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flexColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.flexWrap {
+  flex-wrap: wrap;
+}
+
+/* Icon Components */
+.icon {
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.iconLarge {
+  composes: icon;
+  width: 48px;
+  height: 48px;
+}
+
+.iconSmall {
+  composes: icon;
+  width: 16px;
+  height: 16px;
+}
+
+/* Badge Components */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  border-radius: var(--radius-md);
+  background-color: var(--color-highlight);
+  color: var(--color-text-primary);
+}
+
+.badgeSuccess {
+  composes: badge;
+  background-color: var(--color-accent);
+  color: var(--color-text-light);
+}
+
+.badgePrimary {
+  composes: badge;
+  background-color: var(--color-primary);
+  color: var(--color-text-light);
+}
+
+/* Animation Classes */
+.fadeIn {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.slideUp {
+  animation: slideUp 0.6s ease-out;
+}
+
+.scaleIn {
+  animation: scaleIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Responsive Typography */
+@media (min-width: 768px) {
+  .headline {
+    font-size: var(--font-size-5xl);
+  }
+  
+  .subline {
+    font-size: var(--font-size-2xl);
+  }
+  
+  .sectionTitle {
+    font-size: var(--font-size-4xl);
+  }
+}
+
+@media (min-width: 1024px) {
+  .headline {
+    font-size: var(--font-size-6xl);
+  }
+}
+

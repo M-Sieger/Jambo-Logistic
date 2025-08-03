@@ -1,0 +1,85 @@
+/* DefaultLayout Styles */
+
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.main {
+  flex: 1;
+  padding-top: 72px; /* Account for fixed header */
+  position: relative;
+}
+
+/* Mobile-specific optimizations */
+@media (max-width: 767px) {
+  .main {
+    padding-top: 72px;
+  }
+  
+  /* Ensure touch targets are at least 44px */
+  .layout button,
+  .layout a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Optimize text for mobile reading */
+  .layout {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+}
+
+/* Tablet optimizations */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .main {
+    padding-top: 80px;
+  }
+}
+
+/* Desktop optimizations */
+@media (min-width: 1024px) {
+  .main {
+    padding-top: 88px;
+  }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .layout {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Landscape mobile optimization */
+@media (max-width: 767px) and (orientation: landscape) {
+  .main {
+    padding-top: 60px;
+  }
+}
+
+/* Focus management for accessibility */
+.layout *:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.layout *:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Smooth scrolling for the entire layout */
+.layout {
+  scroll-behavior: smooth;
+}
+
+/* Prevent horizontal scroll on mobile */
+.layout {
+  overflow-x: hidden;
+  width: 100%;
+}
+
