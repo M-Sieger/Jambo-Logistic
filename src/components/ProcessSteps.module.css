@@ -1,7 +1,7 @@
 /* ProcessSteps Component Styles */
 
 .processSteps {
-  background: linear-gradient(135deg, var(--color-neutral-medium), rgba(39, 174, 96, 0.05));
+  background: transparent;
   position: relative;
 }
 

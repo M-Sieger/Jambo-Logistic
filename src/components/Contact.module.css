@@ -1,7 +1,7 @@
 /* Contact Component Styles */
 
 .contact {
-  background: linear-gradient(135deg, var(--color-neutral-light), var(--color-neutral-medium));
+  background: transparent;
   position: relative;
 }
 

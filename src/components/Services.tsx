@@ -1,13 +1,16 @@
 import React from 'react';
-import styles from './Services.module.css';
+
 import globalStyles from '../styles/components.module.css';
-import { createAOSProps, animations } from '../utils/animations';
-import containerIcon from '../assets/ship-container.jpg';
+import {
+  animations,
+  createAOSProps,
+} from '../utils/animations';
+import styles from './Services.module.css';
 
 interface Service {
   title: string;
   description: string;
-  icon: string;
+  iconUrl?: string; // ✅ für SVG-Icons
   bgClass?: string;
   imageUrl?: string;
 }
@@ -18,6 +21,7 @@ interface ServicesProps {
   columns?: 1 | 2 | 3 | 4;
   onServiceClick?: (service: Service) => void;
   className?: string;
+  backgroundImage?: string;
 }
 
 const Services: React.FC<ServicesProps> = ({
@@ -25,13 +29,13 @@ const Services: React.FC<ServicesProps> = ({
   variant = 'default',
   columns = 3,
   onServiceClick,
-  className = ''
+  className = '',
+  backgroundImage,
 }) => {
   const handleServiceClick = (service: Service) => {
     if (onServiceClick) {
       onServiceClick(service);
     } else {
-      // Default behavior: scroll to contact section
       const contactElement = document.getElementById('contact');
       if (contactElement) {
         contactElement.scrollIntoView({ behavior: 'smooth' });
@@ -56,21 +60,20 @@ const Services: React.FC<ServicesProps> = ({
 
   return (
     <section id="services" className={`${styles.services} ${styles[variant]} ${className} section`}>
-      {/* Container Background Image */}
-      <div className={styles.backgroundContainer}>
-        <img 
-          src={containerIcon} 
-          alt=""
-          className={styles.backgroundImage}
-          loading="lazy"
-        />
-      </div>
-      
+      {backgroundImage && (
+        <div className={styles.backgroundContainer}>
+          <img
+            src={backgroundImage}
+            alt="Service Hintergrund"
+            className={styles.backgroundImage}
+            loading="lazy"
+          />
+        </div>
+      )}
+
       <div className={`${styles.container} container`}>
         <div className={styles.header} {...createAOSProps(animations.fadeUp())}>
-          <h2 className={globalStyles.sectionTitle}>
-            Unsere Services
-          </h2>
+          <h2 className={globalStyles.sectionTitle}>Unsere Services</h2>
           <p className={styles.subtitle}>
             Von kleinen Paketen bis zu ganzen Containern – wir bringen alles sicher nach Kenia.
           </p>
@@ -92,32 +95,31 @@ const Services: React.FC<ServicesProps> = ({
                   handleServiceClick(service);
                 }
               }}
-              aria-label={`Learn more about ${service.title}`}
+              aria-label={`Mehr über ${service.title} erfahren`}
               {...createAOSProps(animations.staggered(index, 200, 150))}
             >
               {service.imageUrl && (
                 <div className={styles.cardImage}>
-                  <img 
-                    src={service.imageUrl} 
-                    alt={service.title}
-                    loading="lazy"
-                  />
+                  <img src={service.imageUrl} alt={service.title} loading="lazy" />
                 </div>
               )}
-              
+
               <div className={styles.cardContent}>
-                <div className={styles.cardIcon}>
-                  <span className={styles.iconEmoji}>{service.icon}</span>
-                </div>
-                
-                <h3 className={styles.cardTitle}>
-                  {service.title}
-                </h3>
-                
-                <p className={styles.cardDescription}>
-                  {service.description}
-                </p>
-                
+                {service.iconUrl && (
+                  <div className={styles.cardIcon}>
+                    <img
+                      src={service.iconUrl}
+                      alt={`${service.title} Icon`}
+                      className={styles.iconImage}
+                      loading="lazy"
+                    />
+                  </div>
+                )}
+
+                <h3 className={styles.cardTitle}>{service.title}</h3>
+
+                <p className={styles.cardDescription}>{service.description}</p>
+
                 <div className={styles.cardAction}>
                   <span className={styles.actionText}>Mehr erfahren</span>
                   <span className={styles.actionArrow}>→</span>
@@ -128,9 +130,7 @@ const Services: React.FC<ServicesProps> = ({
         </div>
 
         <div className={styles.ctaSection} {...createAOSProps(animations.fadeUp(400))}>
-          <p className={styles.ctaText}>
-            Nicht sicher, welcher Service der richtige für Sie ist?
-          </p>
+          <p className={styles.ctaText}>Nicht sicher, welcher Service der richtige für Sie ist?</p>
           <button
             onClick={() => {
               const contactElement = document.getElementById('contact');
@@ -149,4 +149,3 @@ const Services: React.FC<ServicesProps> = ({
 };
 
 export default Services;
-

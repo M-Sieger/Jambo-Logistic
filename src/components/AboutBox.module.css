@@ -1,7 +1,7 @@
 /* AboutBox Component Styles */
 
 .aboutBox {
-  background-color: var(--color-neutral-light);
+  background: transparent;
   position: relative;
 }
 

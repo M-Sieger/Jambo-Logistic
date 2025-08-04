@@ -28,11 +28,14 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
 
   return (
     <div className={styles.layout}>
-      <Header />
-      <main className={styles.main}>
-        {children}
-      </main>
-      <Footer />
+      <div className={styles.globalBackground}></div>
+      <div className={styles.contentWrapper}>
+        <Header />
+        <main className={styles.main}>
+          {children}
+        </main>
+        <Footer />
+      </div>
     </div>
   );
 };
