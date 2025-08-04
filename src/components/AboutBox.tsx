@@ -1,6 +1,8 @@
 import React from 'react';
-import styles from './AboutBox.module.css';
+
+import cardBase from '../styles/CardBase.module.css'; // ← WIRD jetzt verwendet
 import globalStyles from '../styles/components.module.css';
+import styles from './AboutBox.module.css';
 
 interface AboutBoxProps {
   headline: string;
@@ -27,6 +29,7 @@ const AboutBox: React.FC<AboutBoxProps> = ({
     >
       <div className={`${styles.container} container`}>
         <div className={styles.content}>
+          
           {/* Text Content */}
           <div className={styles.textContent} data-aos="fade-right">
             <h2 className={`${globalStyles.sectionTitle} ${variant === 'dark' ? globalStyles.sectionTitleLight : ''}`}>
@@ -41,8 +44,9 @@ const AboutBox: React.FC<AboutBoxProps> = ({
               ))}
             </div>
 
+            {/* Highlights – jetzt mit cardBase */}
             <div className={styles.highlights}>
-              <div className={styles.highlight}>
+              <div className={`${styles.highlight} ${cardBase.cardBase}`}>
                 <div className={styles.highlightIcon}>
                   <span>🌍</span>
                 </div>
@@ -54,7 +58,7 @@ const AboutBox: React.FC<AboutBoxProps> = ({
                 </div>
               </div>
 
-              <div className={styles.highlight}>
+              <div className={`${styles.highlight} ${cardBase.cardBase}`}>
                 <div className={styles.highlightIcon}>
                   <span>🤝</span>
                 </div>
@@ -66,7 +70,7 @@ const AboutBox: React.FC<AboutBoxProps> = ({
                 </div>
               </div>
 
-              <div className={styles.highlight}>
+              <div className={`${styles.highlight} ${cardBase.cardBase}`}>
                 <div className={styles.highlightIcon}>
                   <span>🔒</span>
                 </div>
@@ -79,6 +83,7 @@ const AboutBox: React.FC<AboutBoxProps> = ({
               </div>
             </div>
 
+            {/* CTA */}
             <div className={styles.ctaContainer}>
               <button
                 onClick={() => {
@@ -94,7 +99,7 @@ const AboutBox: React.FC<AboutBoxProps> = ({
             </div>
           </div>
 
-          {/* Image Content */}
+          {/* Image Section */}
           {imageUrl && (
             <div className={styles.imageContent} data-aos="fade-left">
               <div className={styles.imageContainer}>
@@ -138,4 +143,3 @@ const AboutBox: React.FC<AboutBoxProps> = ({
 };
 
 export default AboutBox;
-

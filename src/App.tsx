@@ -2,13 +2,19 @@ import React, { useEffect } from 'react';
 
 import AOS from 'aos';
 
+// 🖼️ Bilder & Assets
 import teamImage from './assets/about-team.jpg';
+import boxImg from './assets/boxload.jpg';
+import carImg from './assets/carcontainer.jpg';
+import containerImg from './assets/containerload.jpeg'; // ← .jpeg!
 import mapImage from './assets/nairobi-map.png';
 import step2Img from './assets/receiving-kenya.jpg';
-import heroBackground
-  from './assets/ship-container.jpg'; // Bild für Hero & Services
+import serviceBackground
+  from './assets/services-bg-savanna.jpg'; // Für Services
+import heroBackground from './assets/ship-container.jpg'; // Für Hero
 import step1Img from './assets/warehouse.jpg';
 import step3Img from './assets/worker-smiling.jpg';
+// 🧩 Komponenten
 import AboutBox from './components/AboutBox';
 import Contact from './components/Contact';
 import Hero from './components/Hero';
@@ -30,20 +36,20 @@ const App: React.FC = () => {
     {
       title: 'Paketversand',
       description: 'Kleine Sendungen sicher & schnell nach Afrika.',
-      iconUrl: '/assets/icons/box.svg',
-      bgClass: 'cardCartons',
+      iconType: 'box' as const,
+      imageUrl: boxImg,
     },
     {
       title: 'Containertransport',
       description: 'Großmengen & Paletten direkt im Container.',
-      iconUrl: '/assets/icons/container.svg',
-      bgClass: 'cardContainer',
+      iconType: 'container' as const,
+      imageUrl: containerImg,
     },
     {
       title: 'Fahrzeugversand',
       description: 'Autos & Maschinen zuverlässig nach Kenia.',
-      iconUrl: '/assets/icons/car.svg',
-      bgClass: 'cardCar',
+      iconType: 'car' as const,
+      imageUrl: carImg,
     },
   ];
 
@@ -83,7 +89,7 @@ const App: React.FC = () => {
       <Services
         services={services}
         columns={3}
-        backgroundImage="/assets/hero.jpg" // falls du ein anderes Bild willst
+        backgroundImage={serviceBackground}
       />
 
       <ProcessSteps showNumbers={false} steps={processSteps} />

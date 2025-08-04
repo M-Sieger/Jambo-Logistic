@@ -12,7 +12,7 @@ interface Service {
   title: string;
   description: string;
   iconType: 'box' | 'container' | 'car';
-  imageUrl?: string; // optional, falls z. B. Foto statt Icon
+  imageUrl: string; // Required for native photo backgrounds
 }
 
 // Props für die komplette Komponente
@@ -60,21 +60,14 @@ const Services: React.FC<ServicesProps> = ({
   };
 
   // Liefert Icon-Pfad basierend auf Typ
-  const renderIcon = (iconType: 'box' | 'container' | 'car') => {
+  const getIconPath = (iconType: 'box' | 'container' | 'car') => {
     const iconMap = {
       box: '/src/assets/icons/parcel.png',
       container: '/src/assets/icons/container.png',
       car: '/src/assets/icons/vehicle.png',
     };
 
-    return (
-      <img
-        src={iconMap[iconType] ?? iconMap['box']}
-        alt={`${iconType} icon`}
-        className={styles.iconImage}
-        loading="lazy"
-      />
-    );
+    return iconMap[iconType] ?? iconMap['box'];
   };
 
   return (
@@ -82,7 +75,7 @@ const Services: React.FC<ServicesProps> = ({
       id="services"
       className={`${styles.services} ${styles[variant]} ${className} section`}
     >
-      {/* Optionaler Hintergrund (Illustration, Map etc.) */}
+      {/* Section-wide background image - now properly visible */}
       {backgroundImage && (
         <div className={styles.backgroundContainer}>
           <img
@@ -103,7 +96,7 @@ const Services: React.FC<ServicesProps> = ({
           </p>
         </div>
 
-        {/* GRID: Services mit Icon & Text */}
+        {/* GRID: Services mit nativen Foto-Hintergründen und sauberen Icon-Overlays */}
         <div className={`${styles.servicesGrid} ${getGridClass()}`}>
           {services.map((service, index) => (
             <div
@@ -121,18 +114,21 @@ const Services: React.FC<ServicesProps> = ({
               aria-label={`Mehr über ${service.title} erfahren`}
               {...createAOSProps(animations.staggered(index, 200, 150))}
             >
-              {/* Optionales Bild (z. B. reales Foto) */}
-              {service.imageUrl && (
-                <div className={styles.cardImage}>
-                  <img src={service.imageUrl} alt={service.title} loading="lazy" />
-                </div>
-              )}
-
+              {/* Native photo background */}
+              <div 
+                className={styles.cardBackground}
+                style={{ backgroundImage: `url(${service.imageUrl})` }}
+              />
+              
+              {/* Content overlay */}
               <div className={styles.cardContent}>
-                {/* Icon zentral */}
-                <div className={styles.cardIcon}>
-                  {renderIcon(service.iconType)}
-                </div>
+                {/* Clean icon overlay - no wrapper */}
+                <img
+                  src={getIconPath(service.iconType)}
+                  alt={`${service.iconType} icon`}
+                  className={styles.icon}
+                  loading="lazy"
+                />
 
                 {/* Titel + Beschreibung */}
                 <h3 className={styles.cardTitle}>{service.title}</h3>

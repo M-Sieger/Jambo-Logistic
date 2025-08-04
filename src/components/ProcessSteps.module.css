@@ -11,7 +11,7 @@
   padding: 0 var(--spacing-md);
 }
 
-/* Header Section */
+/* Header */
 .header {
   text-align: center;
   margin-bottom: var(--spacing-4xl);
@@ -25,7 +25,7 @@
   line-height: var(--line-height-relaxed);
 }
 
-/* Steps Container */
+/* Steps */
 .stepsContainer {
   display: flex;
   flex-direction: column;
@@ -34,24 +34,17 @@
   position: relative;
 }
 
-/* Step Card */
+/* Step Card (inherits .cardBase styles) */
 .stepCard {
   display: flex;
   align-items: flex-start;
   gap: var(--spacing-xl);
-  background-color: var(--color-neutral-light);
-  padding: var(--spacing-2xl);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-md);
-  border: 1px solid var(--color-border);
-  transition: all var(--transition-normal);
   position: relative;
 }
 
+/* Hover effect (only what's custom) */
 .stepCard:hover {
   transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
-  border-color: var(--color-primary);
 }
 
 /* Step Icon */
@@ -154,7 +147,7 @@
   transform: rotate(90deg);
 }
 
-/* Compact Variant */
+/* Compact */
 .compact .stepCard {
   padding: var(--spacing-xl);
   gap: var(--spacing-lg);
@@ -187,6 +180,8 @@
   left: 30px;
   height: var(--spacing-xl);
 }
+
+
 
 /* CTA Section */
 .ctaSection {

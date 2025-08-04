@@ -14,20 +14,25 @@
   left: 0;
   width: 100vw;
   height: 100vh;
+
   /* Fallback for older browsers */
-  background-color: #F4E4BC;
-  background: linear-gradient(135deg, 
-    #F4E4BC 0%,     /* Warm sand base */
-    #D4A574 35%,    /* Transitional okka */
-    #CD853F 70%,    /* Rich terracotta */
-    #E67E22 100%    /* Vibrant orange accent */
+  background-color: #f4eee6;
+
+  /* Updated Ivy Gradient: warm, neutral, professional */
+  background: linear-gradient(180deg,
+    #f4eee6 0%,     /* Sandbeige */
+    #f5e8db 40%,    /* Light Taupe */
+    #fdf6ef 100%    /* Fast Weiß */
   );
+
   z-index: -1;
   pointer-events: none;
+
   /* GPU acceleration for smooth performance */
   will-change: transform;
   transform: translateZ(0);
 }
+
 
 .contentWrapper {
   position: relative;

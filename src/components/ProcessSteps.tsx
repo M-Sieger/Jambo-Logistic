@@ -1,4 +1,7 @@
 import React from 'react';
+
+import cardBase
+  from '../styles/CardBase.module.css'; // ✅ CardBase-Styles importieren
 import globalStyles from '../styles/components.module.css';
 import styles from './ProcessSteps.module.css';
 
@@ -41,7 +44,7 @@ const ProcessSteps: React.FC<ProcessStepsProps> = ({
           {steps.map((step, index) => (
             <div
               key={index}
-              className={styles.stepCard}
+              className={`${styles.stepCard} ${cardBase.cardBase}`} // ✅ CardBase-Klasse hinzugefügt
               data-aos="fade-up"
               data-aos-delay={index * 100}
             >
@@ -117,4 +120,3 @@ const ProcessSteps: React.FC<ProcessStepsProps> = ({
 };
 
 export default ProcessSteps;
-
