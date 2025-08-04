@@ -1,6 +1,6 @@
 /* 🌍 SECTION WRAPPER (Warm Africa Stil) */
 .services {
-  background-color: #fdfaf5; /* neu: warmer Seitenhintergrund */
+  background-color: #fdfaf5;
   position: relative;
   z-index: 1;
   padding: var(--spacing-4xl) 0;
@@ -31,11 +31,11 @@
 /* 🧱 GRID (1–4 Spalten via globalStyles-Klassen) */
 .servicesGrid {
   display: grid;
-  gap: var(--spacing-2xl);
+  gap: var(--spacing-3xl); /* erweitert für sichtbares Scaling */
   margin-bottom: var(--spacing-4xl);
 }
 
-/* 📦 EINZELNE SERVICE-KARTE - Refactored for native photo backgrounds */
+/* 📦 EINZELNE SERVICE-KARTE */
 .serviceCard {
   position: relative;
   display: flex;
@@ -44,13 +44,34 @@
   border-radius: var(--radius-xl);
   overflow: hidden;
   cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.4s ease, box-shadow 0.4s ease, z-index 0.2s ease;
   box-shadow: var(--shadow-md);
+  transform-origin: center center;
+  z-index: 0;
 }
 
+/* ✨ Fancy Hover Effekt */
 .serviceCard:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-xl);
+  transform: scale(1.04);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+}
+
+/* 🌟 CTA Highlight bei Hover */
+.serviceCard:hover .cardAction {
+  color: #ffc107;
+  text-shadow: 0 0 6px rgba(255, 193, 7, 0.4);
+}
+
+/* 🖼 Bildüberlagerung bei Hover aufhellen */
+.serviceCard:hover .cardBackground::after {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.6) 0%,
+    rgba(0, 0, 0, 0.3) 50%,
+    rgba(0, 0, 0, 0.4) 100%
+  );
+  transition: background 0.4s ease;
 }
 
 /* 🖼 NATIVE PHOTO BACKGROUND */
@@ -82,7 +103,7 @@
   z-index: 2;
 }
 
-/* 🧾 CARD-INHALT - Now as overlay */
+/* 🧾 CARD-INHALT */
 .cardContent {
   position: relative;
   z-index: 3;
@@ -92,20 +113,6 @@
   flex-direction: column;
   justify-content: flex-end;
   color: white;
-}
-
-/* 🧲 CLEAN ICON OVERLAY - No wrapper, native PNG */
-.icon {
-  width: 64px;
-  height: 64px;
-  object-fit: contain;
-  margin-bottom: var(--spacing-lg);
-  filter: brightness(1.1) drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
-  transition: transform 0.2s ease;
-}
-
-.serviceCard:hover .icon {
-  transform: scale(1.05);
 }
 
 /* 🔤 TITEL */
@@ -128,21 +135,17 @@
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
-/* ➡ CTA-LINK INNERHALB DER CARD */
+/* ➡ CTA-LINK */
 .cardAction {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: #ffa726; /* Warmer orange tone for better contrast on dark background */
+  color: #ffa726;
   font-weight: 600;
   font-size: var(--font-size-base);
   margin-top: auto;
   transition: all 0.2s ease;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-}
-
-.cardAction:hover {
-  color: #ffb74d;
 }
 
 .cardAction:hover .actionArrow {
@@ -154,30 +157,7 @@
   transition: transform 0.2s ease;
 }
 
-/* 🪄 COMPACT VARIANTE */
-.compact .serviceCard {
-  min-height: 280px;
-}
-
-.compact .cardContent {
-  padding: var(--spacing-lg);
-}
-
-.compact .icon {
-  width: 56px;
-  height: 56px;
-  margin-bottom: var(--spacing-md);
-}
-
-.compact .cardTitle {
-  font-size: var(--font-size-lg);
-}
-
-.compact .cardDescription {
-  font-size: var(--font-size-sm);
-}
-
-/* 💬 CTA-BLOCK UNTERHALB DES GRIDS */
+/* 💬 CTA-BLOCK */
 .ctaSection {
   background-color: hsla(37, 90%, 96%, 0.96);
   border: 1px solid rgba(44, 62, 80, 0.08);
@@ -204,7 +184,7 @@
   min-width: 200px;
 }
 
-/* 🌍 FIXED SECTION BACKGROUND - Now properly visible */
+/* 🌍 BACKGROUND FIX */
 .backgroundContainer {
   position: absolute;
   top: 0;
@@ -224,13 +204,13 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.15; /* Increased from 0.11 for better visibility */
+  opacity: 0.15;
   filter: brightness(0.8) blur(0.4px);
   transition: all var(--transition-slow);
   z-index: 0;
 }
 
-/* 📱 RESPONSIVE BREAKPOINTS */
+/* 📱 RESPONSIVE */
 @media (max-width: 767px) {
   .services {
     padding: var(--spacing-3xl) 0;
@@ -243,15 +223,11 @@
 
   .serviceCard {
     min-height: 320px;
+    transform: none;
   }
 
   .cardContent {
     padding: var(--spacing-lg);
-  }
-
-  .icon {
-    width: 56px;
-    height: 56px;
   }
 
   .cardTitle {
@@ -275,46 +251,37 @@
     opacity: 0.12;
     filter: blur(0.3px) brightness(0.85);
   }
-}
 
-@media (min-width: 1024px) {
-  .serviceCard {
-    min-height: 400px;
+  .serviceCard:hover {
+    transform: none;
+    box-shadow: var(--shadow-md);
+    z-index: 0;
   }
 
-  .cardContent {
-    padding: var(--spacing-3xl);
+  .serviceCard:hover .cardAction {
+    color: #ffa726;
+    text-shadow: none;
   }
 
-  .icon {
-    width: 72px;
-    height: 72px;
-  }
-
-  .cardTitle {
-    font-size: var(--font-size-2xl);
-  }
-
-  .cardDescription {
-    font-size: var(--font-size-lg);
-  }
-
-  .backgroundImage {
-    opacity: 0.18; /* Slightly more visible on larger screens */
+  .serviceCard:hover .cardBackground::after {
+    background: linear-gradient(
+      135deg,
+      rgba(0, 0, 0, 0.7) 0%,
+      rgba(0, 0, 0, 0.4) 50%,
+      rgba(0, 0, 0, 0.6) 100%
+    );
   }
 }
 
 /* ♿ ACCESSIBILITY */
 @media (prefers-reduced-motion: reduce) {
   .serviceCard,
-  .icon,
   .actionArrow,
   .backgroundImage {
     transition: none;
   }
 
   .serviceCard:hover,
-  .serviceCard:hover .icon,
   .serviceCard:hover .actionArrow {
     transform: none;
   }
