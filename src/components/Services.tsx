@@ -7,14 +7,15 @@ import {
 } from '../utils/animations';
 import styles from './Services.module.css';
 
+// Interface für einzelne Service-Einträge
 interface Service {
   title: string;
   description: string;
-  iconUrl?: string; // ✅ für SVG-Icons
-  bgClass?: string;
-  imageUrl?: string;
+  iconType: 'box' | 'container' | 'car';
+  imageUrl?: string; // optional, falls z. B. Foto statt Icon
 }
 
+// Props für die komplette Komponente
 interface ServicesProps {
   services: Service[];
   variant?: 'default' | 'compact';
@@ -32,17 +33,17 @@ const Services: React.FC<ServicesProps> = ({
   className = '',
   backgroundImage,
 }) => {
+  // Scrollt bei Klick zum Kontaktbereich oder feuert Callback
   const handleServiceClick = (service: Service) => {
     if (onServiceClick) {
       onServiceClick(service);
     } else {
       const contactElement = document.getElementById('contact');
-      if (contactElement) {
-        contactElement.scrollIntoView({ behavior: 'smooth' });
-      }
+      contactElement?.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
+  // Dynamische Grid-Klassen (1–4 Spalten)
   const getGridClass = () => {
     switch (columns) {
       case 1:
@@ -58,8 +59,30 @@ const Services: React.FC<ServicesProps> = ({
     }
   };
 
+  // Liefert Icon-Pfad basierend auf Typ
+  const renderIcon = (iconType: 'box' | 'container' | 'car') => {
+    const iconMap = {
+      box: '/src/assets/icons/parcel.png',
+      container: '/src/assets/icons/container.png',
+      car: '/src/assets/icons/vehicle.png',
+    };
+
+    return (
+      <img
+        src={iconMap[iconType] ?? iconMap['box']}
+        alt={`${iconType} icon`}
+        className={styles.iconImage}
+        loading="lazy"
+      />
+    );
+  };
+
   return (
-    <section id="services" className={`${styles.services} ${styles[variant]} ${className} section`}>
+    <section
+      id="services"
+      className={`${styles.services} ${styles[variant]} ${className} section`}
+    >
+      {/* Optionaler Hintergrund (Illustration, Map etc.) */}
       {backgroundImage && (
         <div className={styles.backgroundContainer}>
           <img
@@ -72,6 +95,7 @@ const Services: React.FC<ServicesProps> = ({
       )}
 
       <div className={`${styles.container} container`}>
+        {/* Section-Header */}
         <div className={styles.header} {...createAOSProps(animations.fadeUp())}>
           <h2 className={globalStyles.sectionTitle}>Unsere Services</h2>
           <p className={styles.subtitle}>
@@ -79,13 +103,12 @@ const Services: React.FC<ServicesProps> = ({
           </p>
         </div>
 
+        {/* GRID: Services mit Icon & Text */}
         <div className={`${styles.servicesGrid} ${getGridClass()}`}>
           {services.map((service, index) => (
             <div
               key={index}
-              className={`${styles.serviceCard} ${globalStyles.cardInteractive} ${
-                service.bgClass ? styles[service.bgClass] : ''
-              }`}
+              className={`${styles.serviceCard} ${globalStyles.cardInteractive}`}
               onClick={() => handleServiceClick(service)}
               role="button"
               tabIndex={0}
@@ -98,6 +121,7 @@ const Services: React.FC<ServicesProps> = ({
               aria-label={`Mehr über ${service.title} erfahren`}
               {...createAOSProps(animations.staggered(index, 200, 150))}
             >
+              {/* Optionales Bild (z. B. reales Foto) */}
               {service.imageUrl && (
                 <div className={styles.cardImage}>
                   <img src={service.imageUrl} alt={service.title} loading="lazy" />
@@ -105,21 +129,16 @@ const Services: React.FC<ServicesProps> = ({
               )}
 
               <div className={styles.cardContent}>
-                {service.iconUrl && (
-                  <div className={styles.cardIcon}>
-                    <img
-                      src={service.iconUrl}
-                      alt={`${service.title} Icon`}
-                      className={styles.iconImage}
-                      loading="lazy"
-                    />
-                  </div>
-                )}
+                {/* Icon zentral */}
+                <div className={styles.cardIcon}>
+                  {renderIcon(service.iconType)}
+                </div>
 
+                {/* Titel + Beschreibung */}
                 <h3 className={styles.cardTitle}>{service.title}</h3>
-
                 <p className={styles.cardDescription}>{service.description}</p>
 
+                {/* Call-to-Action → Text + Pfeil */}
                 <div className={styles.cardAction}>
                   <span className={styles.actionText}>Mehr erfahren</span>
                   <span className={styles.actionArrow}>→</span>
@@ -129,14 +148,13 @@ const Services: React.FC<ServicesProps> = ({
           ))}
         </div>
 
+        {/* CTA-Bereich unterhalb der Cards */}
         <div className={styles.ctaSection} {...createAOSProps(animations.fadeUp(400))}>
           <p className={styles.ctaText}>Nicht sicher, welcher Service der richtige für Sie ist?</p>
           <button
             onClick={() => {
               const contactElement = document.getElementById('contact');
-              if (contactElement) {
-                contactElement.scrollIntoView({ behavior: 'smooth' });
-              }
+              contactElement?.scrollIntoView({ behavior: 'smooth' });
             }}
             className={`${globalStyles.buttonSecondary} ${styles.ctaButton}`}
           >

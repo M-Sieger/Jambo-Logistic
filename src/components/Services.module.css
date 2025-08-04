@@ -1,18 +1,19 @@
-/* Services Component Styles */
-
+/* 🌍 SECTION WRAPPER (Warm Africa Stil) */
 .services {
-  background-color: transparent;
+  background-color: #fdfaf5; /* neu: warmer Seitenhintergrund */
   position: relative;
+  z-index: 1;
 }
-
 
 .container {
   max-width: var(--container-xl);
   margin: 0 auto;
   padding: 0 var(--spacing-md);
+  position: relative;
+  z-index: 2;
 }
 
-/* Header Section */
+/* 📢 HEADERBEREICH */
 .header {
   text-align: center;
   margin-bottom: var(--spacing-4xl);
@@ -26,43 +27,36 @@
   line-height: var(--line-height-relaxed);
 }
 
-/* Services Grid */
+/* 🧱 GRID (1–4 Spalten via globalStyles-Klassen) */
 .servicesGrid {
+  display: grid;
+  gap: var(--spacing-2xl);
   margin-bottom: var(--spacing-4xl);
 }
 
-/* --- IVY STYLE: SERVICE CARDS --- */
-
+/* 📦 EINZELNE SERVICE-KARTE */
 .serviceCard {
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  background-color: rgba(255, 255, 255, 0.9);
-  transition: all 0.3s ease;
-  min-height: 320px;
   display: flex;
   flex-direction: column;
-  border-radius: 6px;
-  box-shadow: none;
+  background-color: #ffffff; /* neu: Card-Background laut Styleguide */
+  border-radius: var(--radius-xl); /* neu: IVY-konformer Radius */
+  box-shadow: var(--shadow-md); /* neu: Standard-Shadow */
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+  overflow: hidden;
 }
 
 .serviceCard:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-xl); /* neu: Hover-Schatten */
 }
 
-.serviceCard:focus {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
-}
-
+/* 🖼 OBEN OPTIONALES BILD */
 .cardImage {
   position: relative;
   height: 120px;
   overflow: hidden;
-  background: #f5f5f5;
+  background: var(--color-neutral-medium);
 }
 
 .cardImage img {
@@ -76,6 +70,7 @@
   transform: scale(1.05);
 }
 
+/* 🧾 CARD-INHALT */
 .cardContent {
   padding: var(--spacing-xl);
   flex: 1;
@@ -84,14 +79,15 @@
   position: relative;
 }
 
+/* 🧲 ICON-BEHÄLTER */
 .cardIcon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 64px;
-  height: 64px;
-  background-color: #2c3e50;
-  border-radius: 6px;
+  width: 72px; /* neu: fester Wert laut Designplan */
+  height: 72px;
+  background-color: #fef5ec; /* neu: warmes Icon-Umfeld */
+  border-radius: 50%;
   margin-bottom: var(--spacing-lg);
   transition: transform 0.2s ease;
 }
@@ -100,34 +96,37 @@
   transform: scale(1.05);
 }
 
+/* ICON SELBST */
 .iconImage {
-  width: 28px;
-  height: 28px;
+  width: 56px;
+  height: 56px;
   object-fit: contain;
-  filter: invert(1);
 }
 
+/* 🔤 TITEL */
 .cardTitle {
   font-size: var(--font-size-xl);
   font-weight: 600;
-  color: #2c3e50;
+  color: var(--color-text-primary);
   margin-bottom: var(--spacing-sm);
   line-height: 1.3;
 }
 
+/* 📄 TEXT */
 .cardDescription {
   font-size: var(--font-size-base);
-  color: #7f8c8d;
+  color: var(--color-text-primary);
   line-height: 1.6;
   margin-bottom: var(--spacing-lg);
   flex: 1;
 }
 
+/* ➡ CTA-LINK INNERHALB DER CARD */
 .cardAction {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: #e67e22;
+  color: var(--color-primary); /* #e67e22 */
   font-weight: 600;
   font-size: var(--font-size-base);
   margin-top: auto;
@@ -143,14 +142,7 @@
   transition: transform 0.2s ease;
 }
 
-/* Optional: neutrale Card-Farben erzwingen */
-.cardCartons,
-.cardContainer,
-.cardCar {
-  background: #ffffff !important;
-}
-
-/* Compact Variant (optional, bleibt unverändert) */
+/* 🪄 COMPACT VARIANTE (z. B. für kleinere Seitenbereiche) */
 .compact .serviceCard {
   min-height: 280px;
 }
@@ -160,9 +152,14 @@
 }
 
 .compact .cardIcon {
-  width: 50px;
-  height: 50px;
+  width: 64px;
+  height: 64px;
   margin-bottom: var(--spacing-md);
+}
+
+.compact .iconImage {
+  width: 48px;
+  height: 48px;
 }
 
 .compact .cardTitle {
@@ -173,47 +170,63 @@
   font-size: var(--font-size-sm);
 }
 
-/* CTA Section */
+/* 💬 CTA-BLOCK UNTERHALB DES GRIDS */
 .ctaSection {
-  text-align: center;
-  padding: var(--spacing-3xl) 0;
-  background: linear-gradient(135deg, var(--color-neutral-medium), rgba(230, 126, 34, 0.05));
+  background-color: hsla(37, 90%, 96%, 0.96);
+  border: 1px solid rgba(44, 62, 80, 0.08);
   border-radius: var(--radius-2xl);
-  margin-top: var(--spacing-2xl);
+  padding: var(--spacing-4xl) var(--spacing-xl);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  margin-top: var(--spacing-5xl);
+  text-align: center;
+  max-width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  z-index: 2;
 }
 
 .ctaText {
   font-size: var(--font-size-lg);
-  color: var(--color-text-secondary);
+  color: var(--color-text-primary);
   margin-bottom: var(--spacing-xl);
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .ctaButton {
   min-width: 200px;
 }
 
-/* Responsive Design */
+/* 🌍 DEZENTER HINTERGRUND FÜR STIMMUNG */
+.backgroundContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.backgroundImage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1.05);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.06;
+  filter: blur(0.5px) grayscale(10%) contrast(105%);
+  transition: all var(--transition-slow);
+}
+
+/* 📱 RESPONSIVE BREAKPOINTS */
 @media (max-width: 767px) {
-  .container {
-    padding: 0 var(--spacing-md);
-  }
-
-  .header {
-    margin-bottom: var(--spacing-3xl);
-  }
-
-  .subtitle {
-    font-size: var(--font-size-base);
-  }
-
   .servicesGrid {
     gap: var(--spacing-lg);
     margin-bottom: var(--spacing-3xl);
-  }
-
-  .serviceCard {
-    min-height: 280px;
   }
 
   .cardContent {
@@ -221,8 +234,13 @@
   }
 
   .cardIcon {
-    width: 50px;
-    height: 50px;
+    width: 64px;
+    height: 64px;
+  }
+
+  .iconImage {
+    width: 48px;
+    height: 48px;
   }
 
   .cardTitle {
@@ -241,38 +259,20 @@
     width: 100%;
     max-width: 280px;
   }
-}
 
-@media (min-width: 768px) {
-  .container {
-    padding: 0 var(--spacing-lg);
-  }
-
-  .servicesGrid {
-    gap: var(--spacing-xl);
+  .backgroundImage {
+    opacity: 0.04;
+    transform: translate(-50%, -50%) scale(1.1);
   }
 }
 
 @media (min-width: 1024px) {
-  .container {
-    padding: 0 var(--spacing-xl);
-  }
-
-  .servicesGrid {
-    gap: var(--spacing-2xl);
-  }
-
   .serviceCard {
     min-height: 360px;
   }
 
   .cardContent {
     padding: var(--spacing-2xl);
-  }
-
-  .cardIcon {
-    width: 70px;
-    height: 70px;
   }
 
   .cardTitle {
@@ -282,35 +282,31 @@
   .cardDescription {
     font-size: var(--font-size-lg);
   }
+
+  .backgroundImage {
+    opacity: 0.07;
+    transform: translate(-50%, -50%) scale(1.02);
+  }
 }
 
-/* Accessibility */
+/* ♿ ACCESSIBILITY */
 @media (prefers-reduced-motion: reduce) {
   .serviceCard,
   .cardIcon,
   .cardImage img,
-  .actionArrow {
+  .actionArrow,
+  .backgroundImage {
     transition: none;
   }
 
-  .serviceCard:hover {
-    transform: none;
-  }
-
-  .serviceCard:hover .cardIcon {
-    transform: none;
-  }
-
-  .serviceCard:hover .cardImage img {
-    transform: none;
-  }
-
+  .serviceCard:hover,
+  .serviceCard:hover .cardIcon,
+  .serviceCard:hover .cardImage img,
   .serviceCard:hover .actionArrow {
     transform: none;
   }
 }
 
-/* High contrast mode */
 @media (prefers-contrast: high) {
   .serviceCard {
     border: 2px solid var(--color-text-primary);
@@ -319,61 +315,5 @@
   .serviceCard:hover {
     border-color: var(--color-primary);
     background-color: var(--color-neutral-medium);
-  }
-}
-
-/* Background Container for Ship Container Image */
-.backgroundContainer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  overflow: hidden;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.backgroundImage {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(1.1);
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.03;
-  filter: blur(1px) grayscale(20%);
-  transition: all var(--transition-slow);
-}
-
-.services {
-  position: relative;
-  z-index: 1;
-}
-
-.container {
-  position: relative;
-  z-index: 2;
-}
-
-@media (max-width: 767px) {
-  .backgroundImage {
-    opacity: 0.02;
-    transform: translate(-50%, -50%) scale(1.2);
-  }
-}
-
-@media (min-width: 1024px) {
-  .backgroundImage {
-    opacity: 0.04;
-    transform: translate(-50%, -50%) scale(1.05);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .backgroundImage {
-    transition: none;
-    transform: translate(-50%, -50%);
   }
 }
