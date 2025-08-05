@@ -1,5 +1,6 @@
 import React from 'react';
 
+import beratungImg from '../assets/beratung.jpeg'; // ganz oben einfügen
 import globalStyles from '../styles/components.module.css';
 import {
   animations,
@@ -107,19 +108,38 @@ const Services: React.FC<ServicesProps> = ({
           ))}
         </div>
 
-        <div className={styles.ctaSection} {...createAOSProps(animations.fadeUp(400))}>
-          <p className={styles.ctaText}>Nicht sicher, welcher Service der richtige für Sie ist?</p>
-          <button
-            onClick={() => {
-              const contactElement = document.getElementById('contact');
-              contactElement?.scrollIntoView({ behavior: 'smooth' });
-            }}
-            className={`${globalStyles.buttonSecondary} ${styles.ctaButton}`}
-          >
-            Kostenlose Beratung
-          </button>
-        </div>
-      </div>
+        <section className={styles.ctaSection} {...createAOSProps(animations.fadeUp(400))}>
+          <div className={styles.ctaCard}>
+            <img
+              src={beratungImg}
+              alt="Persönliche Beratung für Ihren Versand"
+              className={styles.ctaImage}
+              loading="lazy"
+            />
+            <div className={styles.ctaTextBlock}>
+              <h3 className={styles.ctaTitle}>
+                Individuelle Beratung für Ihren Versand
+              </h3>
+              <p className={styles.ctaDescription}>
+                Unser erfahrenes Team hilft Ihnen persönlich – per Telefon, WhatsApp oder E-Mail.
+              </p>
+              <button
+                onClick={() => {
+                  const contactElement = document.getElementById('contact');
+                  contactElement?.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                  });
+                }}
+                className={`${globalStyles.buttonSecondary} ${styles.ctaButtonLarge}`}
+                aria-label="Zur kostenlosen Beratung"
+              >
+                Kostenlose Beratung
+              </button>
+            </div>
+          </div>
+        </section>
+      </div> {/* container-Closing */}
     </section>
   );
 };
