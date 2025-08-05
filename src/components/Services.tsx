@@ -1,13 +1,17 @@
 import React from 'react';
 
-import beratungImg from '../assets/beratung.jpeg'; // ganz oben einfügen
+// 📷 Asset für CTA-Bereich
+import beratungImg from '../assets/beratung.jpeg';
+// 🧩 Globale & lokale Styles
 import globalStyles from '../styles/components.module.css';
+// 🎞️ Animation Utils
 import {
   animations,
   createAOSProps,
 } from '../utils/animations';
 import styles from './Services.module.css';
 
+// 📦 Typdefinitionen
 interface Service {
   title: string;
   description: string;
@@ -31,6 +35,7 @@ const Services: React.FC<ServicesProps> = ({
   className = '',
   backgroundImage,
 }) => {
+  // 🔁 Klick auf Servicekarte → entweder Callback oder Scroll zu #contact
   const handleServiceClick = (service: Service) => {
     if (onServiceClick) {
       onServiceClick(service);
@@ -40,6 +45,7 @@ const Services: React.FC<ServicesProps> = ({
     }
   };
 
+  // 🧱 Dynamisches Grid je nach columns
   const getGridClass = () => {
     switch (columns) {
       case 1: return globalStyles.gridCols1;
@@ -55,6 +61,7 @@ const Services: React.FC<ServicesProps> = ({
       id="services"
       className={`${styles.services} ${styles[variant]} ${className} section`}
     >
+      {/* 🌄 Optionaler Hintergrund */}
       {backgroundImage && (
         <div className={styles.backgroundContainer}>
           <img
@@ -67,13 +74,15 @@ const Services: React.FC<ServicesProps> = ({
       )}
 
       <div className={`${styles.container} container`}>
+        {/* 🔠 Titel & Untertitel (mit localStyles gesteuert) */}
         <div className={styles.header} {...createAOSProps(animations.fadeUp())}>
-          <h2 className={globalStyles.sectionTitle}>Unsere Services</h2>
+          <h2 className={styles.sectionTitle}>Unsere Services</h2>
           <p className={styles.subtitle}>
             Von kleinen Paketen bis zu ganzen Containern – wir bringen alles sicher nach Kenia.
           </p>
         </div>
 
+        {/* 📦 Grid mit Services */}
         <div className={`${styles.servicesGrid} ${getGridClass()}`}>
           {services.map((service, index) => (
             <div
@@ -91,7 +100,7 @@ const Services: React.FC<ServicesProps> = ({
               aria-label={`Mehr über ${service.title} erfahren`}
               {...createAOSProps(animations.staggered(index, 200, 150))}
             >
-              <div 
+              <div
                 className={styles.cardBackground}
                 style={{ backgroundImage: `url(${service.imageUrl})` }}
               />
@@ -108,7 +117,11 @@ const Services: React.FC<ServicesProps> = ({
           ))}
         </div>
 
-        <section className={styles.ctaSection} {...createAOSProps(animations.fadeUp(400))}>
+        {/* 🎯 CTA-Bereich mit Bild */}
+        <section
+          className={styles.ctaSection}
+          {...createAOSProps(animations.fadeUp(400))}
+        >
           <div className={styles.ctaCard}>
             <img
               src={beratungImg}
@@ -139,7 +152,7 @@ const Services: React.FC<ServicesProps> = ({
             </div>
           </div>
         </section>
-      </div> {/* container-Closing */}
+      </div>
     </section>
   );
 };

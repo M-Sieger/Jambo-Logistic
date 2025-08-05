@@ -1,6 +1,9 @@
-/* Global Component Styles - Modern Warm Africa Theme */
+/* 🌍 Global Component Styles - Modern Warm Africa Theme */
 
-/* Button Components */
+/* ----------------------------------- */
+/* 🟠 Button Components */
+/* ----------------------------------- */
+
 .button {
   display: inline-flex;
   align-items: center;
@@ -55,7 +58,10 @@
   min-height: 40px;
 }
 
-/* Card Components */
+/* ----------------------------------- */
+/* 🟫 Card Components */
+/* ----------------------------------- */
+
 .card {
   background-color: var(--color-neutral-light);
   border-radius: var(--radius-xl);
@@ -95,7 +101,10 @@
   color: rgba(255, 255, 255, 0.8);
 }
 
-/* Typography Components */
+/* ----------------------------------- */
+/* 🔠 Typography Components */
+/* ----------------------------------- */
+
 .headline {
   font-size: var(--font-size-4xl);
   font-weight: 800;
@@ -122,103 +131,60 @@
   color: rgba(255, 255, 255, 0.9);
 }
 
+/* 
 .sectionTitle {
   font-size: var(--font-size-3xl);
   font-weight: 700;
   text-align: center;
   margin-bottom: var(--spacing-2xl);
-  color: var(--color-text-primary);
+  color: var(--color-text-primary); 
 }
 
 .sectionTitleLight {
   composes: sectionTitle;
   color: var(--color-text-light);
 }
+*/
 
-/* Layout Components */
+/* ----------------------------------- */
+/* 📐 Layout Components */
+/* ----------------------------------- */
+
 .grid {
   display: grid;
   gap: var(--spacing-xl);
 }
 
-.gridCols1 {
-  composes: grid;
-  grid-template-columns: 1fr;
-}
+.gridCols1 { composes: grid; grid-template-columns: 1fr; }
+.gridCols2 { composes: grid; grid-template-columns: repeat(2, 1fr); }
+.gridCols3 { composes: grid; grid-template-columns: repeat(3, 1fr); }
+.gridCols4 { composes: grid; grid-template-columns: repeat(4, 1fr); }
 
-.gridCols2 {
-  composes: grid;
-  grid-template-columns: repeat(2, 1fr);
-}
-
-.gridCols3 {
-  composes: grid;
-  grid-template-columns: repeat(3, 1fr);
-}
-
-.gridCols4 {
-  composes: grid;
-  grid-template-columns: repeat(4, 1fr);
-}
-
-/* Responsive Grid */
 @media (max-width: 767px) {
-  .gridCols2,
-  .gridCols3,
-  .gridCols4 {
-    grid-template-columns: 1fr;
-  }
+  .gridCols2, .gridCols3, .gridCols4 { grid-template-columns: 1fr; }
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
-  .gridCols3,
-  .gridCols4 {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  .gridCols3, .gridCols4 { grid-template-columns: repeat(2, 1fr); }
 }
 
-.flexCenter {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+.flexCenter { display: flex; align-items: center; justify-content: center; }
+.flexBetween { display: flex; align-items: center; justify-content: space-between; }
+.flexColumn { display: flex; flex-direction: column; }
+.flexWrap { flex-wrap: wrap; }
 
-.flexBetween {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
+/* ----------------------------------- */
+/* 🔳 Icon Components */
+/* ----------------------------------- */
 
-.flexColumn {
-  display: flex;
-  flex-direction: column;
-}
+.icon { width: 24px; height: 24px; display: inline-block; flex-shrink: 0; }
+.iconLarge { composes: icon; width: 48px; height: 48px; }
+.iconSmall { composes: icon; width: 16px; height: 16px; }
 
-.flexWrap {
-  flex-wrap: wrap;
-}
+/* ----------------------------------- */
+/* 🏷️ Badge Components */
+/* ----------------------------------- */
 
-/* Icon Components */
-.icon {
-  width: 24px;
-  height: 24px;
-  display: inline-block;
-  flex-shrink: 0;
-}
-
-.iconLarge {
-  composes: icon;
-  width: 48px;
-  height: 48px;
-}
-
-.iconSmall {
-  composes: icon;
-  width: 16px;
-  height: 16px;
-}
-
-/* Badge Components */
 .badge {
   display: inline-flex;
   align-items: center;
@@ -242,68 +208,39 @@
   color: var(--color-text-light);
 }
 
-/* Animation Classes */
-.fadeIn {
-  animation: fadeIn 0.6s ease-out;
-}
+/* ----------------------------------- */
+/* 🎞️ Animation Classes */
+/* ----------------------------------- */
 
-.slideUp {
-  animation: slideUp 0.6s ease-out;
-}
-
-.scaleIn {
-  animation: scaleIn 0.4s ease-out;
-}
+.fadeIn { animation: fadeIn 0.6s ease-out; }
+.slideUp { animation: slideUp 0.6s ease-out; }
+.scaleIn { animation: scaleIn 0.4s ease-out; }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 @keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+  from { opacity: 0; transform: scale(0.9); }
+  to   { opacity: 1; transform: scale(1); }
 }
 
-/* Responsive Typography */
+/* ----------------------------------- */
+/* 📱 Responsive Typography */
+/* ----------------------------------- */
+
 @media (min-width: 768px) {
-  .headline {
-    font-size: var(--font-size-5xl);
-  }
-  
-  .subline {
-    font-size: var(--font-size-2xl);
-  }
-  
-  .sectionTitle {
-    font-size: var(--font-size-4xl);
-  }
+  .headline { font-size: var(--font-size-5xl); }
+  .subline  { font-size: var(--font-size-2xl); }
+  /* .sectionTitle { font-size: var(--font-size-4xl); } */ /* deaktiviert für lokale Kontrolle */
 }
 
 @media (min-width: 1024px) {
-  .headline {
-    font-size: var(--font-size-6xl);
-  }
+  .headline { font-size: var(--font-size-6xl); }
 }
-
