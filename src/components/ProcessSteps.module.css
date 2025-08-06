@@ -1,156 +1,144 @@
-/* 🧾 ProcessSteps Section – Modern Warm Africa Design */
-.steps {
- background: linear-gradient(180deg, #fdf3e5 0%, #fbe8d4 100%);
+/*
+ * Styles für die ProcessSteps‑Komponente.
+ * Warmes, modernes Erscheinungsbild im IVY‑Stil. Die Timeline wird
+ * ab 1025 px Breite horizontal mit Pfeilführung umgesetzt; darunter
+ * bleibt sie vertikal mit Punkten und Linie.
+ */
 
-  padding: 4rem 2rem;
+.steps {
+  background: linear-gradient(180deg, #f4eee6 0%, #f5e8db 100%);
+  padding: 4rem 1rem;
   position: relative;
 }
 
-/* Headline */
-.steps h2 {
+/* Überschrift */
+.headline {
   text-align: center;
   margin-bottom: 3rem;
-  color: var(--jambo-secondary, #1f4536);
+  color: var(--jambo-secondary, #0f172a);
+  font-size: 2rem;
+  font-weight: 600;
 }
 
-/* Grid-Layout für Steps */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-  max-width: 1200px;
+/* Timeline (vertikal standard) */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  max-width: 900px;
   margin: 0 auto;
+}
+
+/* Einzelner Eintrag der Timeline */
+.timelineItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
   position: relative;
 }
 
-/* 🧱 Card-Styling */
-.card {
+/* Marker (Punkt + Linie) */
+.marker {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  padding: 2rem 1.5rem;
-  text-align: center;
-  border-radius: 16px;
+  height: 100%;
+  min-width: 40px;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #f97316;
+  margin-top: 4px;
+}
+
+.line {
+  flex-grow: 1;
+  width: 2px;
+  background: #f97316;
+  margin-top: 4px;
+}
+
+/* Inhalt der Card */
+.cardContent {
   background: #fff;
+  border-radius: 16px;
+  padding: 1.5rem 1.5rem 2rem;
+  text-align: center;
+  border: 1px solid rgba(249, 115, 22, 0.15);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(230, 126, 34, 0.15);
-  transition: all 0.3s ease;
-  min-height: 320px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.card:hover {
+.cardContent:hover {
   transform: translateY(-6px);
-  border-color: var(--jambo-primary, #e67e22);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  border-color: rgba(249, 115, 22, 0.4);
 }
 
-/* Bildbereich */
+/* Emoji‑Icon */
+.cardIcon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Bildcontainer */
 .imageContainer {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-  max-width: none; /* NEU */
+  margin-bottom: 1rem;
 }
+
+/* Bild */
 .stepImage {
-  width: 140px;       /* z. B. */
+  width: 140px;
   height: 140px;
-  flex-shrink: 0;     /* NEU: nicht zusammendrücken */
-}over .stepImage {
+  object-fit: cover;
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+
+.cardContent:hover .stepImage {
   transform: scale(1.05);
 }
 
-/* Titel & Beschreibung */
-.card h3 {
-  color: var(--jambo-secondary, #1f4536);
-  margin-bottom: 1rem;
+/* Titel */
+.cardTitle {
+  color: var(--jambo-secondary, #0f172a);
+  margin-bottom: 0.75rem;
   font-size: 1.25rem;
   font-weight: 600;
 }
 
-.card p {
+/* Beschreibung */
+.cardText {
   color: #666;
   line-height: 1.6;
   font-size: 0.95rem;
 }
 
-/* Verbindungslinie (zwischen Steps) */
-.connectionLine {
-  position: absolute;
-  top: 50%;
-  right: -1rem;
-  width: 2rem;
-  height: 1px;
-  background: linear-gradient(90deg, var(--jambo-primary, #e67e22), transparent);
-  transform: translateY(-50%);
-  opacity: 0.4;
-  z-index: 1;
-}
-
-.connectionLine::after {
-  content: '';
-  position: absolute;
-  right: -4px;
-  top: -2px;
-  width: 0;
-  height: 0;
-  border-left: 4px solid var(--jambo-primary, #e67e22);
-  border-top: 2px solid transparent;
-  border-bottom: 2px solid transparent;
-  opacity: 0.6;
-}
-
-/* CTA Container – Warm Africa Style */
+/* CTA-Container */
 .ctaContainer {
   position: relative;
-  z-index: 1;
-  background-color: #fff8ee;
-  padding: 2.5rem 2rem;
+  background: #fff8ee;
+  padding: 3rem 2rem;
   border-radius: 20px;
   max-width: 600px;
   margin: 4rem auto 0;
   text-align: center;
   overflow: hidden;
-
-  /* entfernt: background-image, background-size, etc. */
-  /* wir arbeiten über ::before */
-
-
-.ctaContainer::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-
-  background-image: url('/assets/kenyaflag.png');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-
-  opacity: 0.07;
-  z-index: 0;
-  pointer-events: none;
-  transform: scale(1.5); /* damit es nicht "drückt" */
-}
-
-.ctaContainer > * {
-  position: relative;
-  z-index: 1;
-}
-
-  /* Glow + Tiefe */
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.06);
-  border: 1px solid rgba(241, 196, 15, 0.1);
-
-
-
-  /* sanfte Tiefe */
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.06);
-  border: 1px solid rgba(241, 196, 15, 0.1); /* Goldakzent */
-
-  /* Animation optional */
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  border: 1px solid rgba(249, 115, 22, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .ctaContainer:hover {
@@ -158,29 +146,77 @@
   box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08);
 }
 
+/* Transparentes Flaggen-Wasserzeichen */
+.ctaContainer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('/src/assets/kenyaflag.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.07;
+  transform: scale(1.5);
+  z-index: 0;
+  pointer-events: none;
+}
 
+/* Wrapper für CTA-Text und Button */
+.ctaContent {
+  position: relative;
+  z-index: 1;
+}
+
+.ctaContent > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* CTA-Überschrift */
 .ctaContent h3 {
-  color: var(--jambo-secondary, #1f4536);
+  color: var(--jambo-secondary, #0f172a);
   margin-bottom: 0.5rem;
   font-size: 1.5rem;
   font-weight: 600;
 }
 
+/* CTA-Beschreibung */
 .ctaContent p {
   color: #666;
   margin-bottom: 1.5rem;
   font-size: 1rem;
+  line-height: 1.6;
 }
 
-/* 📱 Responsive Design */
-@media (max-width: 1024px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-  }
+/* Button-Gruppe */
+.buttonGroup {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
 
-  .connectionLine {
-    display: none;
+/* Haupt-CTA-Button */
+.buttonPrimary {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background-color: #f97316;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 9999px;
+  border: 2px solid #f97316;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  text-decoration: none;
+}
+
+.buttonPrimary:hover {
+  background-color: #fff;
+  color: #f97316;
+}
+
+/* Responsives Verhalten */
+@media (max-width: 1024px) {
+  .timeline {
+    gap: 2rem;
   }
 }
 
@@ -188,26 +224,32 @@
   .steps {
     padding: 3rem 1rem;
   }
-
-  .grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
+  /* Stack TimelineItem vertikal auf kleineren Bildschirmen */
+  .timelineItem {
+    flex-direction: column;
+    align-items: center;
   }
-
+  .marker {
+    min-width: auto;
+    margin-bottom: 1rem;
+    height: auto;
+    flex-direction: column;
+  }
+  /* Kürzere Verbindungslinie auf Mobile */
+  .line {
+    height: 1.5rem;
+  }
   .stepImage {
-    width: 70px;
-    height: 70px;
+    width: 100px;
+    height: 100px;
   }
-
-  .card h3 {
+  .cardTitle {
     font-size: 1.125rem;
   }
-
   .ctaContainer {
     margin-top: 3rem;
     padding: 2rem 1.5rem;
   }
-
   .ctaContent h3 {
     font-size: 1.25rem;
   }
@@ -217,22 +259,73 @@
   .steps {
     padding: 2rem 1rem;
   }
-
-.stepImage {
-  width: 120px;
-  height: 180px;
-  /* ggf. shadow + Glow für visuelle Tiefe */
-}
-
-  .card h3 {
+  .stepImage {
+    width: 80px;
+    height: 80px;
+  }
+  .cardTitle {
     font-size: 1rem;
   }
-
-  .card p {
+  .cardText {
     font-size: 0.9rem;
   }
-
   .ctaContainer {
     padding: 1.5rem 1rem;
+  }
+}
+
+/* Horizontale Timeline mit Pfeilführung ab 1025 px */
+@media (min-width: 1025px) {
+  /* Timeline wird nebeneinander angeordnet */
+  .timeline {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 2rem;
+    max-width: 1200px;
+  }
+
+  /* Jede Timeline‑Item nimmt gleich viel Breite ein */
+  .timelineItem {
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    padding: 0 1rem;
+  }
+
+  /* Marker ausblenden auf Desktop */
+  .marker {
+    display: none;
+  }
+
+  /* Pfeilverbindung zwischen den Cards */
+  .timelineItem:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -3rem;
+    width: 3rem;
+    height: 2px;
+    background: linear-gradient(to right, #f97316, transparent);
+    transform: translateY(-50%);
+  }
+
+  .timelineItem:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: calc(-3rem - 0.8rem);
+    width: 0;
+    height: 0;
+    border-left: 0.8rem solid #f97316;
+    border-top: 0.45rem solid transparent;
+    border-bottom: 0.45rem solid transparent;
+    transform: translateY(-50%);
+  }
+
+  /* Kartenbreite auf Desktop */
+  .cardContent {
+    max-width: 280px;
+    width: 100%;
+    padding: 2rem 1rem 2.5rem;
   }
 }

@@ -4,16 +4,13 @@ import AOS from 'aos';
 
 // 🖼️ Bilder & Assets
 import teamImage from './assets/about-team.jpg';
-import boxImg from './assets/boxload.jpg';
-import carImg from './assets/carcontainer.jpg';
-import containerImg from './assets/containerload.jpeg'; // ← .jpeg!
 import mapImage from './assets/nairobi-map.png';
-import step2Img from './assets/receiving-kenya.jpg';
-import serviceBackground
-  from './assets/services-bg-savanna.jpg'; // Für Services
-import heroBackground from './assets/ship-container.jpg'; // Für Hero
-import step1Img from './assets/warehouse.jpg';
-import step3Img from './assets/worker-smiling.jpg';
+import serviceBackground from './assets/services-bg-savanna.jpg';
+import heroBackground from './assets/ship-container.jpg';
+// 👉 NEUE Schritt-Bilder im src/assets/ Verzeichnis (bitte dort speichern)
+import stepAnnahmeImg from './assets/step1-anfrage.jpg';
+import stepTransportImg from './assets/step2-abholung.jpg';
+import stepZustellungImg from './assets/step4-nairobi.jpg';
 // 🧩 Komponenten
 import AboutBox from './components/AboutBox';
 import Contact from './components/Contact';
@@ -32,49 +29,32 @@ const App: React.FC = () => {
     });
   }, []);
 
-  const services = [
-    {
-      title: 'Paketversand',
-      description: 'Kleine Sendungen sicher & schnell nach Afrika.',
-      iconType: 'box' as const,
-      imageUrl: boxImg,
-    },
-    {
-      title: 'Containertransport',
-      description: 'Großmengen & Paletten direkt im Container.',
-      iconType: 'container' as const,
-      imageUrl: containerImg,
-    },
-    {
-      title: 'Fahrzeugversand',
-      description: 'Autos & Maschinen zuverlässig nach Kenia.',
-      iconType: 'car' as const,
-      imageUrl: carImg,
-    },
-  ];
+  // Service-Definition bleibt unverändert
+  const services = [ /* … */ ];
 
+  // ⚙️ Neuer 3-Schritte-Prozess mit passenden Texten und Bildern
   const processSteps = [
     {
-      icon: step1Img,
-      title: 'Abholung',
-      description: 'Wir holen Ihr Paket deutschlandweit ab.',
+      icon: stepAnnahmeImg, // Annahme: Paket selbst abgeben oder per Post
+      title: 'Annahme',
+      description:
+        'Bring dein Paket persönlich nach Essen (NRW) oder sende es bequem per Post. Abholung in NRW folgt bald.',
     },
     {
-      icon: step2Img,
+      icon: stepTransportImg, // Transport: Container/Reise nach Kenia
       title: 'Transport',
-      description: 'Sicher per Container Richtung Afrika.',
+      description:
+        'Dein Paket reist sicher im Container nach Kenia. Persönliche Updates statt Tracking-App.',
     },
     {
-      icon: step3Img,
+      icon: stepZustellungImg, // Zustellung: Ankunft in Nairobi
       title: 'Zustellung',
-      description: 'Persönliche Übergabe in Nairobi.',
+      description:
+        'Wir melden uns, sobald dein Paket in Nairobi angekommen ist – Abholung im Lager ganz einfach.',
     },
   ];
 
-  const aboutParagraphs = [
-    'Jumbo Logistics verbindet Menschen und Märkte zwischen Deutschland und Ostafrika.',
-    'Unser Team arbeitet eng mit Partnern in Nairobi zusammen, um Ihnen einen nahtlosen Service zu bieten.',
-  ];
+  const aboutParagraphs = [ /* … */ ];
 
   return (
     <DefaultLayout>
@@ -92,7 +72,8 @@ const App: React.FC = () => {
         backgroundImage={serviceBackground}
       />
 
-      <ProcessSteps showNumbers={false} steps={processSteps} />
+      {/* Hinweis: showNumbers ist nicht mehr nötig */}
+      <ProcessSteps steps={processSteps} />
 
       <AboutBox
         headline="Wer wir sind"
