@@ -4,16 +4,7 @@ import mapImage from '../assets/nairobi-map.png';
 import globalStyles from '../styles/components.module.css';
 import styles from './Contact.module.css';
 
-/**
- * ContactFinal – a refined contact section for Jambo Logistics.
- *
- * This component focuses on a clear split between the enquiry form and
- * the company contact details. It introduces a micro‑CTA for callback
- * requests, a couple of mini facts to subtly reinforce trust, and
- * ensures all interactive states are accessible and keyboard friendly.
- */
 const ContactFinal: React.FC = () => {
-  // Main enquiry form state
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -24,7 +15,6 @@ const ContactFinal: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
-  // Callback request modal state
   const [isCallbackOpen, setIsCallbackOpen] = useState(false);
   const [callbackNumber, setCallbackNumber] = useState('');
   const [callbackMessage, setCallbackMessage] = useState<'idle' | 'sent' | 'error'>('idle');
@@ -36,9 +26,6 @@ const ContactFinal: React.FC = () => {
     'Sonstiges'
   ];
 
-  /**
-   * Generic change handler for both text inputs and selects.
-   */
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
@@ -46,15 +33,11 @@ const ContactFinal: React.FC = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  /**
-   * Submit handler for the main enquiry form.
-   */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus('idle');
     try {
-      // Simulate sending the enquiry to the backend
       await new Promise(resolve => setTimeout(resolve, 1000));
       console.log('Form submitted:', formData);
       setSubmitStatus('success');
@@ -67,19 +50,11 @@ const ContactFinal: React.FC = () => {
     }
   };
 
-  /**
-   * Opens the callback request modal.
-   */
   const openCallbackModal = () => {
     setIsCallbackOpen(true);
     setCallbackMessage('idle');
   };
 
-  /**
-   * Handles sending a callback request. In a real application this
-   * would forward the provided number to customer support. Here we
-   * simulate an asynchronous request.
-   */
   const handleCallbackSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!callbackNumber) return;
@@ -98,7 +73,6 @@ const ContactFinal: React.FC = () => {
   return (
     <section id="contact" className={`${styles.contact} section`}>
       <div className={`${styles.container} container`}>
-        {/* Header */}
         <div className={styles.header} data-aos="fade-up">
           <h2 className={globalStyles.sectionTitle}>Kontakt aufnehmen</h2>
           <p className={styles.subtitle}>
@@ -107,12 +81,9 @@ const ContactFinal: React.FC = () => {
           </p>
         </div>
 
-        {/* Grid layout: form and contact info */}
         <div className={styles.content}>
-          {/* Left: Enquiry form */}
           <div className={styles.formSection} data-aos="fade-right">
             <div className={styles.formContainer}>
-              {/* Micro CTA */}
               <div className={styles.microCta}>
                 <p className={styles.microCtaText}>Du hast Fragen zum Versand?</p>
                 <button
@@ -196,7 +167,6 @@ const ContactFinal: React.FC = () => {
                     placeholder="Beschreiben Sie Ihre Anfrage..."
                   />
                 </div>
-                {/* Submission feedback */}
                 {submitStatus === 'success' && (
                   <div className={styles.successMessage}>
                     ✅ Vielen Dank! Ihre Nachricht wurde erfolgreich gesendet.
@@ -217,7 +187,6 @@ const ContactFinal: React.FC = () => {
                   </button>
                 </div>
               </form>
-              {/* Mini Facts */}
               <div className={styles.miniFacts}>
                 <div className={styles.fact}>
                   <span className={styles.factIcon}>📦</span>
@@ -228,9 +197,15 @@ const ContactFinal: React.FC = () => {
                   <p className={styles.factText}>Täglicher Support aus Essen & Nairobi</p>
                 </div>
               </div>
+              <div className={styles.quoteCard}>
+                <p>
+                  „Ich habe mein Paket sicher nach Nairobi geschickt – und wurde persönlich betreut. Danke Jambo!“
+                </p>
+                <cite>– Amina M., Berlin → Nairobi</cite>
+              </div>
             </div>
           </div>
-          {/* Right: Direct contact information */}
+
           <div className={styles.infoSection} data-aos="fade-left">
             <div className={styles.infoContainer}>
               <h3 className={styles.infoTitle}>Direkter Kontakt</h3>
@@ -252,6 +227,7 @@ const ContactFinal: React.FC = () => {
                     <span className={styles.methodAction}>Jetzt chatten →</span>
                   </div>
                 </button>
+
                 <a
                   href="mailto:kontakt@jambologistics.com"
                   className={`${styles.contactMethod} ${styles.emailMethod}`}
@@ -263,7 +239,9 @@ const ContactFinal: React.FC = () => {
                     <span className={styles.methodAction}>E‑Mail senden →</span>
                   </div>
                 </a>
-                <div className={`${styles.contactMethod} ${styles.phoneMethod}`}
+
+                <div
+                  className={`${styles.contactMethod} ${styles.phoneMethod}`}
                   role="button"
                   tabIndex={0}
                   onClick={() => window.open('tel:+49123456789', '_self')}
@@ -279,6 +257,7 @@ const ContactFinal: React.FC = () => {
                   </div>
                 </div>
               </div>
+
               <div className={styles.responseTime}>
                 <div className={styles.responseIcon}><span role="img" aria-hidden="true">⚡</span></div>
                 <div className={styles.responseContent}>
@@ -286,11 +265,11 @@ const ContactFinal: React.FC = () => {
                   <p className={styles.responseDescription}>Wir antworten innerhalb von 2 Stunden während der Geschäftszeiten.</p>
                 </div>
               </div>
-              {/* Tagline to reinforce trust */}
+
               <div className={styles.tagline}>
                 <p>Jambo ist deine Brücke zwischen Deutschland &amp; Kenia – verlässlich, persönlich, schnell.</p>
               </div>
-              {/* Map */}
+
               <div className={styles.mapContainer} data-aos="zoom-in" data-aos-delay="200">
                 <div className={styles.mapHeader}>
                   <h4 className={styles.mapTitle}>Unsere Route</h4>
@@ -308,7 +287,7 @@ const ContactFinal: React.FC = () => {
             </div>
           </div>
         </div>
-        {/* Callback Modal */}
+
         {isCallbackOpen && (
           <div className={styles.modalOverlay} role="dialog" aria-modal="true" aria-labelledby="callbackTitle">
             <div className={styles.modalContent} data-aos="zoom-in">

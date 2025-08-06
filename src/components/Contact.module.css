@@ -8,9 +8,16 @@
  */
 
 .contact {
-  background: transparent;
+  background: linear-gradient(
+    180deg,
+    rgba(250, 244, 234, 1) 0%,     /* leichtes Cremeweiß */
+    rgba(243, 230, 211, 1) 50%,    /* warmes Beige */
+    rgba(255, 240, 220, 1) 100%    /* sanft glänzendes Finish */
+  );
   position: relative;
 }
+
+
 
 .container {
   max-width: var(--container-xl);
@@ -246,7 +253,7 @@
   box-shadow: var(--shadow-md);
 }
 
-/* Method variants: lighten gradients replaced with subtle tints */
+/* Method variants */
 .whatsappMethod:hover {
   background-color: rgba(37, 211, 102, 0.05);
 }
@@ -584,7 +591,6 @@
   }
 }
 
-/* High contrast mode */
 @media (prefers-contrast: high) {
   .formContainer,
   .infoContainer,
