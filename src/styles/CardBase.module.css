@@ -1,0 +1,29 @@
+.cardBase {
+  background-color: #ffffff; /* Klarer Kontrast auf sandigem Hintergrund */
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.cardBase:hover {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+  transform: translateY(-4px);
+}
+
+.cardDark {
+  background-color: #1f1f1f;
+  color: #ffffff;
+}
+
+.cardBordered {
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.cardCompact {
+  padding: 1rem;
+  border-radius: 12px;
+}

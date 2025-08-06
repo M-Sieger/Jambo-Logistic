@@ -1,120 +1,213 @@
-/* 📦 AboutBox.module.css – angepasst auf CardBase-System */
+/* AboutBox.module.css - Modern Warm Africa Design */
 
+/* Haupt-Container */
 .aboutBox {
-  background: transparent;
-  position: relative;
-}
-
-/* Theme: Dark Variant für Hintergrund */
-.dark {
-  background-color: var(--color-secondary);
-  color: var(--color-text-light);
-}
-
-/* Zentriertes Grid-Layout */
-.container {
-  max-width: var(--container-xl);
-  margin: 0 auto;
-  padding: 0 var(--spacing-md);
-}
-
-/* Layout für Text und Bild */
-.content {
+  background-color: #f5e8db; /* Warmes Beige */
+  padding: 4rem 2rem;
   display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--spacing-4xl);
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
   align-items: center;
+  min-height: 80vh;
 }
 
-/* 🔠 Text-Container */
-.textContent {
-  order: 1;
+/* Content-Bereich (Text-Seite) */
+.content {
+  max-width: 600px;
+  margin: 0 auto;
 }
 
-.paragraphs {
-  margin-bottom: var(--spacing-3xl);
+/* Headline */
+.headline {
+  font-size: clamp(24px, 4vw, 36px);
+  font-weight: 700;
+  color: #005073; /* Tiefes Blau */
+  margin-bottom: 2rem;
+  line-height: 1.2;
 }
 
-.paragraph {
-  font-size: var(--font-size-lg);
-  line-height: var(--line-height-relaxed);
-  color: var(--color-text-secondary);
-  margin-bottom: var(--spacing-lg);
+/* Mission-Text */
+.missionText {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: #005073;
+  margin-bottom: 3rem;
+  max-width: 600px;
 }
 
-.dark .paragraph {
-  color: rgba(255, 255, 255, 0.9);
-}
-
-.paragraph:last-child {
-  margin-bottom: 0;
-}
-
-/* ✨ Highlights = Cards mit Icons */
-.highlights {
+/* Container für Werte-Cards */
+.valuesContainer {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-xl);
-  margin-bottom: var(--spacing-3xl);
+  gap: 1.5rem;
+  margin-bottom: 3rem;
 }
 
-/* Achtung: cardBase-Klasse kommt jetzt direkt im TSX via className */
-.highlight {
+/* Einzelne Werte-Card */
+.valueCard {
+  background: rgba(255, 255, 255, 0.7);
+  padding: 1.5rem;
+  border-radius: 12px;
   display: flex;
   align-items: flex-start;
-  gap: var(--spacing-lg);
+  gap: 1rem;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 80, 115, 0.1);
 }
 
-/* Extra-Styling für Dark-Modus */
-.dark .highlight {
-  background-color: rgba(255, 255, 255, 0.1);
+/* Hover-Effekt für Cards */
+.valueCard:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 25px rgba(0, 80, 115, 0.15);
+  background: rgba(255, 255, 255, 0.9);
 }
 
-.highlight:hover {
-  transform: translateX(8px);
-  background-color: rgba(230, 126, 34, 0.1);
-}
-
-.dark .highlight:hover {
-  background-color: rgba(255, 255, 255, 0.15);
-}
-
-/* 🔶 Icon-Box links in der Card */
-.highlightIcon {
+/* Icon in der Card */
+.valueIcon {
+  font-size: 2rem;
+  width: 60px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 50px;
-  height: 50px;
-  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
-  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, #005073, #0066a0);
+  border-radius: 50%;
   flex-shrink: 0;
-  font-size: var(--font-size-xl);
 }
 
-/* 📝 Text-Content rechts in der Card */
-.highlightContent {
-  flex: 1;
-}
-
-.highlightTitle {
-  font-size: var(--font-size-lg);
+/* Titel der Werte-Card */
+.valueTitle {
+  font-size: 1.25rem;
   font-weight: 600;
-  color: var(--color-text-primary);
-  margin-bottom: var(--spacing-sm);
+  color: #005073;
+  margin-bottom: 0.5rem;
 }
 
-.dark .highlightTitle {
-  color: var(--color-text-light);
-}
-
-.highlightDescription {
-  font-size: var(--font-size-base);
-  color: var(--color-text-secondary);
+/* Text der Werte-Card */
+.valueText {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #005073;
   margin: 0;
-  line-height: var(--line-height-normal);
+  opacity: 0.8;
 }
 
-.dark .highlightDescription {
-  color: rgba(255, 255, 255, 0.8);
+/* CTA-Container */
+.ctaContainer {
+  text-align: center;
+}
+
+/* CTA-Button */
+.ctaButton {
+  background-color: #005073;
+  color: #ffffff;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: none;
+  letter-spacing: 0.5px;
+}
+
+/* CTA-Button Hover */
+.ctaButton:hover {
+  background-color: #f47b20; /* Akzent Orange */
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(244, 123, 32, 0.3);
+}
+
+/* Bild-Bereich */
+.image {
+  position: relative;
+  height: 100%;
+  min-height: 500px;
+}
+
+/* Bild-Element */
+.imageElement {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 80, 115, 0.2);
+}
+
+/* Mobile Responsivität - ab 768px nach unten */
+@media (max-width: 768px) {
+  .aboutBox {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    padding: 3rem 1.5rem;
+  }
+  
+  .content {
+    order: 1;
+  }
+  
+  .image {
+    order: 2;
+    min-height: 300px;
+  }
+  
+  .headline {
+    font-size: clamp(20px, 5vw, 28px);
+    margin-bottom: 1.5rem;
+  }
+  
+  .missionText {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .valuesContainer {
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .valueCard {
+    padding: 1rem;
+    flex-direction: column;
+    text-align: center;
+    gap: 0.75rem;
+  }
+  
+  .valueIcon {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+    margin: 0 auto;
+  }
+  
+  .valueTitle {
+    font-size: 1.125rem;
+  }
+  
+  .valueText {
+    font-size: 0.9rem;
+  }
+  
+  .ctaButton {
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
+  }
+}
+
+/* Sehr kleine Bildschirme */
+@media (max-width: 480px) {
+  .aboutBox {
+    padding: 2rem 1rem;
+  }
+  
+  .valueCard {
+    padding: 0.875rem;
+  }
+  
+  .ctaButton {
+    width: 100%;
+    padding: 1rem;
+  }
 }

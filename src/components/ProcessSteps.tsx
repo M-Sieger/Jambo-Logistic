@@ -1,117 +1,65 @@
+// src/components/ProcessSteps.tsx
 import React from 'react';
 
-import cardBase
-  from '../styles/CardBase.module.css'; // ✅ CardBase-Styles importieren
-import globalStyles from '../styles/components.module.css';
+// Bilder für die Steps
+import step1Image from '../assets/step1-anfrage.jpg';
+import step2Image from '../assets/step2-abholung.jpg';
+import step3Image from '../assets/step3-container.jpg';
+import step4Image from '../assets/step4-nairobi.jpg';
 import styles from './ProcessSteps.module.css';
 
-interface ProcessStep {
-  icon?: string;
+type Step = {
+  icon: string;
   title: string;
   description: string;
-  number?: number;
-}
+};
 
-interface ProcessStepsProps {
-  steps: ProcessStep[];
-  variant?: 'default' | 'compact';
-  showNumbers?: boolean;
-  className?: string;
-}
+type ProcessStepsProps = {
+  steps: Step[];
+};
 
-const ProcessSteps: React.FC<ProcessStepsProps> = ({
-  steps,
-  variant = 'default',
-  showNumbers = true,
-  className = ''
-}) => {
+const stepImages = [step1Image, step2Image, step3Image, step4Image];
+
+const ProcessSteps: React.FC<ProcessStepsProps> = ({ steps }) => {
   return (
-    <section
-      id="process"
-      className={`${styles.processSteps} ${styles[variant]} ${className} section`}
-    >
-      <div className={`${styles.container} container`}>
-        {/* Section Header */}
-        <div className={styles.header} data-aos="fade-up">
-          <h2 className={globalStyles.sectionTitle}>So einfach geht's</h2>
-          <p className={styles.subtitle}>
-            In nur drei Schritten bringen wir Ihre Sendung sicher nach Kenia.
-          </p>
-        </div>
+    <section id="steps" className={styles.steps}>
+      <h2 className={styles.headline}>So einfach funktioniert's</h2>
 
-        {/* Steps Grid */}
-        <div className={styles.stepsContainer}>
-          {steps.map((step, index) => (
-            <div
-              key={index}
-              className={`${styles.stepCard} ${cardBase.cardBase}`} // ✅ CardBase-Klasse hinzugefügt
-              data-aos="fade-up"
-              data-aos-delay={index * 100}
-            >
-              {/* Step Icon or Number */}
-              <div className={styles.stepIcon}>
-                {!showNumbers && step.icon ? (
-                  <div className={styles.stepIconImage}>
-                    <img
-                      src={step.icon}
-                      alt={`${step.title} - Schritt ${index + 1}`}
-                      className={styles.stepImage}
-                      loading="lazy"
-                    />
-                  </div>
-                ) : (
-                  <div className={styles.stepNumber}>
-                    <span>{step.number || index + 1}</span>
-                  </div>
-                )}
-              </div>
-
-              {/* Step Content */}
-              <div className={styles.stepContent}>
-                <h3 className={styles.stepTitle}>{step.title}</h3>
-                <p className={styles.stepDescription}>{step.description}</p>
-              </div>
-
-              {/* Connection Line */}
-              {index < steps.length - 1 && (
-                <div className={styles.connectionLine}>
-                  <div className={styles.line}></div>
-                  <div className={styles.arrow}>→</div>
-                </div>
-              )}
+      <div className={styles.grid}>
+        {steps.map((step, i) => (
+          <div
+            key={i}
+            className={styles.card}
+            data-aos="fade-up"
+            data-aos-delay={i * 100}
+          >
+            <div className={styles.imageContainer}>
+              <img
+                src={stepImages[i]}
+                alt={`${step.title} Bild`}
+                className={styles.stepImage}
+              />
             </div>
-          ))}
-        </div>
+            <h3 className={styles.cardTitle}>{step.title}</h3>
+            <p className={styles.cardText}>{step.description}</p>
+            {i < steps.length - 1 && (
+              <div className={styles.connectionLine}></div>
+            )}
+          </div>
+        ))}
+      </div>
 
-        {/* Call-To-Action Section */}
-        <div className={styles.ctaSection} data-aos="fade-up" data-aos-delay="300">
-          <div className={styles.ctaContent}>
-            <h3 className={styles.ctaTitle}>Bereit für den ersten Schritt?</h3>
-            <p className={styles.ctaDescription}>
-              Kontaktieren Sie uns noch heute für ein unverbindliches Angebot.
-            </p>
-            <div className={styles.ctaButtons}>
-              <button
-                onClick={() => {
-                  const contactElement = document.getElementById('contact');
-                  if (contactElement) {
-                    contactElement.scrollIntoView({ behavior: 'smooth' });
-                  }
-                }}
-                className={`${globalStyles.buttonPrimary} ${styles.primaryCta}`}
-              >
-                Jetzt anfragen
-              </button>
-              <a
-                href="https://wa.me/491234567890"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`${globalStyles.buttonSecondary} ${styles.secondaryCta}`}
-              >
-                <span className={styles.whatsappIcon}>📱</span>
-                WhatsApp
-              </a>
-            </div>
+      <div className={styles.ctaContainer}>
+        <div className={styles.ctaContent}>
+          <h3>Bereit für Ihren Transport?</h3>
+          <p>Kontaktieren Sie uns für ein unverbindliches Angebot</p>
+          <div className={styles.buttonGroup}>
+            <a href="#contact" className={styles.buttonPrimary}>
+              Angebot anfordern
+            </a>
+            <a href="https://wa.me/1234567890" className={styles.buttonOutline}>
+              WhatsApp
+            </a>
           </div>
         </div>
       </div>

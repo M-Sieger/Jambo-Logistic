@@ -311,9 +311,9 @@ input:focus, textarea:focus, select:focus {
   }
 }
 
-/* Dark mode support (future enhancement) */
+/* 
 @media (prefers-color-scheme: dark) {
-  /* This can be expanded for dark mode support */
+  
   :root {
     --color-neutral-light: #1a1a1a;
     --color-neutral-medium: #2a2a2a;
@@ -322,6 +322,8 @@ input:focus, textarea:focus, select:focus {
     --color-border: #404040;
   }
 }
+*/
+
 
 /* Print styles */
 @media print {

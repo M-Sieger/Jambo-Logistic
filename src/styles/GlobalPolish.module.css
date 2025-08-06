@@ -1,0 +1,116 @@
+.button {
+  display: inline-block;
+  min-width: 170px;
+  padding: 0.75rem 1.6rem;
+  border-radius: 5px;
+  font-weight: 600;
+  font-size: 1rem;
+  font-family: var(--font-body);
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  transition: all 0.25s ease;
+}
+
+/* 🌿 Primär */
+.button--primary {
+  background-color: #1f4536; /* dunkelgrün wie Footer */
+  color: #fff;
+}
+.button--primary:hover {
+  background-color: #153229;
+  transform: translateY(-1px);
+}
+
+.button--outline {
+  background: transparent;
+  border: 1.5px solid #1f4536;
+  color: #1f4536;
+  border-radius: 5px;
+}
+.button--outline:hover {
+  background-color: rgba(31, 69, 54, 0.1);
+  color: #153229;
+}
+
+
+/* 🔗 Button-Gruppen */
+.buttonGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1.25rem;
+}
+
+
+/* 🌑 Alternative Variante für helle Hintergründe */
+.button--alt {
+  background-color: #fff;
+  color: #1a1a1a;
+  border: 1px solid #1a1a1a;
+}
+
+.button--alt:hover {
+  background-color: #f6f6f6;
+}
+
+
+
+
+
+
+/* Headlines */
+.headline {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 1rem;
+}
+
+.subline {
+  font-size: 1.125rem;
+  color: #666;
+  line-height: 1.5;
+}
+
+/* Section Modifier */
+.section--light {
+  background-color: #fff9f2;
+}
+
+.section--neutral {
+  background-color: #fff3e0;
+}
+
+.section--dark {
+  background-color: #ffffff;
+  color: #fdfdfd;
+}
+
+/* Text Styles */
+.textMuted {
+  color: #777;
+  font-size: 0.95rem;
+}
+
+.center {
+  text-align: center;
+}
+
+.iconBox {
+  font-size: 1.5rem;
+  opacity: 0.85;
+  margin-bottom: 0.5rem;
+}
+
+/* Shadow Utility */
+.shadowSoft {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.shadowStrong {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+}
