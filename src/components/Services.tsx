@@ -1,80 +1,62 @@
 import React from 'react';
 
-// 📷 Asset für CTA-Bereich
 import beratungImg from '../assets/beratung.jpeg';
-// 🧩 Globale & lokale Styles
 import globalStyles from '../styles/components.module.css';
-// 🎞️ Animation Utils
 import {
   animations,
   createAOSProps,
 } from '../utils/animations';
 import styles from './Services.module.css';
 
-// 📦 Typdefinitionen
-interface Service {
-  title: string;
-  description: string;
-  imageUrl: string;
-}
+// Definiere hier die vier Versandarten mit aussagekräftigen Texten und Realbildern
+const services = [
+  {
+    title: "Paketversand",
+    description: "Kleine Sendungen sicher & schnell nach Afrika – ab 30 €.",
+    imageUrl: "/src/assets/boxload.jpg",
+    alt: "Paketsendung nach Afrika",
+  },
+  {
+    title: "Containertransport",
+    description: "Großmengen & Paletten direkt im Container – ab 500 €.",
+    imageUrl: "/src/assets/containerload.jpeg",
+    alt: "Containertransport nach Afrika",
+  },
+  {
+    title: "Haushaltswaren & Elektronik",
+    description: "Waschmaschinen, Kühlschränke & mehr bequem verschicken – ab 150 €.",
+    imageUrl: "/src/assets/warehouse.jpg",
+    alt: "Haushaltsgeräte im Lager",
+  },
+  {
+    title: "Kleidung & Textilien",
+    description: "Mode & Stoffe in jede Ecke Kenias – ab 50 €.",
+    imageUrl: "/src/assets/worker-smiling.jpg",
+    alt: "Kleidungspakete für Afrika",
+  },
+];
 
-interface ServicesProps {
-  services: Service[];
-  variant?: 'default' | 'compact';
-  columns?: 1 | 2 | 3 | 4;
-  onServiceClick?: (service: Service) => void;
-  className?: string;
-  backgroundImage?: string;
-}
-
-const Services: React.FC<ServicesProps> = ({
-  services,
-  variant = 'default',
-  columns = 3,
-  onServiceClick,
-  className = '',
-  backgroundImage,
-}) => {
-  // 🔁 Klick auf Servicekarte → entweder Callback oder Scroll zu #contact
-  const handleServiceClick = (service: Service) => {
-    if (onServiceClick) {
-      onServiceClick(service);
-    } else {
-      const contactElement = document.getElementById('contact');
-      contactElement?.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  // 🧱 Dynamisches Grid je nach columns
-  const getGridClass = () => {
-    switch (columns) {
-      case 1: return globalStyles.gridCols1;
-      case 2: return globalStyles.gridCols2;
-      case 3: return globalStyles.gridCols3;
-      case 4: return globalStyles.gridCols4;
-      default: return globalStyles.gridCols3;
-    }
+const Services: React.FC = () => {
+  // Klick-Handler – optionaler Scroll zum Kontaktbereich
+  const handleServiceClick = (service: any) => {
+    const contactElement = document.getElementById("contact");
+    contactElement?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <section
-      id="services"
-      className={`${styles.services} ${styles[variant]} ${className} section`}
-    >
-      {/* 🌄 Optionaler Hintergrund */}
-      {backgroundImage && (
-        <div className={styles.backgroundContainer}>
-          <img
-            src={backgroundImage}
-            alt="Service Hintergrund"
-            className={styles.backgroundImage}
-            loading="lazy"
-          />
-        </div>
-      )}
+    <section id="services" className={`${styles.services} section`}>
+      {/* Hintergrundbild, etwas kräftiger */}
+      <div className={styles.backgroundContainer}>
+        <img
+          src="/src/assets/services-bg-savanna.jpg"
+          alt="Hintergrund Savanne"
+          className={styles.backgroundImage}
+          loading="lazy"
+        />
+      </div>
 
       <div className={`${styles.container} container`}>
-        {/* 🔠 Titel & Untertitel (mit localStyles gesteuert) */}
+        {/* Überschrift & Untertitel */}
         <div className={styles.header} {...createAOSProps(animations.fadeUp())}>
           <h2 className={styles.sectionTitle}>Unsere Services</h2>
           <p className={styles.subtitle}>
@@ -82,17 +64,17 @@ const Services: React.FC<ServicesProps> = ({
           </p>
         </div>
 
-        {/* 📦 Grid mit Services */}
-        <div className={`${styles.servicesGrid} ${getGridClass()}`}>
+        {/* Grid der Versandarten */}
+        <div className={`${styles.servicesGrid}`}>
           {services.map((service, index) => (
             <div
-              key={index}
+              key={service.title}
               className={`${styles.serviceCard} ${globalStyles.cardInteractive}`}
               onClick={() => handleServiceClick(service)}
               role="button"
               tabIndex={0}
               onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
+                if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
                   handleServiceClick(service);
                 }
@@ -104,7 +86,6 @@ const Services: React.FC<ServicesProps> = ({
                 className={styles.cardBackground}
                 style={{ backgroundImage: `url(${service.imageUrl})` }}
               />
-
               <div className={styles.cardContent}>
                 <h3 className={styles.cardTitle}>{service.title}</h3>
                 <p className={styles.cardDescription}>{service.description}</p>
@@ -117,7 +98,20 @@ const Services: React.FC<ServicesProps> = ({
           ))}
         </div>
 
-        {/* 🎯 CTA-Bereich mit Bild */}
+        {/* Zusatz-CTA für unsichere Kunden */}
+        <div className={styles.contactPrompt} {...createAOSProps(animations.fadeUp(300))}>
+          <p className={styles.whatsappPrompt}>Nicht sicher, ob dein Paket geht?</p>
+          <a
+            href="https://wa.me/491234567890"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`${globalStyles.buttonSecondary} ${styles.whatsappButton}`}
+          >
+            Jetzt WhatsApp schreiben
+          </a>
+        </div>
+
+        {/* CTA-Karte am Ende */}
         <section
           className={styles.ctaSection}
           {...createAOSProps(animations.fadeUp(400))}
@@ -134,14 +128,14 @@ const Services: React.FC<ServicesProps> = ({
                 Individuelle Beratung für Ihren Versand
               </h3>
               <p className={styles.ctaDescription}>
-                Unser erfahrenes Team hilft Ihnen persönlich – per Telefon, WhatsApp oder E-Mail.
+                Unser erfahrenes Team hilft Ihnen persönlich – per Telefon, WhatsApp oder E‑Mail.
               </p>
               <button
                 onClick={() => {
-                  const contactElement = document.getElementById('contact');
+                  const contactElement = document.getElementById("contact");
                   contactElement?.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
+                    behavior: "smooth",
+                    block: "start",
                   });
                 }}
                 className={`${globalStyles.buttonSecondary} ${styles.ctaButtonLarge}`}
