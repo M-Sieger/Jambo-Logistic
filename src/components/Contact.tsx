@@ -4,28 +4,37 @@ import mapImage from '../assets/nairobi-map.png';
 import globalStyles from '../styles/components.module.css';
 import styles from './Contact.module.css';
 
+/**
+ * ContactFinal – Kontakt-Sektion mit klarer Trennung und Ivy-Polish.
+ *
+ * Verbesserungen:
+ * - Zentrierte Überschrift mit reduziertem Abstand.
+ * - Größerer Abstand über dem Formular und tieferer Schatten.
+ * - Fancy vertikaler Trenner mit Dotted-Gradient.
+ * - Mini-Facts entfernt (Trust erscheint in eigener Sektion).
+ * - Zitatkarte als klarer Abschluss mit Border-Top und größerem Margin.
+ */
 const ContactFinal: React.FC = () => {
+  // Formularstatus
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
     service: '',
-    message: ''
+    message: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
+  // Rückruf-Modalstatus
   const [isCallbackOpen, setIsCallbackOpen] = useState(false);
   const [callbackNumber, setCallbackNumber] = useState('');
   const [callbackMessage, setCallbackMessage] = useState<'idle' | 'sent' | 'error'>('idle');
 
-  const services = [
-    'Paketversand',
-    'Containertransport',
-    'Fahrzeugversand',
-    'Sonstiges'
-  ];
+  // Service-Auswahl
+  const services = ['Paketversand', 'Containertransport', 'Fahrzeugversand', 'Sonstiges'];
 
+  // Input-Handler
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
@@ -33,39 +42,38 @@ const ContactFinal: React.FC = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  // Anfrage absenden (simuliert)
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus('idle');
     try {
       await new Promise(resolve => setTimeout(resolve, 1000));
-      console.log('Form submitted:', formData);
       setSubmitStatus('success');
       setFormData({ name: '', email: '', phone: '', service: '', message: '' });
-    } catch (error) {
-      console.error('Form submission error:', error);
+    } catch {
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  // Rückruf-Modal öffnen
   const openCallbackModal = () => {
     setIsCallbackOpen(true);
     setCallbackMessage('idle');
   };
 
+  // Rückruf-Formular absenden (simuliert)
   const handleCallbackSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!callbackNumber) return;
     setCallbackMessage('idle');
     try {
       await new Promise(resolve => setTimeout(resolve, 800));
-      console.log('Callback requested:', callbackNumber);
       setCallbackMessage('sent');
       setCallbackNumber('');
-    } catch (error) {
-      console.error('Callback error:', error);
+    } catch {
       setCallbackMessage('error');
     }
   };
@@ -73,17 +81,20 @@ const ContactFinal: React.FC = () => {
   return (
     <section id="contact" className={`${styles.contact} section`}>
       <div className={`${styles.container} container`}>
+        {/* Sektionstitel */}
         <div className={styles.header} data-aos="fade-up">
           <h2 className={globalStyles.sectionTitle}>Kontakt aufnehmen</h2>
           <p className={styles.subtitle}>
-            Bereit für Ihren Transport nach Kenia? Kontaktieren Sie uns für ein
-            unverbindliches Angebot.
+            Bereit für Ihren Transport nach Kenia? Kontaktieren Sie uns für ein unverbindliches Angebot.
           </p>
         </div>
 
+        {/* Grid-Layout: Formular, Trenner, Kontaktinformationen */}
         <div className={styles.content}>
+          {/* Formularspalte */}
           <div className={styles.formSection} data-aos="fade-right">
             <div className={styles.formContainer}>
+              {/* Micro-CTA */}
               <div className={styles.microCta}>
                 <p className={styles.microCtaText}>Du hast Fragen zum Versand?</p>
                 <button
@@ -167,15 +178,12 @@ const ContactFinal: React.FC = () => {
                     placeholder="Beschreiben Sie Ihre Anfrage..."
                   />
                 </div>
+                {/* Erfolg / Fehler */}
                 {submitStatus === 'success' && (
-                  <div className={styles.successMessage}>
-                    ✅ Vielen Dank! Ihre Nachricht wurde erfolgreich gesendet.
-                  </div>
+                  <div className={styles.successMessage}>✅ Vielen Dank! Ihre Nachricht wurde erfolgreich gesendet.</div>
                 )}
                 {submitStatus === 'error' && (
-                  <div className={styles.errorMessage}>
-                    ❌ Es gab einen Fehler beim Senden. Bitte versuchen Sie es erneut.
-                  </div>
+                  <div className={styles.errorMessage}>❌ Es gab einen Fehler beim Senden. Bitte versuchen Sie es erneut.</div>
                 )}
                 <div className={styles.formActions}>
                   <button
@@ -187,25 +195,18 @@ const ContactFinal: React.FC = () => {
                   </button>
                 </div>
               </form>
-              <div className={styles.miniFacts}>
-                <div className={styles.fact}>
-                  <span className={styles.factIcon}>📦</span>
-                  <p className={styles.factText}>Mehr als 1000 Pakete sicher versendet</p>
-                </div>
-                <div className={styles.fact}>
-                  <span className={styles.factIcon}>🇩🇪↔🇰🇪</span>
-                  <p className={styles.factText}>Täglicher Support aus Essen & Nairobi</p>
-                </div>
-              </div>
+              {/* Zitatkarte */}
               <div className={styles.quoteCard}>
-                <p>
-                  „Ich habe mein Paket sicher nach Nairobi geschickt – und wurde persönlich betreut. Danke Jambo!“
-                </p>
+                <p>„Ich habe mein Paket sicher nach Nairobi geschickt – und wurde persönlich betreut. Danke Jambo!“</p>
                 <cite>– Amina M., Berlin → Nairobi</cite>
               </div>
             </div>
           </div>
 
+          {/* Fancy Dotted Divider */}
+          <div className={styles.verticalDivider}></div>
+
+          {/* Kontaktinformationen */}
           <div className={styles.infoSection} data-aos="fade-left">
             <div className={styles.infoContainer}>
               <h3 className={styles.infoTitle}>Direkter Kontakt</h3>
@@ -216,30 +217,32 @@ const ContactFinal: React.FC = () => {
                       ? `Hallo! Ich bin ${formData.name} und interessiere mich für ${formData.service || 'Ihre Services'}. ${formData.message || 'Können Sie mir mehr Informationen geben?'}`
                       : 'Hallo! Ich interessiere mich für Ihre Logistik-Services. Können Sie mir mehr Informationen geben?';
                     const encodedMessage = encodeURIComponent(message);
-                    window.open(`https://wa.me/491234567890?text=${encodedMessage}`, '_blank', 'noopener noreferrer');
+                    window.open(`https://wa.me/491234567890?text=${encodedMessage}`, '_blank', 'noopener,noreferrer');
                   }}
                   className={`${styles.contactMethod} ${styles.whatsappMethod}`}
                 >
-                  <div className={styles.methodIcon}><span role="img" aria-hidden="true">📱</span></div>
+                  <div className={styles.methodIcon}>
+                    <span role="img" aria-hidden="true">📱</span>
+                  </div>
                   <div className={styles.methodContent}>
                     <h4 className={styles.methodTitle}>WhatsApp</h4>
                     <p className={styles.methodDescription}>Schnelle Antwort garantiert</p>
                     <span className={styles.methodAction}>Jetzt chatten →</span>
                   </div>
                 </button>
-
                 <a
                   href="mailto:kontakt@jambologistics.com"
                   className={`${styles.contactMethod} ${styles.emailMethod}`}
                 >
-                  <div className={styles.methodIcon}><span role="img" aria-hidden="true">✉️</span></div>
+                  <div className={styles.methodIcon}>
+                    <span role="img" aria-hidden="true">✉️</span>
+                  </div>
                   <div className={styles.methodContent}>
                     <h4 className={styles.methodTitle}>E‑Mail</h4>
                     <p className={styles.methodDescription}>kontakt@jambologistics.com</p>
                     <span className={styles.methodAction}>E‑Mail senden →</span>
                   </div>
                 </a>
-
                 <div
                   className={`${styles.contactMethod} ${styles.phoneMethod}`}
                   role="button"
@@ -249,15 +252,17 @@ const ContactFinal: React.FC = () => {
                     if (e.key === 'Enter') window.open('tel:+49123456789', '_self');
                   }}
                 >
-                  <div className={styles.methodIcon}><span role="img" aria-hidden="true">📞</span></div>
+                  <div className={styles.methodIcon}>
+                    <span role="img" aria-hidden="true">📞</span>
+                  </div>
                   <div className={styles.methodContent}>
                     <h4 className={styles.methodTitle}>Telefon</h4>
                     <p className={styles.methodDescription}>Mo–Fr: 9:00 – 18:00 Uhr</p>
-                    <span className={styles.methodAction}>+49&nbsp;123&nbsp;456&nbsp;789</span>
+                    <span className={styles.methodAction}>+49 123 456 789</span>
                   </div>
                 </div>
               </div>
-
+              {/* Antwortzeit */}
               <div className={styles.responseTime}>
                 <div className={styles.responseIcon}><span role="img" aria-hidden="true">⚡</span></div>
                 <div className={styles.responseContent}>
@@ -265,11 +270,11 @@ const ContactFinal: React.FC = () => {
                   <p className={styles.responseDescription}>Wir antworten innerhalb von 2 Stunden während der Geschäftszeiten.</p>
                 </div>
               </div>
-
+              {/* Tagline */}
               <div className={styles.tagline}>
-                <p>Jambo ist deine Brücke zwischen Deutschland &amp; Kenia – verlässlich, persönlich, schnell.</p>
+                <p>Jambo ist deine Brücke zwischen Deutschland & Kenia – verlässlich, persönlich, schnell.</p>
               </div>
-
+              {/* Route-Karte */}
               <div className={styles.mapContainer} data-aos="zoom-in" data-aos-delay="200">
                 <div className={styles.mapHeader}>
                   <h4 className={styles.mapTitle}>Unsere Route</h4>
@@ -278,7 +283,7 @@ const ContactFinal: React.FC = () => {
                 <div className={styles.mapImageContainer}>
                   <img
                     src={mapImage}
-                    alt="Logistik‑Route von Deutschland nach Nairobi, Kenia"
+                    alt="Logistik-Route von Deutschland nach Nairobi, Kenia"
                     className={styles.mapImage}
                     loading="lazy"
                   />
@@ -288,6 +293,7 @@ const ContactFinal: React.FC = () => {
           </div>
         </div>
 
+        {/* Rückruf-Modal */}
         {isCallbackOpen && (
           <div className={styles.modalOverlay} role="dialog" aria-modal="true" aria-labelledby="callbackTitle">
             <div className={styles.modalContent} data-aos="zoom-in">
