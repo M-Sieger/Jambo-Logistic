@@ -1,31 +1,58 @@
-import React from 'react';
+import React, {
+  useEffect,
+  useRef,
+  useState,
+} from 'react'; // ← useRef ergänzt!
 
-// Globale Stile für Buttons, Headlines etc.
+import {
+  CSSTransition,
+  SwitchTransition,
+} from 'react-transition-group';
+
 import globalStyles from '../styles/components.module.css';
-// Lokale Stile für diese Hero-Komponente
 import styles from './Hero.module.css';
 
-// Props-Schnittstelle für maximale Wiederverwendbarkeit
 interface HeroProps {
-  headline: string;                  // Hauptüberschrift (z. B. "Von deiner Tür nach Nairobi")
-  subline: string;                   // Unterzeile / Beschreibung
-  ctaLabel: string;                  // Text des Call-to-Action Buttons
-  onCTAClick?: () => void;          // Optional: eigener Click-Handler
-  imageUrl?: string;                // Optional: Hero-Hintergrundbild (als URL-String)
-  variant?: 'light' | 'dark';       // Farbschema (z. B. helle oder dunkle Schrift)
-  className?: string;               // Optionale zusätzliche CSS-Klassen
+  headline: string;
+  subline: string;
+  ctaLabel: string;
+  onCTAClick?: () => void;
+  imageUrl?: string;
+  variant?: 'light' | 'dark';
+  className?: string;
 }
 
 const Hero: React.FC<HeroProps> = ({
-  headline,
-  subline,
+  headline: _unusedHeadline,
+  subline: _unusedSubline,
   ctaLabel,
   onCTAClick,
   imageUrl,
   variant = 'dark',
   className = ''
 }) => {
-  // Wenn kein eigener CTA-Handler definiert ist → smooth scroll zu #contact
+  const translations = [
+    { lang: 'de', flag: '🇩🇪', headline: 'Von deiner Tür bis nach Nairobi.', subline: 'Klar. Schnell. Zuverlässig. Für dich nach Kenia.' },
+    { lang: 'en', flag: '🇬🇧', headline: 'From your door to Nairobi.', subline: 'Fast. Reliable. For you to Kenya.' },
+    { lang: 'sw', flag: '🇰🇪', headline: 'Kutoka mlangoni kwako hadi Nairobi.', subline: 'Haraka. Inayoweza kuaminiwa. Kwa ajili yako Kenya.' }
+  ];
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const nodeRef = useRef<HTMLDivElement>(null); // 🔁 nodeRef definieren
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % translations.length);
+    }, 7000);
+    return () => clearInterval(intervalId);
+  }, [translations.length]);
+
+  const handleLanguageClick = (index: number) => {
+    setCurrentIndex(index);
+  };
+
+  const { headline: currentHeadline, subline: currentSubline } = translations[currentIndex];
+
   const handleCTAClick = () => {
     if (onCTAClick) {
       onCTAClick();
@@ -38,32 +65,52 @@ const Hero: React.FC<HeroProps> = ({
   };
 
   return (
-    <section 
+    <section
       id="hero"
       className={`${styles.hero} ${styles[variant]} ${className}`}
-      style={{ 
-        // Bild als CSS-Hintergrundbild (wenn imageUrl gesetzt wurde)
+      style={{
         backgroundImage: imageUrl ? `url(${imageUrl})` : undefined,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat'
       }}
     >
-      {/* Halbtransparente Overlay-Schicht */}
       <div className={styles.overlay}>
         <div className={`${styles.container} container`}>
           <div className={styles.content}>
-            {/* Headline (dynamisch) */}
-            <h1 className={`${globalStyles.headline} ${variant === 'light' ? globalStyles.headline : globalStyles.headlineLight}`}>
-              {headline}
-            </h1>
+            <div className={styles.languageSwitcher}>
+              {translations.map((t, index) => (
+                <button
+                  key={t.lang}
+                  onClick={() => handleLanguageClick(index)}
+                  className={styles.flagButton}
+                  aria-label={`Sprache ${t.lang}`}
+                  type="button"
+                >
+                  {t.flag}
+                </button>
+              ))}
+            </div>
 
-            {/* Subline (dynamisch) */}
-            <p className={`${globalStyles.subline} ${variant === 'light' ? globalStyles.subline : globalStyles.sublineLight}`}>
-              {subline}
-            </p>
+            {/* ✅ Übergang mit nodeRef */}
+            <SwitchTransition>
+              <CSSTransition
+                key={currentIndex}
+                timeout={500}
+                classNames="fade"
+                nodeRef={nodeRef} // wichtig!
+              >
+                <div ref={nodeRef}>
+                  <h1 className={`${globalStyles.headline} ${variant === 'light' ? globalStyles.headline : globalStyles.headlineLight}`}>
+                    {currentHeadline}
+                  </h1>
+                  <p className={`${globalStyles.subline} ${variant === 'light' ? globalStyles.subline : globalStyles.sublineLight}`}>
+                    {currentSubline}
+                  </p>
+                </div>
+              </CSSTransition>
+            </SwitchTransition>
 
-            {/* Call-to-Action Button */}
             <div className={styles.ctaContainer}>
               <button
                 onClick={handleCTAClick}
@@ -76,8 +123,7 @@ const Hero: React.FC<HeroProps> = ({
           </div>
         </div>
       </div>
-      
-      {/* Scroll Indicator (kleiner Pfeil ↓) */}
+
       <div className={styles.scrollIndicator}>
         <div className={styles.scrollArrow}>
           <span>↓</span>
