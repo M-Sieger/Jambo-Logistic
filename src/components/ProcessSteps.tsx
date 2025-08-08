@@ -1,41 +1,23 @@
 import React from 'react';
 
-// Für den dritten Schritt nutzen wir das Containerbild (step3), da es die
-// Verladung & den Versand repräsentiert.
+// Schrittbilder
 import step1Image from '../assets/step1-anfrage.jpg';
 import step2Image from '../assets/step2-abholung.jpg';
 import step3Image from '../assets/step3-container.jpg';
-// Viertes Bild für die Ankunft & Übergabe in Nairobi
 import step4Image from '../assets/step4-nairobi.jpg';
 import styles from './ProcessSteps.module.css';
 
-/**
- * Typdefinition für einen einzelnen Prozessschritt, der vom Eltern‑
- * komponenten übergeben wird. Neben Titel und Beschreibung kann
- * optional ein Icon angegeben werden, damit bestehende Datenstrukturen
- * kompatibel bleiben.
- */
 type Step = {
   icon: string;
   title: string;
   description: string;
 };
 
-/**
- * Props für die ProcessSteps‑Komponente. Erwartet ein Array von
- * Schrittdefinitionen. Die Länge des Arrays sollte der Anzahl der
- * importierten Bilder entsprechen.
- */
 type ProcessStepsProps = {
   steps: Step[];
 };
 
-// Wir ordnen die importierten Bilder und Emoji‑Icons den einzelnen
-// Schritten zu. Die `stepIcons` nutzen gängige Transportsymbole, um
-// jede Phase visuell zu unterstützen, ohne externe Assets zu laden.
-// Reihenfolge: Anfrage (Briefumschlag), Abholung oder Anlieferung
-// (Lieferwagen), Verladung & Versand (Schiff), Ankunft & Übergabe
-// (Standort‑Pin).
+// Bild- & Emoji-Arrays für die Steps
 const stepImages = [step1Image, step2Image, step3Image, step4Image];
 const stepIcons = ['📩', '🚚', '🚢', '📍'];
 
@@ -52,14 +34,14 @@ const ProcessSteps: React.FC<ProcessStepsProps> = ({ steps }) => {
             data-aos="fade-up"
             data-aos-delay={i * 100}
           >
-            {/* Marker‑Spalte mit Punkt und Verbindungslinie */}
+            {/* Marker-Spalte (ohne Flaggenhintergrund) */}
             <div className={styles.marker} aria-hidden="true">
               <span className={styles.dot}></span>
               {i < steps.length - 1 && <span className={styles.line}></span>}
             </div>
-            {/* Inhaltsspalte */}
+
+            {/* Inhalt */}
             <div className={styles.cardContent}>
-              {/* Optionales Emoji‑Icon für die Phase */}
               <div className={styles.cardIcon} aria-hidden="true">
                 {stepIcons[i % stepIcons.length]}
               </div>
@@ -77,7 +59,7 @@ const ProcessSteps: React.FC<ProcessStepsProps> = ({ steps }) => {
         ))}
       </div>
 
-      {/* Call‑to‑Action – ermutigt Nutzer:innen zur ersten Lieferung */}
+      {/* CTA */}
       <div
         className={styles.ctaContainer}
         data-aos="zoom-in"
