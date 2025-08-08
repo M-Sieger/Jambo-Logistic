@@ -151,7 +151,6 @@
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url('/src/assets/kenyaflag.png');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
