@@ -1,28 +1,56 @@
-/* Design System Variables - Modern Warm Africa Theme */
+/* ========================================================================
+   Design Tokens – Jambo Logistics (Modern Warm Africa Theme)
+   ------------------------------------------------------------------------
+   Richtlinie:
+   • Farbvarianten in 100er Schritten (hell → dunkel)
+   • Spacing in 8px-Raster
+   • Konsistente Namenskonvention: --[thema]-[größe/stufe]
+   • Nur Tokens, keine Styles!
+   ======================================================================== */
+
+/* =========================
+   🎨 Farben
+   ========================= */
 :root {
-  /* Color Palette */
-  --color-primary: #e67e22;      /* CTA, hover, accents */
-  --color-secondary: #2c3e50;    /* footer, depth, sections */
-  --color-highlight: #f1c40f;    /* trust cues, visual hotspots */
-  --color-neutral-light: #fdfdfd; /* background */
-  --color-neutral-medium: #f5f5f5; /* whitespace */
-  --color-accent: #27ae60;       /* safety, environment, success */
-  
-  /* Extended Color Palette */
-  --color-primary-light: #f39c12;
-  --color-primary-dark: #d35400;
-  --color-secondary-light: #34495e;
-  --color-secondary-dark: #1a252f;
+  /* Primary Palette */
+  --color-primary-100: #fdf3e8;
+  --color-primary-300: #f5b97e;
+  --color-primary-500: #e67e22; /* CTA, hover, accents */
+  --color-primary-600: #d96f16;
+  --color-primary-700: #b85c11;
+
+  /* Secondary Palette */
+  --color-secondary-100: #e8ecf1;
+  --color-secondary-300: #6c7a89;
+  --color-secondary-500: #2c3e50; /* Footer, depth */
+  --color-secondary-700: #1a252f;
+
+  /* Highlight & Accents */
+  --color-highlight: #f1c40f;  /* Trust cues, hotspots */
+  --color-accent-500: #27ae60; /* Safety, success */
+
+  /* Neutral Tones */
+  --color-neutral-50: #fdfdfd;
+  --color-neutral-100: #f5f5f5;
+  --color-neutral-200: #ecf0f1;
+  --color-shadow: rgba(44, 62, 80, 0.1);
+
+  /* Text Colors */
   --color-text-primary: #2c3e50;
   --color-text-secondary: #7f8c8d;
   --color-text-light: #ffffff;
-  --color-border: #ecf0f1;
-  --color-shadow: rgba(44, 62, 80, 0.1);
-  
-  /* Typography */
-  --font-family-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-family-heading: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  
+
+  /* Borders */
+  --color-border: var(--color-neutral-200);
+}
+
+/* =========================
+   ✍️ Typographie
+   ========================= */
+:root {
+  --font-family-primary: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-family-heading: var(--font-family-primary);
+
   /* Font Sizes - Mobile First */
   --font-size-xs: 0.75rem;    /* 12px */
   --font-size-sm: 0.875rem;   /* 14px */
@@ -34,49 +62,76 @@
   --font-size-4xl: 2.25rem;   /* 36px */
   --font-size-5xl: 3rem;      /* 48px */
   --font-size-6xl: 3.75rem;   /* 60px */
-  
+
   /* Line Heights */
   --line-height-tight: 1.25;
   --line-height-normal: 1.5;
   --line-height-relaxed: 1.75;
-  
-  /* Spacing Scale */
-  --spacing-xs: 0.25rem;   /* 4px */
-  --spacing-sm: 0.5rem;    /* 8px */
+}
+
+/* =========================
+   📏 Spacing (8px Grid)
+   ========================= */
+:root {
+  --spacing-2xs: 0.25rem;  /* 4px */
+  --spacing-xs: 0.5rem;    /* 8px */
+  --spacing-sm: 0.75rem;   /* 12px */
   --spacing-md: 1rem;      /* 16px */
   --spacing-lg: 1.5rem;    /* 24px */
   --spacing-xl: 2rem;      /* 32px */
-  --spacing-2xl: 3rem;     /* 48px */
-  --spacing-3xl: 4rem;     /* 64px */
-  --spacing-4xl: 6rem;     /* 96px */
-  --spacing-5xl: 8rem;     /* 128px */
-  
-  /* Border Radius */
-  --radius-sm: 0.25rem;    /* 4px */
-  --radius-md: 0.5rem;     /* 8px */
-  --radius-lg: 0.75rem;    /* 12px */
-  --radius-xl: 1rem;       /* 16px */
-  --radius-2xl: 1.5rem;    /* 24px */
-  
-  /* Shadows */
+  --spacing-2xl: 2.5rem;   /* 40px */
+  --spacing-3xl: 3rem;     /* 48px */
+  --spacing-4xl: 4rem;     /* 64px */
+  --spacing-5xl: 5rem;     /* 80px */
+  --spacing-6xl: 6rem;     /* 96px */
+  --spacing-7xl: 7.5rem;   /* 120px */
+}
+
+/* =========================
+   🔲 Radius
+   ========================= */
+:root {
+  --radius-sm: 0.25rem;  /* 4px */
+  --radius-md: 0.5rem;   /* 8px */
+  --radius-lg: 0.75rem;  /* 12px */
+  --radius-xl: 1rem;     /* 16px */
+  --radius-2xl: 1.5rem;  /* 24px */
+}
+
+/* =========================
+   🌫 Shadows
+   ========================= */
+:root {
   --shadow-sm: 0 1px 2px 0 var(--color-shadow);
   --shadow-md: 0 4px 6px -1px var(--color-shadow);
   --shadow-lg: 0 10px 15px -3px var(--color-shadow);
   --shadow-xl: 0 20px 25px -5px var(--color-shadow);
-  
-  /* Transitions */
+}
+
+/* =========================
+   ⏱ Transitions
+   ========================= */
+:root {
   --transition-fast: 150ms ease-in-out;
   --transition-normal: 300ms ease-in-out;
   --transition-slow: 500ms ease-in-out;
-  
-  /* Container Widths */
+}
+
+/* =========================
+   📐 Container Widths
+   ========================= */
+:root {
   --container-sm: 640px;
   --container-md: 768px;
   --container-lg: 1024px;
-  --container-xl: 1280px;
+  --container-xl: 1200px;
   --container-2xl: 1536px;
-  
-  /* Z-Index Scale */
+}
+
+/* =========================
+   ⚙️ Z-Index Scale
+   ========================= */
+:root {
   --z-dropdown: 1000;
   --z-sticky: 1020;
   --z-fixed: 1030;
@@ -86,20 +141,20 @@
   --z-tooltip: 1070;
 }
 
-/* Responsive Typography */
+/* =========================
+   📱 Responsive Typo Adjust
+   ========================= */
 @media (min-width: 768px) {
   :root {
-    --font-size-3xl: 2.25rem;  /* 36px */
-    --font-size-4xl: 3rem;     /* 48px */
-    --font-size-5xl: 4rem;     /* 64px */
-    --font-size-6xl: 4.5rem;   /* 72px */
+    --font-size-3xl: 2.25rem; /* 36px */
+    --font-size-4xl: 3rem;    /* 48px */
+    --font-size-5xl: 4rem;    /* 64px */
+    --font-size-6xl: 4.5rem;  /* 72px */
   }
 }
-
 @media (min-width: 1024px) {
   :root {
-    --font-size-5xl: 4.5rem;   /* 72px */
-    --font-size-6xl: 5rem;     /* 80px */
+    --font-size-5xl: 4.5rem; /* 72px */
+    --font-size-6xl: 5rem;   /* 80px */
   }
 }
-
