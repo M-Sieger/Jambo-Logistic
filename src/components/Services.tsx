@@ -1,6 +1,11 @@
 import React from 'react';
 
 import beratungImg from '../assets/beratung.jpeg';
+import boxImg from '../assets/boxload.jpg';
+import containerImg from '../assets/containerload.jpeg';
+import servicesBg from '../assets/services-bg-savanna.jpg';
+import householdImg from '../assets/warehouse.jpg';
+import clothingImg from '../assets/worker-smiling.jpg';
 import globalStyles from '../styles/components.module.css';
 import {
   animations,
@@ -8,47 +13,43 @@ import {
 } from '../utils/animations';
 import styles from './Services.module.css';
 
-// Definiere hier die vier Versandarten mit aussagekräftigen Texten und Realbildern
 const services = [
   {
     title: "Paketversand",
     description: "Kleine Sendungen sicher & schnell nach Afrika – ab 30 €.",
-    imageUrl: "/src/assets/boxload.jpg",
+    imageUrl: boxImg, // ✅ Import statt /src/
     alt: "Paketsendung nach Afrika",
   },
   {
     title: "Containertransport",
     description: "Großmengen & Paletten direkt im Container – ab 500 €.",
-    imageUrl: "/src/assets/containerload.jpeg",
+    imageUrl: containerImg,
     alt: "Containertransport nach Afrika",
   },
   {
     title: "Haushaltswaren & Elektronik",
     description: "Waschmaschinen, Kühlschränke & mehr bequem verschicken – ab 150 €.",
-    imageUrl: "/src/assets/warehouse.jpg",
+    imageUrl: householdImg,
     alt: "Haushaltsgeräte im Lager",
   },
   {
     title: "Kleidung & Textilien",
     description: "Mode & Stoffe in jede Ecke Kenias – ab 50 €.",
-    imageUrl: "/src/assets/worker-smiling.jpg",
+    imageUrl: clothingImg,
     alt: "Kleidungspakete für Afrika",
   },
 ];
 
 const Services: React.FC = () => {
-  // Klick-Handler – optionaler Scroll zum Kontaktbereich
-  const handleServiceClick = (service: any) => {
-    const contactElement = document.getElementById("contact");
-    contactElement?.scrollIntoView({ behavior: "smooth" });
+  const handleServiceClick = () => {
+    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
     <section id="services" className={`${styles.services} section`}>
-      {/* Hintergrundbild, etwas kräftiger */}
       <div className={styles.backgroundContainer}>
         <img
-          src="/src/assets/services-bg-savanna.jpg"
+          src={servicesBg} // ✅ Import statt /src/
           alt="Hintergrund Savanne"
           className={styles.backgroundImage}
           loading="lazy"
@@ -56,7 +57,6 @@ const Services: React.FC = () => {
       </div>
 
       <div className={`${styles.container} container`}>
-        {/* Überschrift & Untertitel */}
         <div className={styles.header} {...createAOSProps(animations.fadeUp())}>
           <h2 className={styles.sectionTitle}>Unsere Services</h2>
           <p className={styles.subtitle}>
@@ -64,19 +64,18 @@ const Services: React.FC = () => {
           </p>
         </div>
 
-        {/* Grid der Versandarten */}
         <div className={`${styles.servicesGrid}`}>
           {services.map((service, index) => (
             <div
               key={service.title}
               className={`${styles.serviceCard} ${globalStyles.cardInteractive}`}
-              onClick={() => handleServiceClick(service)}
+              onClick={handleServiceClick}
               role="button"
               tabIndex={0}
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
-                  handleServiceClick(service);
+                  handleServiceClick();
                 }
               }}
               aria-label={`Mehr über ${service.title} erfahren`}
@@ -98,7 +97,6 @@ const Services: React.FC = () => {
           ))}
         </div>
 
-        {/* Zusatz-CTA für unsichere Kunden */}
         <div className={styles.contactPrompt} {...createAOSProps(animations.fadeUp(300))}>
           <p className={styles.whatsappPrompt}>Nicht sicher, ob dein Paket geht?</p>
           <a
@@ -111,11 +109,7 @@ const Services: React.FC = () => {
           </a>
         </div>
 
-        {/* CTA-Karte am Ende */}
-        <section
-          className={styles.ctaSection}
-          {...createAOSProps(animations.fadeUp(400))}
-        >
+        <section className={styles.ctaSection} {...createAOSProps(animations.fadeUp(400))}>
           <div className={styles.ctaCard}>
             <img
               src={beratungImg}
@@ -128,12 +122,11 @@ const Services: React.FC = () => {
                 Individuelle Beratung für Ihren Versand
               </h3>
               <p className={styles.ctaDescription}>
-                Unser erfahrenes Team hilft Ihnen persönlich – per Telefon, WhatsApp oder E‑Mail.
+                Unser erfahrenes Team hilft Ihnen persönlich – per Telefon, WhatsApp oder E-Mail.
               </p>
               <button
                 onClick={() => {
-                  const contactElement = document.getElementById("contact");
-                  contactElement?.scrollIntoView({
+                  document.getElementById("contact")?.scrollIntoView({
                     behavior: "smooth",
                     block: "start",
                   });

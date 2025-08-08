@@ -1,9 +1,11 @@
 import React from 'react';
 
+import aboutImg from '../assets/aboutsection1.jpeg'; // ✅ Bild jetzt per Import
+import fallbackImg
+  from '../assets/boxload.jpg';     // ✅ Fallback-Bild per Import
 import styles from './AboutBox.module.css';
 
 const AboutBox: React.FC = () => {
-  // Scroll-Funktion für CTA-Button
   const scrollToServices = () => {
     const servicesElement = document.getElementById('services');
     if (servicesElement) {
@@ -14,18 +16,15 @@ const AboutBox: React.FC = () => {
   return (
     <div className={styles.aboutBox}>
       <div className={styles.content}>
-        {/* Headline */}
         <h2 className={styles.headline} data-aos="fade-up">
           Unsere Mission: Verbindungen schaffen, die Welten bewegen.
         </h2>
 
-        {/* Mission-Text */}
         <p className={styles.missionText} data-aos="fade-up" data-aos-delay="100">
           Wir bringen Menschen zusammen – mit smarten, bezahlbaren Versandlösungen zwischen Europa und Afrika. 
           Verlässlich, schnell und mit Herz.
         </p>
 
-        {/* 3 Werte-Boxen */}
         <div className={styles.valuesContainer} data-aos="fade-up" data-aos-delay="200">
           <div className={styles.valueCard}>
             <div className={styles.valueIcon}>🌍</div>
@@ -52,7 +51,6 @@ const AboutBox: React.FC = () => {
           </div>
         </div>
 
-        {/* CTA-Button */}
         <div className={styles.ctaContainer} data-aos="fade-up" data-aos-delay="300">
           <button 
             className={styles.ctaButton}
@@ -63,16 +61,13 @@ const AboutBox: React.FC = () => {
         </div>
       </div>
 
-      {/* Bild */}
       <div className={styles.image} data-aos="fade-left" data-aos-delay="200">
         <img 
-          src="/assets/aboutsection1.jpeg" 
+          src={aboutImg}
           alt="Warehouse in Nairobi - Jumbo Logistics Standort"
           className={styles.imageElement}
           onError={(e) => {
-            // Fallback auf boxload.jpg falls warehouse-nairobi.jpg nicht existiert
-            const target = e.target as HTMLImageElement;
-            target.src = "/assets/boxload.jpg";
+            (e.target as HTMLImageElement).src = fallbackImg;
           }}
         />
       </div>
