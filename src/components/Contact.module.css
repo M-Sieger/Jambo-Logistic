@@ -1,11 +1,12 @@
 /*
- * Contact.module.css – refined styles for the contact section.
- *
- * Ivy-Polish: Tiefenstaffelung, cremiger Hintergrund, dotted Vertikaltrenner.
- * Pattern wurde entfernt für einen cleaneren Look.
+ * Contact.module.css – refined styles für die Kontakt-Sektion
+ * Ziel: Ivy-Polish – Tiefe, warme Farbverläufe, klare Trennung, dotted Divider
+ * Pattern-Hintergründe entfernt für einen cleaneren, professionellen Look
  */
 
+/* ====== SECTION WRAPPER ====== */
 .contact {
+  /* Weicher Farbverlauf – wirkt warm und einladend */
   background: linear-gradient(
     180deg,
     rgba(250, 244, 234, 1) 0%,
@@ -15,12 +16,14 @@
   position: relative;
 }
 
+/* ====== SECTION CONTAINER ====== */
 .container {
   max-width: var(--container-xl);
   margin: 0 auto;
   padding: 0 var(--spacing-md);
 }
 
+/* ====== HEADER (Titel + Untertitel) ====== */
 .header {
   text-align: center;
   margin-bottom: var(--spacing-3xl);
@@ -34,20 +37,22 @@
   line-height: var(--line-height-relaxed);
 }
 
+/* ====== GRID LAYOUT (Form + Divider + Info) ====== */
 .content {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1fr; /* Mobile: einspaltig */
   gap: var(--spacing-4xl);
   position: relative;
 }
 
+/* ====== VERTIKALER TRENNER (nur Desktop sichtbar) ====== */
 .verticalDivider {
-  display: none;
+  display: none; /* Standard: ausblenden */
 }
 
 @media (min-width: 768px) {
   .content {
-    grid-template-columns: 1fr auto 1fr;
+    grid-template-columns: 1fr auto 1fr; /* Form – Divider – Info */
     gap: var(--spacing-5xl);
     align-items: flex-start;
   }
@@ -73,13 +78,13 @@
   }
 }
 
+/* ====== FORM BEREICH ====== */
 .formSection {
-  order: 1;
+  order: 1; /* Mobile: zuerst */
 }
 
-/* Pattern entfernt – nur noch clean background-color */
 .formContainer {
-  background-color: var(--color-neutral-light);
+  background-color: var(--color-neutral-light); /* Clean Look */
   padding: var(--spacing-2xl);
   border-radius: var(--radius-2xl);
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
@@ -87,6 +92,7 @@
   margin-top: var(--spacing-xl);
 }
 
+/* ====== INFO BEREICH ====== */
 .infoSection {
   order: 2;
 }
@@ -99,6 +105,7 @@
   border: 1px solid rgba(0, 0, 0, 0.04);
 }
 
+/* ====== ZITATKARTE (Testimonial) ====== */
 .quoteCard {
   margin-top: var(--spacing-3xl);
   border-top: 1px dotted rgba(0, 0, 0, 0.1);

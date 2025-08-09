@@ -1,6 +1,7 @@
 import React from 'react';
-import styles from './Footer.module.css';
+
 import globalStyles from '../styles/components.module.css';
+import styles from './Footer.module.css';
 
 interface FooterProps {
   langSwitch?: boolean;
@@ -18,99 +19,98 @@ interface SocialLink {
   icon: string;
 }
 
-const Footer: React.FC<FooterProps> = ({ langSwitch = false, className = '' }) => {
+const Footer: React.FC<FooterProps> = ({ langSwitch = false, className = "" }) => {
   const currentYear = new Date().getFullYear();
 
+  // ⚠️ "Process" verweist auf die Steps-Section (#steps)
   const quickLinks: FooterLink[] = [
-    { label: 'Services', href: '#services' },
-    { label: 'Process', href: '#process' },
-    { label: 'About Us', href: '#about' },
-    { label: 'Contact', href: '#contact' },
+    { label: "Services", href: "#services" },
+    { label: "Process", href: "#steps" },
+    { label: "About Us", href: "#about" },
+    { label: "Contact", href: "#contact" },
   ];
 
   const legalLinks: FooterLink[] = [
-    { label: 'Privacy Policy', href: '/privacy' },
-    { label: 'Terms of Service', href: '/terms' },
-    { label: 'Imprint', href: '/imprint' },
+    { label: "Privacy Policy", href: "/privacy" },
+    { label: "Terms of Service", href: "/terms" },
+    { label: "Imprint", href: "/imprint" },
   ];
 
   const socialLinks: SocialLink[] = [
-    { label: 'WhatsApp', href: 'https://wa.me/491234567890', icon: '📱' },
-    { label: 'Email', href: 'mailto:kontakt@jambologistics.com', icon: '✉️' },
-    { label: 'LinkedIn', href: '#', icon: '💼' },
+    { label: "WhatsApp", href: "https://wa.me/491234567890", icon: "📱" },
+    { label: "Email", href: "mailto:kontakt@jambologistics.com", icon: "✉️" },
+    { label: "LinkedIn", href: "#", icon: "💼" },
   ];
 
   const handleLinkClick = (href: string) => {
-    if (href.startsWith('#')) {
-      const element = document.querySelector(href);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
+    if (href.startsWith("#")) {
+      const el = document.querySelector(href);
+      if (el) el.scrollIntoView({ behavior: "smooth" });
     } else {
-      window.open(href, '_blank', 'noopener noreferrer');
+      window.open(href, "_blank", "noopener,noreferrer");
     }
   };
 
   return (
-    <footer className={`${styles.footer} ${className}`}>
-      <div className={`${styles.container} container`}>
-        {/* Main Footer Content */}
+    // Globaler Layout-Rahmen: konsistenter vertikaler Rhythmus
+    <footer className={`section section--alt ${styles.footer} ${className}`} role="contentinfo">
+      <div className="container">
+        {/* Hauptbereich des Footers */}
         <div className={styles.footerContent}>
           {/* Company Info */}
-          <div className={styles.companySection}>
-            <div className={styles.logo}>
+          <section className={styles.companySection} aria-label="Unternehmensinformationen">
+            <div className={styles.logo} aria-label="Jumbo Logistics">
               <span className={styles.logoText}>Jumbo</span>
               <span className={styles.logoAccent}>Logistics</span>
             </div>
             <p className={styles.companyDescription}>
-              Verbindet Menschen und Märkte zwischen Deutschland und Ostafrika. 
+              Verbindet Menschen und Märkte zwischen Deutschland und Ostafrika.
               Zuverlässiger Transport von Tür zu Tür.
             </p>
-            <div className={styles.countryFlags}>
+            <div className={styles.countryFlags} aria-label="Standorte">
               <div className={styles.countryFlag}>
-                <span className={styles.flagEmoji}>🇩🇪</span>
+                <span className={styles.flagEmoji} aria-hidden="true">🇩🇪</span>
                 <span className={styles.countryName}>Deutschland</span>
               </div>
               <div className={styles.countryFlag}>
-                <span className={styles.flagEmoji}>🇰🇪</span>
+                <span className={styles.flagEmoji} aria-hidden="true">🇰🇪</span>
                 <span className={styles.countryName}>Kenia</span>
               </div>
             </div>
-          </div>
+          </section>
 
           {/* Quick Links */}
-          <div className={styles.linksSection}>
+          <nav className={styles.linksSection} aria-label="Schnellzugriff">
             <h3 className={styles.sectionTitle}>Quick Links</h3>
             <ul className={styles.linksList}>
               {quickLinks.map((link) => (
                 <li key={link.label}>
                   <button
+                    type="button"
                     onClick={() => handleLinkClick(link.href)}
                     className={styles.footerLink}
+                    aria-label={`Gehe zu ${link.label}`}
                   >
                     {link.label}
                   </button>
                 </li>
               ))}
             </ul>
-          </div>
+          </nav>
 
           {/* Contact Info */}
-          <div className={styles.contactSection}>
+          <section className={styles.contactSection} aria-label="Kontaktinformationen">
             <h3 className={styles.sectionTitle}>Contact</h3>
             <div className={styles.contactInfo}>
               <div className={styles.contactItem}>
-                <span className={styles.contactIcon}>📧</span>
-                <a 
-                  href="mailto:kontakt@jambologistics.com"
-                  className={styles.contactLink}
-                >
+                <span className={styles.contactIcon} aria-hidden="true">📧</span>
+                <a href="mailto:kontakt@jambologistics.com" className={styles.contactLink}>
                   kontakt@jambologistics.com
                 </a>
               </div>
               <div className={styles.contactItem}>
-                <span className={styles.contactIcon}>📱</span>
-                <a 
+                <span className={styles.contactIcon} aria-hidden="true">📱</span>
+                <a
                   href="https://wa.me/491234567890"
                   className={styles.contactLink}
                   target="_blank"
@@ -120,16 +120,14 @@ const Footer: React.FC<FooterProps> = ({ langSwitch = false, className = '' }) =
                 </a>
               </div>
               <div className={styles.contactItem}>
-                <span className={styles.contactIcon}>📍</span>
-                <span className={styles.contactText}>
-                  Köln, Deutschland & Nairobi, Kenya
-                </span>
+                <span className={styles.contactIcon} aria-hidden="true">📍</span>
+                <span className={styles.contactText}>Köln, Deutschland &amp; Nairobi, Kenya</span>
               </div>
             </div>
-          </div>
+          </section>
 
           {/* Social Links */}
-          <div className={styles.socialSection}>
+          <nav className={styles.socialSection} aria-label="Soziale Kanäle">
             <h3 className={styles.sectionTitle}>Connect</h3>
             <div className={styles.socialLinks}>
               {socialLinks.map((social) => (
@@ -141,30 +139,30 @@ const Footer: React.FC<FooterProps> = ({ langSwitch = false, className = '' }) =
                   rel="noopener noreferrer"
                   aria-label={social.label}
                 >
-                  <span className={styles.socialIcon}>{social.icon}</span>
+                  <span className={styles.socialIcon} aria-hidden="true">{social.icon}</span>
                   <span className={styles.socialLabel}>{social.label}</span>
                 </a>
               ))}
             </div>
-          </div>
+          </nav>
         </div>
 
-        {/* Language Switch (Future Feature) */}
+        {/* Language Switch (optional) */}
         {langSwitch && (
-          <div className={styles.languageSwitch}>
+          <section className={styles.languageSwitch} aria-label="Sprachauswahl">
             <h4 className={styles.languageSwitchTitle}>Language / Sprache / Lugha</h4>
             <div className={styles.languageOptions}>
-              <button className={`${styles.languageOption} ${styles.languageOptionActive}`}>
+              <button type="button" className={`${styles.languageOption} ${styles.languageOptionActive}`}>
                 🇩🇪 Deutsch
               </button>
-              <button className={styles.languageOption}>
+              <button type="button" className={styles.languageOption}>
                 🇬🇧 English
               </button>
-              <button className={styles.languageOption}>
+              <button type="button" className={styles.languageOption}>
                 🇰🇪 Kiswahili
               </button>
             </div>
-          </div>
+          </section>
         )}
 
         {/* Footer Bottom */}
@@ -176,14 +174,14 @@ const Footer: React.FC<FooterProps> = ({ langSwitch = false, className = '' }) =
             {legalLinks.map((link, index) => (
               <React.Fragment key={link.label}>
                 <button
+                  type="button"
                   onClick={() => handleLinkClick(link.href)}
                   className={styles.legalLink}
+                  aria-label={`Öffne ${link.label}`}
                 >
                   {link.label}
                 </button>
-                {index < legalLinks.length - 1 && (
-                  <span className={styles.linkSeparator}>•</span>
-                )}
+                {index < legalLinks.length - 1 && <span className={styles.linkSeparator}>•</span>}
               </React.Fragment>
             ))}
           </div>
@@ -191,14 +189,14 @@ const Footer: React.FC<FooterProps> = ({ langSwitch = false, className = '' }) =
       </div>
 
       {/* Sticky Mobile CTA */}
-      <div className={styles.stickyMobileCta}>
+      <div className={styles.stickyMobileCta} aria-hidden="false">
         <a
           href="https://wa.me/491234567890"
           className={`${globalStyles.buttonPrimary} ${styles.whatsappButton}`}
           target="_blank"
           rel="noopener noreferrer"
         >
-          <span className={styles.whatsappIcon}>📱</span>
+          <span className={styles.whatsappIcon} aria-hidden="true">📱</span>
           WhatsApp
         </a>
       </div>
@@ -207,4 +205,3 @@ const Footer: React.FC<FooterProps> = ({ langSwitch = false, className = '' }) =
 };
 
 export default Footer;
-

@@ -1,7 +1,7 @@
 /*
- * Styles für die ProcessSteps‑Komponente.
- * Warmes, modernes Erscheinungsbild im IVY‑Stil. Die Timeline wird
- * ab 1025 px Breite horizontal mit Pfeilführung umgesetzt; darunter
+ * Styles für die ProcessSteps-Komponente.
+ * Warmes, modernes Erscheinungsbild im IVY-Stil. Die Timeline wird
+ * ab 1025 px Breite horizontal mit Pfeilführung umgesetzt; darunter
  * bleibt sie vertikal mit Punkten und Linie.
  */
 
@@ -83,7 +83,7 @@
   border-color: rgba(249, 115, 22, 0.4);
 }
 
-/* Emoji‑Icon */
+/* Emoji-Icon */
 .cardIcon {
   font-size: 2rem;
   margin-bottom: 0.5rem;
@@ -273,7 +273,7 @@
   }
 }
 
-/* Horizontale Timeline mit Pfeilführung ab 1025 px */
+/* Horizontale Timeline mit Pfeilführung ab 1025 px */
 @media (min-width: 1025px) {
   /* Timeline wird nebeneinander angeordnet */
   .timeline {
@@ -283,7 +283,7 @@
     max-width: 1200px;
   }
 
-  /* Jede Timeline‑Item nimmt gleich viel Breite ein */
+  /* Jede Timeline-Item nimmt gleich viel Breite ein */
   .timelineItem {
     flex-direction: column;
     align-items: center;

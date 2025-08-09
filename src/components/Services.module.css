@@ -1,35 +1,48 @@
-/* Section Wrapper */
+/* Services.module.css — B1-konform: Section/Container global, Inhalt modular */
+
+/* Komponenten-Root */
 .services {
-  background-color: #fdfaf5;
   position: relative;
   z-index: 1;
-  padding: var(--spacing-4xl) 0;
 }
 
-.container {
-  max-width: var(--container-xl);
-  margin: 0 auto;
-  padding: 0 var(--spacing-md);
-  position: relative;
-  z-index: 2;
+/* Full-bleed Hintergrund unter dem Inhalt */
+.bgWrap {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+}
+.bgImg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0.25;
+  filter: brightness(0.8) contrast(1.2) blur(0.4px);
+  transition: all var(--transition-slow);
+  z-index: 0;
 }
 
 /* Headerbereich */
 .header {
+  position: relative;
+  z-index: 1;
   text-align: center;
   margin-bottom: var(--spacing-4xl);
 }
-
 .sectionTitle {
-  color: #2c3e50; /* passt zur CTA-Farbe */
+  color: #2c3e50;
   font-size: var(--font-size-4xl);
   font-weight: 800;
   text-align: center;
   margin-bottom: var(--spacing-md);
 }
-
 .subtitle {
-  color: #5a6c7d; /* angenehm dunkles Grau */
+  color: #5a6c7d;
   font-size: var(--font-size-lg);
   text-align: center;
   max-width: 600px;
@@ -39,6 +52,8 @@
 
 /* Services Grid */
 .servicesGrid {
+  position: relative;
+  z-index: 1;
   display: grid;
   gap: var(--spacing-3xl);
   margin-bottom: var(--spacing-4xl);
@@ -58,19 +73,17 @@
   box-shadow: var(--shadow-md);
   transform-origin: center center;
   z-index: 0;
+  background: transparent;
 }
-
 .serviceCard:hover {
   transform: scale(1.04);
   box-shadow: 0 16px 32px rgba(0, 0, 0, 0.3);
   z-index: 10;
 }
-
 .serviceCard:hover .cardAction {
   color: #ffc107;
   text-shadow: 0 0 6px rgba(255, 193, 7, 0.4);
 }
-
 .serviceCard:hover .cardBackground::after {
   background: linear-gradient(
     135deg,
@@ -81,19 +94,15 @@
   transition: background 0.4s ease;
 }
 
-/* Background Photo */
+/* Background Photo (pro Card) */
 .cardBackground {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   z-index: 1;
 }
-
 .cardBackground::after {
   content: "";
   position: absolute;
@@ -118,7 +127,6 @@
   justify-content: flex-end;
   color: white;
 }
-
 .cardTitle {
   font-size: var(--font-size-xl);
   font-weight: 700;
@@ -127,7 +135,6 @@
   line-height: 1.3;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
-
 .cardDescription {
   font-size: var(--font-size-base);
   color: rgba(255, 255, 255, 0.9);
@@ -136,7 +143,6 @@
   flex: 1;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
-
 .cardAction {
   display: inline-flex;
   align-items: center;
@@ -148,75 +154,98 @@
   transition: all 0.2s ease;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
-
-.cardAction:hover .actionArrow {
-  transform: translateX(4px);
+.actionText {
+  display: inline-block;
 }
-
 .actionArrow {
   font-size: var(--font-size-lg);
   transition: transform 0.2s ease;
 }
+.cardAction:hover .actionArrow {
+  transform: translateX(4px);
+}
 
 /* Extra CTA unter Cards */
 .contactPrompt {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: var(--spacing-3xl) 0;
   gap: var(--spacing-sm);
 }
-
 .whatsappPrompt {
   font-size: var(--font-size-lg);
   color: #2c3e50;
   font-weight: 600;
 }
-
 .whatsappButton {
   min-width: 200px;
 }
 
-/* CTA-Karte */
+/* CTA-Karte (unter der Grid-Sektion) */
 .ctaSection {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 960px;
+  margin: var(--spacing-5xl) auto 0;
   background-color: hsla(37, 90%, 96%, 0.96);
   border: 1px solid rgba(44, 62, 80, 0.08);
   border-radius: var(--radius-2xl);
-  padding: var(--spacing-4xl) var(--spacing-xl);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
-  margin-top: var(--spacing-5xl);
-  text-align: center;
-  max-width: 960px;
-  margin-left: auto;
-  margin-right: auto;
-  position: relative;
-  z-index: 2;
+  padding: var(--spacing-4xl) var(--spacing-xl);
 }
-
-/* ... CTA card styles bleiben unverändert (vgl. bestehendes CSS) ... */
-
-/* Hintergrundbild kräftiger */
-.backgroundContainer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  overflow: hidden;
-  z-index: 0;
-  pointer-events: none;
+/* CTA Card Inhalt */
+.ctaCard {
+  display: grid;
+  gap: var(--spacing-xl);
+  align-items: center;
 }
-
-.backgroundImage {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+@media (min-width: 768px) {
+  .ctaCard {
+    grid-template-columns: 320px 1fr;
+  }
+}
+.ctaImage {
   width: 100%;
-  height: 100%;
+  height: 220px;
   object-fit: cover;
-  opacity: 0.25; /* höher als vorher für mehr Tiefe */
-  filter: brightness(0.8) contrast(1.2) blur(0.4px);
-  transition: all var(--transition-slow);
-  z-index: 0;
+  object-position: center;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+}
+.ctaTextBlock {
+  text-align: left;
+}
+.ctaTitle {
+  font-size: var(--font-size-2xl);
+  font-weight: 800;
+  color: #2c3e50;
+  margin-bottom: var(--spacing-sm);
+}
+.ctaDescription {
+  font-size: var(--font-size-base);
+  color: #5a6c7d;
+  line-height: var(--line-height-relaxed);
+  margin-bottom: var(--spacing-lg);
+}
+.ctaButtonLarge {
+  min-width: 220px;
+}
+
+/* Responsiveness (nur komponenten-intern) */
+@media (max-width: 767px) {
+  .servicesGrid {
+    gap: var(--spacing-2xl);
+    margin-bottom: var(--spacing-3xl);
+  }
+  .ctaSection {
+    padding: var(--spacing-3xl) var(--spacing-lg);
+    margin-top: var(--spacing-4xl);
+  }
+  .ctaImage {
+    height: 180px;
+  }
 }
