@@ -17,6 +17,7 @@ import Contact from './components/Contact';
 import Hero from './components/Hero';
 import ProcessSteps from './components/ProcessSteps';
 import Services from './components/Services';
+import TrustSection from './components/TrustSection';
 import DefaultLayout from './layouts/DefaultLayout';
 
 const App: React.FC = () => {
@@ -82,6 +83,21 @@ const App: React.FC = () => {
         variant="light"
         imagePosition="right"
       />
+
+
+    <section id="trust" className="section section--alt">
+  <div className="container">
+    <TrustSection
+      showLogos={false}           // später true + partners übergeben
+      withQuote={true}
+      emphasisIndex={0}
+    />
+  </div>
+</section>
+
+
+
+
 
       <Contact
         whatsappUrl="https://wa.me/491234567890"
