@@ -1,251 +1,211 @@
-/* Services.module.css — B1-konform: Section/Container global, Inhalt modular */
+/* Services.module.css — Modern Warm Africa
+ * Ziel: Card-Images kompakter (16:9), max-height am Desktop, CLS-frei, CTA unverändert
+ */
 
-/* Komponenten-Root */
-.services {
-  position: relative;
-  z-index: 1;
-}
+/* Root */
+.services { position: relative; z-index: 1; }
 
-/* Full-bleed Hintergrund unter dem Inhalt */
-.bgWrap {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  z-index: 0;
-  pointer-events: none;
-}
-.bgImg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  opacity: 0.25;
-  filter: brightness(0.8) contrast(1.2) blur(0.4px);
-  transition: all var(--transition-slow);
-  z-index: 0;
-}
-
-/* Headerbereich */
+/* Header */
 .header {
   position: relative;
   z-index: 1;
   text-align: center;
-  margin-bottom: var(--spacing-4xl);
+  margin-bottom: var(--spacing-4xl, 48px);
 }
 .sectionTitle {
-  color: #2c3e50;
-  font-size: var(--font-size-4xl);
+  color: var(--color-secondary, #2c3e50);
+  font-size: var(--font-size-4xl, 2rem);
   font-weight: 800;
-  text-align: center;
-  margin-bottom: var(--spacing-md);
-}
-.subtitle {
-  color: #5a6c7d;
-  font-size: var(--font-size-lg);
-  text-align: center;
-  max-width: 600px;
-  margin: 0 auto var(--spacing-3xl);
-  line-height: var(--line-height-relaxed);
+  margin: 0;
 }
 
-/* Services Grid */
+/* Grid */
 .servicesGrid {
   position: relative;
   z-index: 1;
   display: grid;
-  gap: var(--spacing-3xl);
-  margin-bottom: var(--spacing-4xl);
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--spacing-3xl, 32px);
+  margin-bottom: var(--spacing-4xl, 48px);
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 }
 
-/* Service Card */
+/* Card */
 .serviceCard {
   position: relative;
   display: flex;
   flex-direction: column;
-  min-height: 320px;
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-xl, 16px);
   overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.4s ease, box-shadow 0.4s ease, z-index 0.2s ease;
-  box-shadow: var(--shadow-md);
-  transform-origin: center center;
-  z-index: 0;
-  background: transparent;
+  background: #fff;
+  box-shadow: var(--shadow-md, 0 10px 24px rgba(15,23,42,0.12));
+  transition: transform var(--transition-fast, 180ms) ease,
+              box-shadow var(--transition-fast, 180ms) ease;
 }
-.serviceCard:hover {
-  transform: scale(1.04);
-  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.3);
-  z-index: 10;
-}
-.serviceCard:hover .cardAction {
-  color: #ffc107;
-  text-shadow: 0 0 6px rgba(255, 193, 7, 0.4);
-}
-.serviceCard:hover .cardBackground::after {
-  background: linear-gradient(
-    135deg,
-    rgba(0, 0, 0, 0.6) 0%,
-    rgba(0, 0, 0, 0.3) 50%,
-    rgba(0, 0, 0, 0.4) 100%
-  );
-  transition: background 0.4s ease;
+.serviceCard:hover,
+.serviceCard:focus-visible {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: var(--shadow-lg, 0 16px 32px rgba(15,23,42,0.18));
+  outline: none;
 }
 
-/* Background Photo (pro Card) */
-.cardBackground {
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  z-index: 1;
-}
-.cardBackground::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(0, 0, 0, 0.7) 0%,
-    rgba(0, 0, 0, 0.4) 50%,
-    rgba(0, 0, 0, 0.6) 100%
-  );
-  z-index: 2;
-}
-
-/* Card Content */
-.cardContent {
+/* Bild — kompakt:
+   - 16:9 aspect-ratio
+   - max-height Desktop 220px (wirkt ruhiger)
+   - mobil automatisch 100% Breite, geringere Höhe
+*/
+.cardImageWrap {
   position: relative;
-  z-index: 3;
-  padding: var(--spacing-xl);
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  color: white;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  max-height: 220px;             /* << reduziert optische Höhe am Desktop */
+  overflow: hidden;
+  background: #f5f5f5;
 }
+.cardImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Text */
 .cardTitle {
-  font-size: var(--font-size-xl);
+  /* Falls Text unter dem Bild steht: dunkler Text */
+  color: var(--color-secondary, #2c3e50);
   font-weight: 700;
-  color: white;
-  margin-bottom: var(--spacing-sm);
+  font-size: var(--font-size-xl, 1.125rem);
+  margin: var(--spacing-md, 12px) var(--spacing-lg, 16px) 0;
   line-height: 1.3;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 .cardDescription {
-  font-size: var(--font-size-base);
-  color: rgba(255, 255, 255, 0.9);
-  line-height: 1.6;
-  margin-bottom: var(--spacing-lg);
-  flex: 1;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  color: rgba(15,23,42,0.78);
+  font-size: var(--font-size-base, 1rem);
+  margin: 4px var(--spacing-lg, 16px) var(--spacing-md, 12px);
+  white-space: nowrap;      /* 1‑Zeile */
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
+/* Sekundäre Aktion */
 .cardAction {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: #ffa726;
+  color: #e67e22;
   font-weight: 600;
-  font-size: var(--font-size-base);
-  margin-top: auto;
-  transition: all 0.2s ease;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  font-size: var(--font-size-base, 1rem);
+  margin: 0 var(--spacing-lg, 16px) var(--spacing-lg, 16px);
+  transition: transform var(--transition-fast, 180ms) ease, color var(--transition-fast, 180ms) ease;
 }
-.actionText {
-  display: inline-block;
-}
-.actionArrow {
-  font-size: var(--font-size-lg);
-  transition: transform 0.2s ease;
-}
-.cardAction:hover .actionArrow {
-  transform: translateX(4px);
-}
+.actionText { display: inline-block; }
+.actionArrow { transition: transform var(--transition-fast, 180ms) ease; }
+.cardAction:hover .actionArrow { transform: translateX(4px); }
 
-/* Extra CTA unter Cards */
-.contactPrompt {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: var(--spacing-3xl) 0;
-  gap: var(--spacing-sm);
-}
-.whatsappPrompt {
-  font-size: var(--font-size-lg);
-  color: #2c3e50;
-  font-weight: 600;
-}
-.whatsappButton {
-  min-width: 200px;
-}
-
-/* CTA-Karte (unter der Grid-Sektion) */
+/* CTA-Section (unverändert aus deiner stabilen Version) */
 .ctaSection {
   position: relative;
   z-index: 1;
   text-align: center;
   max-width: 960px;
-  margin: var(--spacing-5xl) auto 0;
+  margin: var(--spacing-5xl, 56px) auto 0;
   background-color: hsla(37, 90%, 96%, 0.96);
   border: 1px solid rgba(44, 62, 80, 0.08);
-  border-radius: var(--radius-2xl);
+  border-radius: var(--radius-2xl, 20px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
-  padding: var(--spacing-4xl) var(--spacing-xl);
+  padding: var(--spacing-4xl, 40px) var(--spacing-xl, 20px);
 }
-/* CTA Card Inhalt */
 .ctaCard {
   display: grid;
-  gap: var(--spacing-xl);
+  gap: var(--spacing-xl, 20px);
   align-items: center;
 }
-@media (min-width: 768px) {
-  .ctaCard {
-    grid-template-columns: 320px 1fr;
-  }
-}
+@media (min-width: 768px) { .ctaCard { grid-template-columns: 320px 1fr; } }
+
+.ctaImageWrap { display: flex; justify-content: center; }
 .ctaImage {
   width: 100%;
-  height: 220px;
+  max-width: 60%;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
-  object-position: center;
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-sm);
+  border-radius: var(--radius-xl, 16px);
+  box-shadow: var(--shadow-md, 0 10px 24px rgba(15,23,42,0.18));
+  transition: transform var(--transition-fast, 180ms) ease;
 }
-.ctaTextBlock {
-  text-align: left;
+.ctaImage:hover,
+.ctaImage:focus-visible {
+  transform: translateY(-2px);
+  outline: 2px solid var(--color-highlight, #f1c40f);
+  outline-offset: 3px;
 }
+.ctaTextBlock { text-align: left; }
 .ctaTitle {
-  font-size: var(--font-size-2xl);
+  font-size: var(--font-size-2xl, 1.375rem);
   font-weight: 800;
-  color: #2c3e50;
-  margin-bottom: var(--spacing-sm);
+  color: var(--color-secondary, #2c3e50);
+  margin-bottom: var(--spacing-sm, 8px);
 }
 .ctaDescription {
-  font-size: var(--font-size-base);
-  color: #5a6c7d;
-  line-height: var(--line-height-relaxed);
-  margin-bottom: var(--spacing-lg);
+  font-size: var(--font-size-base, 1rem);
+  color: #4b5a6a;
+  line-height: 1.6;
+  margin-bottom: var(--spacing-lg, 16px);
 }
-.ctaButtonLarge {
-  min-width: 220px;
+.ctaActions {
+  display: flex;
+  gap: var(--spacing-md, 12px);
+  margin-top: var(--spacing-md, 12px);
+  flex-wrap: wrap;
+}
+.ctaBtnPrimary,
+.ctaBtnSecondary {
+  appearance: none;
+  border: none;
+  border-radius: var(--radius-lg, 12px);
+  padding: 0.7rem 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform var(--transition-fast, 180ms) ease, box-shadow var(--transition-fast, 180ms) ease;
+  outline: none;
+}
+.ctaBtnPrimary {
+  background: var(--color-primary, #e67e22);
+  color: #0f172a;
+  box-shadow: var(--shadow-xs, 0 2px 8px rgba(230,126,34,0.35));
+}
+.ctaBtnPrimary:hover,
+.ctaBtnPrimary:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm, 0 6px 14px rgba(230,126,34,0.45));
+  outline: 2px solid var(--color-highlight, #f1c40f);
+  outline-offset: 3px;
+}
+.ctaBtnSecondary {
+  background: #ffffff;
+  color: var(--color-secondary, #2c3e50);
+  border: 1px solid rgba(15,23,42,0.12);
+}
+.ctaBtnSecondary:hover,
+.ctaBtnSecondary:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm, 0 6px 14px rgba(15,23,42,0.10));
+  outline: 2px solid var(--color-highlight, #f1c40f);
+  outline-offset: 3px;
 }
 
-/* Responsiveness (nur komponenten-intern) */
-@media (max-width: 767px) {
-  .servicesGrid {
-    gap: var(--spacing-2xl);
-    margin-bottom: var(--spacing-3xl);
-  }
-  .ctaSection {
-    padding: var(--spacing-3xl) var(--spacing-lg);
-    margin-top: var(--spacing-4xl);
-  }
-  .ctaImage {
-    height: 180px;
-  }
+/* Responsive */
+@media (max-width: 1024px) {
+  .cardImageWrap { max-height: 200px; }     /* leicht kleiner auf Tablet */
+  .ctaImage { max-width: 100%; }
+}
+@media (max-width: 640px) {
+  .cardImageWrap { max-height: 170px; }     /* kompakt auf Mobile */
+}
+
+/* A11y Fokus */
+.serviceCard:focus-visible,
+.ctaBtnPrimary:focus-visible,
+.ctaBtnSecondary:focus-visible,
+.ctaImage:focus-visible {
+  outline: 2px solid var(--color-highlight, #f1c40f);
+  outline-offset: 3px;
 }
