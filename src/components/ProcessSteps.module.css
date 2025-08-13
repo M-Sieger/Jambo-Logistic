@@ -1,17 +1,32 @@
-/*
- * Styles für die ProcessSteps-Komponente.
- * Warmes, modernes Erscheinungsbild im IVY-Stil. Die Timeline wird
- * ab 1025 px Breite horizontal mit Pfeilführung umgesetzt; darunter
- * bleibt sie vertikal mit Punkten und Linie.
- */
+/* ==========================================================================
+   ProcessSteps.module.css
+   Modern • Warm • Trustworthy  (Modern Warm Africa)
+   --------------------------------------------------------------------------
+   Ziele:
+   - Vertikale Timeline (Mobile/Tablet), horizontale Timeline (Desktop)
+   - Saubere Erkennung der Section "process" (Header Active-Link)
+   - Kein visuelles Flackern bei Sticky-Header (scroll-margin-top)
+   ========================================================================== */
 
+/* --- GLOBALER FIX FÜR STICKY-HEADER-OFFSET --------------------------------
+   ⚠️ CSS Modules scopen Klassen, aber nicht IDs. Deshalb global selektieren.
+   So stellt Smooth-Scroll + IntersectionObserver sicher auf "process" ein.
+------------------------------------------------------------------------------ */
+:global(#process) {
+  /* Header-Höhe (anpassbar per CSS-Variable) */
+  --header-offset: 96px;
+  scroll-margin-top: var(--header-offset);
+}
+
+/* Grundfläche der Komponente */
 .steps {
   background: linear-gradient(180deg, #f4eee6 0%, #f5e8db 100%);
   padding: 4rem 1rem;
   position: relative;
+  isolation: isolate; /* sichert eigene Stacking-Context für Overlays */
 }
 
-/* Überschrift */
+/* --------------------------- Typo & Headline ------------------------------ */
 .headline {
   text-align: center;
   margin-bottom: 3rem;
@@ -20,7 +35,7 @@
   font-weight: 600;
 }
 
-/* Timeline (vertikal standard) */
+/* --------------------------- Timeline (Default: vertikal) ----------------- */
 .timeline {
   display: flex;
   flex-direction: column;
@@ -29,15 +44,15 @@
   margin: 0 auto;
 }
 
-/* Einzelner Eintrag der Timeline */
+/* Einzelelement der Timeline */
 .timelineItem {
   display: flex;
   align-items: flex-start;
   gap: 1.5rem;
-  position: relative;
+  position: relative; /* für die Pfeile (Desktop) */
 }
 
-/* Marker (Punkt + Linie) */
+/* Marker-Spalte (Punkt + Linie) – nur in vertikaler Ansicht sichtbar */
 .marker {
   position: relative;
   display: flex;
@@ -51,7 +66,7 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: #f97316;
+  background: #f97316; /* warm orange */
   margin-top: 4px;
 }
 
@@ -62,7 +77,7 @@
   margin-top: 4px;
 }
 
-/* Inhalt der Card */
+/* --------------------------- Karten-Inhalt -------------------------------- */
 .cardContent {
   background: #fff;
   border-radius: 16px;
@@ -75,6 +90,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  will-change: transform; /* smoother Hover */
 }
 
 .cardContent:hover {
@@ -83,7 +99,7 @@
   border-color: rgba(249, 115, 22, 0.4);
 }
 
-/* Emoji-Icon */
+/* Emoji/Icon oben */
 .cardIcon {
   font-size: 2rem;
   margin-bottom: 0.5rem;
@@ -111,7 +127,7 @@
   transform: scale(1.05);
 }
 
-/* Titel */
+/* Titel & Body */
 .cardTitle {
   color: var(--jambo-secondary, #0f172a);
   margin-bottom: 0.75rem;
@@ -119,14 +135,13 @@
   font-weight: 600;
 }
 
-/* Beschreibung */
 .cardText {
   color: #666;
   line-height: 1.6;
   font-size: 0.95rem;
 }
 
-/* CTA-Container */
+/* --------------------------- CTA-Box -------------------------------------- */
 .ctaContainer {
   position: relative;
   background: #fff8ee;
@@ -146,7 +161,7 @@
   box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08);
 }
 
-/* Transparentes Flaggen-Wasserzeichen */
+/* Dezentes Wasserzeichen (Flaggen-/Pattern-Idee) */
 .ctaContainer::before {
   content: '';
   position: absolute;
@@ -160,18 +175,12 @@
   pointer-events: none;
 }
 
-/* Wrapper für CTA-Text und Button */
 .ctaContent {
   position: relative;
   z-index: 1;
 }
+.ctaContent > * { position: relative; z-index: 1; }
 
-.ctaContent > * {
-  position: relative;
-  z-index: 1;
-}
-
-/* CTA-Überschrift */
 .ctaContent h3 {
   color: var(--jambo-secondary, #0f172a);
   margin-bottom: 0.5rem;
@@ -179,7 +188,6 @@
   font-weight: 600;
 }
 
-/* CTA-Beschreibung */
 .ctaContent p {
   color: #666;
   margin-bottom: 1.5rem;
@@ -187,14 +195,12 @@
   line-height: 1.6;
 }
 
-/* Button-Gruppe */
 .buttonGroup {
   display: flex;
   justify-content: center;
   gap: 1rem;
 }
 
-/* Haupt-CTA-Button */
 .buttonPrimary {
   display: inline-block;
   padding: 0.75rem 1.5rem;
@@ -203,79 +209,71 @@
   font-weight: 600;
   border-radius: 9999px;
   border: 2px solid #f97316;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
   text-decoration: none;
 }
 
 .buttonPrimary:hover {
   background-color: #fff;
   color: #f97316;
+  transform: translateY(-1px);
 }
 
-/* Responsives Verhalten */
+/* --------------------------- Responsive Breakpoints ----------------------- */
 @media (max-width: 1024px) {
-  .timeline {
-    gap: 2rem;
-  }
+  .timeline { gap: 2rem; }
 }
 
 @media (max-width: 768px) {
-  .steps {
-    padding: 3rem 1rem;
-  }
-  /* Stack TimelineItem vertikal auf kleineren Bildschirmen */
+  .steps { padding: 3rem 1rem; }
+
+  /* Stack: Marker oben, Card drunter */
   .timelineItem {
     flex-direction: column;
     align-items: center;
   }
+
   .marker {
     min-width: auto;
     margin-bottom: 1rem;
     height: auto;
     flex-direction: column;
   }
-  /* Kürzere Verbindungslinie auf Mobile */
-  .line {
-    height: 1.5rem;
-  }
+
+  .line { height: 1.5rem; }
+
   .stepImage {
     width: 100px;
     height: 100px;
   }
-  .cardTitle {
-    font-size: 1.125rem;
-  }
+
+  .cardTitle { font-size: 1.125rem; }
+
   .ctaContainer {
     margin-top: 3rem;
     padding: 2rem 1.5rem;
   }
-  .ctaContent h3 {
-    font-size: 1.25rem;
-  }
+
+  .ctaContent h3 { font-size: 1.25rem; }
 }
 
 @media (max-width: 480px) {
-  .steps {
-    padding: 2rem 1rem;
-  }
+  .steps { padding: 2rem 1rem; }
+
   .stepImage {
     width: 80px;
     height: 80px;
   }
-  .cardTitle {
-    font-size: 1rem;
-  }
-  .cardText {
-    font-size: 0.9rem;
-  }
-  .ctaContainer {
-    padding: 1.5rem 1rem;
-  }
+
+  .cardTitle { font-size: 1rem; }
+  .cardText  { font-size: 0.9rem; }
+
+  .ctaContainer { padding: 1.5rem 1rem; }
 }
 
-/* Horizontale Timeline mit Pfeilführung ab 1025 px */
-@media (min-width: 1025px) {
-  /* Timeline wird nebeneinander angeordnet */
+/* --------------------------- Desktop: Horizontal Timeline ----------------- */
+/* Ab 1024px: row-Layout mit Pfeilen zwischen Cards */
+@media (min-width: 1024px) {
   .timeline {
     flex-direction: row;
     justify-content: space-between;
@@ -283,7 +281,6 @@
     max-width: 1200px;
   }
 
-  /* Jede Timeline-Item nimmt gleich viel Breite ein */
   .timelineItem {
     flex-direction: column;
     align-items: center;
@@ -291,12 +288,10 @@
     padding: 0 1rem;
   }
 
-  /* Marker ausblenden auf Desktop */
-  .marker {
-    display: none;
-  }
+  /* Vertikale Marker in Desktop ausblenden */
+  .marker { display: none; }
 
-  /* Pfeilverbindung zwischen den Cards */
+  /* Pfeilverbindung zwischen Cards (nur nicht beim letzten) */
   .timelineItem:not(:last-child)::after {
     content: '';
     position: absolute;
@@ -321,10 +316,24 @@
     transform: translateY(-50%);
   }
 
-  /* Kartenbreite auf Desktop */
   .cardContent {
     max-width: 280px;
     width: 100%;
     padding: 2rem 1rem 2.5rem;
   }
+}
+
+/* --------------------------- Motion/Focus Hygiene ------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Optional: sichtbarer Focus für Buttons/Links innerhalb der Komponente */
+.buttonPrimary:focus-visible {
+  outline: 2px solid #f97316;
+  outline-offset: 2px;
 }

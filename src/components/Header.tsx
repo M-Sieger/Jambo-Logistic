@@ -1,123 +1,143 @@
+// src/components/Header.tsx
 import React, {
   useEffect,
   useState,
 } from 'react';
 
-// ✅ Logo importieren (wird von Vite verarbeitet)
+// ✅ Assets & Styles
 import Logo from '../assets/JamboLogisticLogo.png';
-// ✅ CSS Module für Header-Styling
+// ✅ Hook für zuverlässige Active-Link-Erkennung (Viewport-basiert)
+import { useActiveSection } from '../hooks/useActiveSection';
 import styles from './Header.module.css';
 
+/**
+ * HeaderProps – aktuell minimal; bleibt props-ready (i18n/API).
+ * Später können navigationItems, logoSrc, onLinkClick etc. via Props kommen.
+ */
 interface HeaderProps {
   className?: string;
 }
 
+/** Typen für lokale Daten (können später extern geliefert werden) */
 interface NavigationItem {
   label: string;
-  href: string;
-  id: string;
+  href: string; // '#services'
+  id: string;   // 'services' – muss exakt zur Section-ID im DOM passen
 }
-
 interface Language {
-  code: string;
-  label: string;
-  flag: string;
+  code: string;  // 'DE'
+  label: string; // 'Deutsch'
+  flag: string;  // Emoji/Icon
 }
 
 const Header: React.FC<HeaderProps> = ({ className = '' }) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('');
-  const [currentLanguage, setCurrentLanguage] = useState('DE');
+  /** -----------------------------
+   * UI-States
+   * ------------------------------ */
+  const [isMenuOpen, setIsMenuOpen] = useState(false);         // Mobile Drawer
+  const [currentLanguage, setCurrentLanguage] = useState('DE'); // Dummy i18n
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);         // 🔥 Scroll-State → .scrolled
 
+  /** -----------------------------
+   * Lokale Datenquellen (MVP)
+   * → können problemlos via Props ersetzt werden
+   * ------------------------------ */
   const navigationItems: NavigationItem[] = [
-    { label: 'Home', href: '#hero', id: 'hero' },
+    { label: 'Home',     href: '#hero',     id: 'hero' },
     { label: 'Services', href: '#services', id: 'services' },
-    { label: 'Process', href: '#process', id: 'process' },
-    { label: 'About', href: '#about', id: 'about' },
-    { label: 'Contact', href: '#contact', id: 'contact' },
+    { label: 'Process',  href: '#process',  id: 'process' },
+    { label: 'About',    href: '#about',    id: 'about' },
+    { label: 'Contact',  href: '#contact',  id: 'contact' },
   ];
 
   const languages: Language[] = [
-    { code: 'DE', label: 'Deutsch', flag: '🇩🇪' },
-    { code: 'EN', label: 'English', flag: '🇬🇧' },
+    { code: 'DE', label: 'Deutsch',   flag: '🇩🇪' },
+    { code: 'EN', label: 'English',   flag: '🇬🇧' },
     { code: 'SW', label: 'Kiswahili', flag: '🇰🇪' },
   ];
 
-  // 🔁 Scrollverhalten zur Sektion
+  /** -----------------------------
+   * Active-Link Detection via Hook
+   * - robust gegen kurze/überlappende Sections
+   * - berücksichtigt Sticky-Header über headerOffset
+   * ------------------------------ */
+  const ids = navigationItems.map((i) => i.id);
+  const activeSection = useActiveSection(ids, { headerOffset: 96 });
+
+  /** -----------------------------
+   * Scroll-State (≥ 50px) → .scrolled
+   * - passiver Listener
+   * - kein CLS (Logo-Resize via transform in CSS)
+   * ------------------------------ */
+  useEffect(() => {
+    const onScroll = () => setIsScrolled(window.scrollY >= 50);
+    onScroll(); // Initial (bei Reload in der Mitte)
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  /** -----------------------------
+   * Smooth-Scroll Helfer
+   * ------------------------------ */
   const handleNavClick = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) element.scrollIntoView({ behavior: 'smooth' });
-    setIsMenuOpen(false);
+    const el = document.querySelector(href);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    setIsMenuOpen(false); // Mobile Drawer schließen
   };
 
-  // 📞 CTA → scrollt zu "Kontakt"-Sektion
   const handleCTAClick = () => {
-    const contactElement = document.getElementById('contact');
-    if (contactElement) contactElement.scrollIntoView({ behavior: 'smooth' });
+    const el = document.getElementById('contact');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
-  // 🌍 Sprache ändern
   const handleLanguageChange = (languageCode: string) => {
     setCurrentLanguage(languageCode);
     setIsLanguageDropdownOpen(false);
+    // MVP: nur Log; später i18n-Mechanik
     console.log(`Language changed to: ${languageCode}`);
   };
 
-  // 🧠 Aktive Navigation beim Scrollen
+  /** -----------------------------
+   * Click-Outside zum Schließen von Menüs
+   * ------------------------------ */
   useEffect(() => {
-    const handleScroll = () => {
-      const sections = navigationItems.map(item => document.getElementById(item.id));
-      const scrollPosition = window.scrollY + 100;
-
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const section = sections[i];
-        if (section && section.offsetTop <= scrollPosition) {
-          setActiveSection(navigationItems[i].id);
-          break;
-        }
+    const onDocClick = (event: MouseEvent) => {
+      const target = event.target as Element;
+      if (isMenuOpen && !target.closest(`.${styles.header}`)) {
+        setIsMenuOpen(false);
+      }
+      if (isLanguageDropdownOpen && !target.closest(`.${styles.languageSelector}`)) {
+        setIsLanguageDropdownOpen(false);
       }
     };
-
-    window.addEventListener('scroll', handleScroll);
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // 🧱 Schließt Menü bei Klick außerhalb
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as Element;
-      if (isMenuOpen && !target.closest(`.${styles.header}`)) setIsMenuOpen(false);
-      if (isLanguageDropdownOpen && !target.closest(`.${styles.languageSelector}`)) setIsLanguageDropdownOpen(false);
-    };
-
-    document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
+    document.addEventListener('click', onDocClick);
+    return () => document.removeEventListener('click', onDocClick);
   }, [isMenuOpen, isLanguageDropdownOpen]);
 
-  const currentLang = languages.find(lang => lang.code === currentLanguage) || languages[0];
+  // Aktuelle Sprache (Fallback sicher)
+  const currentLang = languages.find((l) => l.code === currentLanguage) || languages[0];
 
+  /** -----------------------------
+   * Render
+   * - Nur CSS-Modules (kein Inline-Style)
+   * - A11y: aria-current, Focus-Ringe in CSS
+   * ------------------------------ */
   return (
-    <header className={`${styles.header} ${className}`}>
+    <header className={`${styles.header} ${isScrolled ? styles.scrolled : ''} ${className}`}>
       <div className={styles.container}>
-        
-        {/* 🔗 Logo */}
+        {/* 🔗 Logo → Home */}
         <div className={styles.logo}>
-          <button 
+          <button
             onClick={() => handleNavClick('#hero')}
             className={styles.logoButton}
             aria-label="Go to homepage"
           >
-            <img 
-              src={Logo} 
-              alt="Jambo Logistics" 
-              className={styles.logoImage}
-            />
+            <img src={Logo} alt="Jambo Logistics" className={styles.logoImage} />
           </button>
         </div>
 
-        {/* 🧭 Navigation (Desktop) */}
+        {/* 🧭 Desktop Navigation */}
         <nav className={styles.desktopNav} aria-label="Main navigation">
           <ul className={styles.navList}>
             {navigationItems.map((item) => (
@@ -134,10 +154,9 @@ const Header: React.FC<HeaderProps> = ({ className = '' }) => {
           </ul>
         </nav>
 
-        {/* 🔤 Sprache + CTA */}
+        {/* 🔤 Right Section: Language + CTA */}
         <div className={styles.rightSection}>
-          
-          {/* 🌍 Sprachumschalter */}
+          {/* 🌍 Language */}
           <div className={styles.languageSelector}>
             <button
               onClick={() => setIsLanguageDropdownOpen(!isLanguageDropdownOpen)}
@@ -148,7 +167,11 @@ const Header: React.FC<HeaderProps> = ({ className = '' }) => {
             >
               <span className={styles.languageFlag}>{currentLang.flag}</span>
               <span className={styles.languageCode}>{currentLang.code}</span>
-              <span className={`${styles.languageArrow} ${isLanguageDropdownOpen ? styles.languageArrowOpen : ''}`}>
+              <span
+                className={`${styles.languageArrow} ${
+                  isLanguageDropdownOpen ? styles.languageArrowOpen : ''
+                }`}
+              >
                 ▼
               </span>
             </button>
@@ -159,7 +182,9 @@ const Header: React.FC<HeaderProps> = ({ className = '' }) => {
                   <button
                     key={language.code}
                     onClick={() => handleLanguageChange(language.code)}
-                    className={`${styles.languageOption} ${currentLanguage === language.code ? styles.languageOptionActive : ''}`}
+                    className={`${styles.languageOption} ${
+                      currentLanguage === language.code ? styles.languageOptionActive : ''
+                    }`}
                   >
                     <span className={styles.languageFlag}>{language.flag}</span>
                     <span className={styles.languageLabel}>{language.label}</span>
@@ -169,13 +194,13 @@ const Header: React.FC<HeaderProps> = ({ className = '' }) => {
             )}
           </div>
 
-          {/* 🟧 CTA-Button */}
+          {/* 🟧 CTA */}
           <button onClick={handleCTAClick} className={styles.ctaButton}>
             Jetzt anfragen
           </button>
         </div>
 
-        {/* ☰ Mobile-Menü Button */}
+        {/* ☰ Mobile Toggle */}
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           className={styles.mobileMenuButton}
@@ -183,13 +208,13 @@ const Header: React.FC<HeaderProps> = ({ className = '' }) => {
           aria-controls="mobile-menu"
           aria-label="Toggle navigation menu"
         >
-          <span className={`${styles.hamburgerLine} ${isMenuOpen ? styles.hamburgerLineOpen : ''}`}></span>
-          <span className={`${styles.hamburgerLine} ${isMenuOpen ? styles.hamburgerLineOpen : ''}`}></span>
-          <span className={`${styles.hamburgerLine} ${isMenuOpen ? styles.hamburgerLineOpen : ''}`}></span>
+          <span className={`${styles.hamburgerLine} ${isMenuOpen ? styles.hamburgerLineOpen : ''}`} />
+          <span className={`${styles.hamburgerLine} ${isMenuOpen ? styles.hamburgerLineOpen : ''}`} />
+          <span className={`${styles.hamburgerLine} ${isMenuOpen ? styles.hamburgerLineOpen : ''}`} />
         </button>
       </div>
 
-      {/* 📱 Mobile-Menü */}
+      {/* 📱 Mobile Navigation */}
       {isMenuOpen && (
         <nav id="mobile-menu" className={styles.mobileNav} aria-label="Mobile navigation">
           <div className={styles.mobileNavContent}>
@@ -198,7 +223,9 @@ const Header: React.FC<HeaderProps> = ({ className = '' }) => {
                 <li key={item.id}>
                   <button
                     onClick={() => handleNavClick(item.href)}
-                    className={`${styles.mobileNavLink} ${activeSection === item.id ? styles.mobileNavLinkActive : ''}`}
+                    className={`${styles.mobileNavLink} ${
+                      activeSection === item.id ? styles.mobileNavLinkActive : ''
+                    }`}
                     aria-current={activeSection === item.id ? 'page' : undefined}
                   >
                     {item.label}
@@ -207,7 +234,7 @@ const Header: React.FC<HeaderProps> = ({ className = '' }) => {
               ))}
             </ul>
 
-            {/* 🌐 Mobile Sprache */}
+            {/* 🌐 Language (Mobile) */}
             <div className={styles.mobileLanguageSection}>
               <h3 className={styles.mobileLanguageTitle}>Language</h3>
               <div className={styles.mobileLanguageGrid}>
@@ -215,7 +242,9 @@ const Header: React.FC<HeaderProps> = ({ className = '' }) => {
                   <button
                     key={language.code}
                     onClick={() => handleLanguageChange(language.code)}
-                    className={`${styles.mobileLanguageOption} ${currentLanguage === language.code ? styles.mobileLanguageOptionActive : ''}`}
+                    className={`${styles.mobileLanguageOption} ${
+                      currentLanguage === language.code ? styles.mobileLanguageOptionActive : ''
+                    }`}
                   >
                     <span className={styles.languageFlag}>{language.flag}</span>
                     <span className={styles.languageLabel}>{language.label}</span>
@@ -224,7 +253,7 @@ const Header: React.FC<HeaderProps> = ({ className = '' }) => {
               </div>
             </div>
 
-            {/* 🟧 Mobile CTA */}
+            {/* 🟧 CTA (Mobile) */}
             <div className={styles.mobileNavCta}>
               <button onClick={handleCTAClick} className={styles.mobileCtaButton}>
                 Jetzt anfragen
@@ -234,9 +263,9 @@ const Header: React.FC<HeaderProps> = ({ className = '' }) => {
         </nav>
       )}
 
-      {/* 🔲 Overlay (wenn Menü offen) */}
+      {/* 🔲 Overlay zum Schließen */}
       {isMenuOpen && (
-        <div 
+        <div
           className={styles.mobileOverlay}
           onClick={() => setIsMenuOpen(false)}
           aria-hidden="true"

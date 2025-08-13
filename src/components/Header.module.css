@@ -5,6 +5,8 @@
 
 /* ========================================
    MAIN HEADER STRUCTURE
+   - fixed, blur, warm gradient layer
+   - .scrolled wird via React-Klasse ergänzt
    ======================================== */
 
 .header {
@@ -13,28 +15,29 @@
   left: 0;
   right: 0;
   z-index: 1000;
-  
-  /* Afrika-Gradient Background - funktionierend */
+
+  /* Basis-Gradient (tiefer, seriös) */
   background: linear-gradient(135deg, #2c3e50 0%, #34495e 50%, #2c3e50 100%);
   background-size: 200% 200%;
   animation: gradientShift 15s ease-in-out infinite;
-  
-  /* Warm Overlay */
-  background-image: linear-gradient(135deg, 
-    rgba(230, 126, 34, 0.08) 0%, 
-    rgba(241, 196, 15, 0.05) 50%, 
+
+  /* Warmes Overlay (leichte Gold/Orange/Nature-Töne) */
+  background-image: linear-gradient(
+    135deg,
+    rgba(230, 126, 34, 0.08) 0%,
+    rgba(241, 196, 15, 0.05) 50%,
     rgba(39, 174, 96, 0.03) 100%
   );
-  
+
   /* Glasmorphismus */
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  
+
   /* Subtile Border */
   border-bottom: 1px solid rgba(241, 196, 15, 0.2);
-  
-  /* Smooth Transitions */
-  transition: all 0.3s ease;
+
+  /* Sanfte Transitionen + Performance */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, padding 0.3s ease;
 }
 
 @keyframes gradientShift {
@@ -42,11 +45,21 @@
   50% { background-position: 100% 50%; }
 }
 
+/* Zustand beim Scrollen (>50px):
+   - leicht opaker Hintergrund
+   - klarer Shadow
+   - Logo skaliert sich minimal (transform → kein CLS) */
+.header.scrolled {
+  background: linear-gradient(135deg, rgba(44, 62, 80, 0.95) 0%, rgba(52, 73, 94, 0.95) 100%);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+  border-bottom-color: rgba(241, 196, 15, 0.25);
+}
+
 .container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 1.5rem;
+  padding: 1rem 1.5rem;    /* Padding bleibt konstant → weniger Layout-Shift */
   min-height: 80px;
   max-width: 1400px;
   margin: 0 auto;
@@ -69,7 +82,7 @@
   cursor: pointer;
   padding: 0.5rem;
   border-radius: 8px;
-  transition: all 0.3s ease;
+  transition: background 0.3s ease, transform 0.3s ease;
 }
 
 .logoButton:hover {
@@ -80,8 +93,14 @@
 .logoImage {
   height: 48px;
   width: auto;
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease, filter 0.3s ease;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  will-change: transform;
+}
+
+/* Logo wird im Scroll-State nur skaliert → kein CLS */
+.header.scrolled .logoImage {
+  transform: scale(0.92);
 }
 
 .logoButton:hover .logoImage {
@@ -93,7 +112,7 @@
    ======================================== */
 
 .desktopNav {
-  display: none;
+  display: none;          /* wird ab 768px sichtbar */
   flex: 1;
   justify-content: center;
   margin: 0 2rem;
@@ -112,30 +131,32 @@
   background: none;
   border: none;
   font-size: 0.95rem;
-  font-weight: 500;
- color: #0e1b2c;
+  font-weight: 600;
+  color: #fdf6e3;         /* 🔧 Kontrastfix: hell auf dunklem Header */
   cursor: pointer;
   padding: 0.75rem 1.25rem;
   border-radius: 20px;
-  transition: all 0.3s ease;
+  transition: color 0.3s ease, background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
   position: relative;
   letter-spacing: 0.3px;
 }
 
-/* Professioneller Hover - kein Schwarz-Orange */
-.navLink:hover {
+/* Hover: Gold-Ton + leichte Tiefe */
+.navLink:hover,
+.navLink:focus-visible {
   color: #f1c40f;
   background: rgba(241, 196, 15, 0.1);
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(241, 196, 15, 0.15);
+  outline: none;
 }
 
-/* Active State - sanfter Gradient */
+/* Active State: sanfter Gradient-Pill */
 .navLinkActive {
-  color: #fdf6e3;
-  background: linear-gradient(135deg, rgba(230, 126, 34, 0.2), rgba(241, 196, 15, 0.15));
-  box-shadow: 0 2px 8px rgba(230, 126, 34, 0.2);
-  font-weight: 600;
+  color: #0e1b2c; /* dunkler Text auf hellem Pill für Lesbarkeit */
+  background: linear-gradient(135deg, rgba(230, 126, 34, 0.9), rgba(241, 196, 15, 0.85));
+  box-shadow: 0 2px 10px rgba(230, 126, 34, 0.35);
+  font-weight: 700;
 }
 
 /* ========================================
@@ -150,7 +171,7 @@
 }
 
 /* ========================================
-   LANGUAGE SELECTOR - Funktionierend
+   LANGUAGE SELECTOR
    ======================================== */
 
 .languageSelector {
@@ -167,9 +188,9 @@
   padding: 0.5rem 0.75rem;
   border-radius: 16px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background 0.3s ease, border-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
   font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .languageButton:hover {
@@ -179,27 +200,17 @@
   box-shadow: 0 4px 12px rgba(241, 196, 15, 0.2);
 }
 
-.languageFlag {
-  font-size: 1.1rem;
-}
-
-.languageCode {
-  font-weight: 600;
-  letter-spacing: 0.5px;
-}
+.languageFlag { font-size: 1.1rem; }
+.languageCode { font-weight: 700; letter-spacing: 0.5px; }
 
 .languageArrow {
   font-size: 0.7rem;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, color 0.3s ease;
   color: rgba(253, 246, 227, 0.7);
 }
+.languageArrowOpen { transform: rotate(180deg); color: #f1c40f; }
 
-.languageArrowOpen {
-  transform: rotate(180deg);
-  color: #f1c40f;
-}
-
-/* Language Dropdown - Weich, Goldhover, Blur */
+/* Dropdown (blur + gold hover) */
 .languageDropdown {
   position: absolute;
   top: calc(100% + 0.5rem);
@@ -211,19 +222,13 @@
   backdrop-filter: blur(20px);
   overflow: hidden;
   z-index: 1010;
-  min-width: 140px;
+  min-width: 160px;
   animation: dropdownFade 0.3s ease;
 }
 
 @keyframes dropdownFade {
-  from {
-    opacity: 0;
-    transform: translateY(-8px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+  from { opacity: 0; transform: translateY(-8px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .languageOption {
@@ -236,8 +241,9 @@
   color: #fdf6e3;
   padding: 0.75rem 1rem;
   cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 0.9rem;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.1s ease;
+  font-size: 0.95rem;
+  font-weight: 500;
 }
 
 .languageOption:hover {
@@ -248,12 +254,10 @@
 .languageOptionActive {
   background: linear-gradient(135deg, rgba(230, 126, 34, 0.2), rgba(241, 196, 15, 0.15));
   color: #fdf6e3;
-  font-weight: 600;
+  font-weight: 700;
 }
 
-.languageLabel {
-  font-weight: 500;
-}
+.languageLabel { font-weight: 600; }
 
 /* ========================================
    CTA BUTTON - Gradient, Pulse Hover
@@ -262,34 +266,26 @@
 .ctaButton {
   background: linear-gradient(135deg, #e67e22 0%, #f1c40f 100%);
   border: none;
-  color: #fdf6e3;
+  color: #0e1b2c;     /* 🔧 besserer Kontrast auf hellem Gradient */
   padding: 0.75rem 1.5rem;
   border-radius: 20px;
   cursor: pointer;
   font-size: 0.95rem;
-  font-weight: 600;
+  font-weight: 800;
   letter-spacing: 0.3px;
-  transition: all 0.3s ease;
+  transition: transform 0.2s ease, box-shadow 0.3s ease, filter 0.3s ease;
   position: relative;
   overflow: hidden;
   box-shadow: 0 4px 15px rgba(230, 126, 34, 0.3);
 }
 
-/* Animierter Pulse beim Hover */
 .ctaButton:hover {
   transform: translateY(-2px) scale(1.02);
   box-shadow: 0 6px 20px rgba(230, 126, 34, 0.4);
-  animation: pulse 1.5s infinite;
+  filter: saturate(1.05);
 }
 
-@keyframes pulse {
-  0%, 100% { box-shadow: 0 6px 20px rgba(230, 126, 34, 0.4); }
-  50% { box-shadow: 0 8px 25px rgba(241, 196, 15, 0.5); }
-}
-
-.ctaButton:active {
-  transform: translateY(-1px) scale(1.01);
-}
+.ctaButton:active { transform: translateY(-1px) scale(1.01); }
 
 /* ========================================
    MOBILE MENU BUTTON
@@ -306,7 +302,7 @@
   border: 1px solid rgba(241, 196, 15, 0.3);
   border-radius: 8px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
 }
 
 .mobileMenuButton:hover {
@@ -319,27 +315,16 @@
   width: 20px;
   height: 2px;
   background-color: #fdf6e3;
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease, opacity 0.3s ease;
   transform-origin: center;
   border-radius: 1px;
 }
 
-.hamburgerLine:not(:last-child) {
-  margin-bottom: 4px;
-}
+.hamburgerLine:not(:last-child) { margin-bottom: 4px; }
 
-.hamburgerLine:nth-child(1).hamburgerLineOpen {
-  transform: rotate(45deg) translate(5px, 5px);
-}
-
-.hamburgerLine:nth-child(2).hamburgerLineOpen {
-  opacity: 0;
-  transform: scale(0);
-}
-
-.hamburgerLine:nth-child(3).hamburgerLineOpen {
-  transform: rotate(-45deg) translate(5px, -5px);
-}
+.hamburgerLine:nth-child(1).hamburgerLineOpen { transform: rotate(45deg) translate(5px, 5px); }
+.hamburgerLine:nth-child(2).hamburgerLineOpen { opacity: 0; transform: scale(0); }
+.hamburgerLine:nth-child(3).hamburgerLineOpen { transform: rotate(-45deg) translate(5px, -5px); }
 
 /* ========================================
    MOBILE NAVIGATION - Slide-in, Afrika-Stil
@@ -347,30 +332,17 @@
 
 .mobileNav {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-  background-image: linear-gradient(135deg, 
-    rgba(230, 126, 34, 0.1) 0%, 
-    rgba(241, 196, 15, 0.05) 50%, 
-    rgba(39, 174, 96, 0.03) 100%
-  );
+  inset: 0;
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%),
+              linear-gradient(135deg, rgba(230,126,34,0.1) 0%, rgba(241,196,15,0.05) 50%, rgba(39,174,96,0.03) 100%);
   z-index: 1020;
   overflow-y: auto;
   animation: slideIn 0.3s ease;
 }
 
 @keyframes slideIn {
-  from {
-    transform: translateX(-100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
+  from { transform: translateX(-100%); opacity: 0; }
+  to   { transform: translateX(0);     opacity: 1; }
 }
 
 .mobileNavContent {
@@ -390,12 +362,12 @@
   background: none;
   border: none;
   font-size: 1.3rem;
-  font-weight: 500;
+  font-weight: 600;
   color: #fdf6e3;
   cursor: pointer;
   padding: 1rem 0;
   text-align: left;
-  transition: all 0.3s ease;
+  transition: color 0.2s ease, transform 0.2s ease, background 0.2s ease, padding-left 0.2s ease;
   border-bottom: 1px solid rgba(241, 196, 15, 0.1);
   letter-spacing: 0.5px;
 }
@@ -409,21 +381,18 @@
 
 .mobileNavLinkActive {
   color: #f1c40f;
-  font-weight: 600;
+  font-weight: 700;
   background: linear-gradient(90deg, rgba(230, 126, 34, 0.15), transparent);
   border-left: 3px solid #f1c40f;
   padding-left: 1rem;
 }
 
 /* Mobile Language Section */
-.mobileLanguageSection {
-  margin: 2rem 0;
-}
-
+.mobileLanguageSection { margin: 2rem 0; }
 .mobileLanguageTitle {
   color: #fdf6e3;
   font-size: 1.1rem;
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 1rem;
   letter-spacing: 0.5px;
 }
@@ -444,9 +413,9 @@
   padding: 0.75rem 1rem;
   border-radius: 8px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .mobileLanguageOption:hover {
@@ -458,13 +427,11 @@
 .mobileLanguageOptionActive {
   background: linear-gradient(135deg, rgba(230, 126, 34, 0.2), rgba(241, 196, 15, 0.15));
   border-color: #f1c40f;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 /* Mobile CTA */
-.mobileNavCta {
-  margin-top: 2rem;
-}
+.mobileNavCta { margin-top: 2rem; }
 
 .mobileCtaButton {
   display: flex;
@@ -473,14 +440,14 @@
   width: 100%;
   background: linear-gradient(135deg, #e67e22 0%, #f1c40f 100%);
   border: none;
-  color: #fdf6e3;
+  color: #0e1b2c;        /* dunkler Text auf hellem Gradient */
   padding: 1rem 2rem;
   border-radius: 20px;
   cursor: pointer;
   font-size: 1.1rem;
-  font-weight: 600;
+  font-weight: 800;
   letter-spacing: 0.5px;
-  transition: all 0.3s ease;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
   box-shadow: 0 4px 15px rgba(230, 126, 34, 0.3);
 }
 
@@ -495,19 +462,13 @@
 
 .mobileOverlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 1015;
   animation: fadeIn 0.3s ease;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
 /* ========================================
    RESPONSIVE BREAKPOINTS
@@ -515,61 +476,22 @@
 
 /* Tablet and Desktop */
 @media (min-width: 768px) {
-  .container {
-    padding: 1.25rem 2rem;
-    min-height: 90px;
-  }
-
-  .desktopNav {
-    display: flex;
-  }
-
-  .rightSection {
-    display: flex;
-  }
-
-  .mobileMenuButton {
-    display: none;
-  }
-
-  .logoImage {
-    height: 56px;
-  }
-
-  .navList {
-    gap: 2rem;
-  }
-
-  .navLink {
-    font-size: 1rem;
-    padding: 0.875rem 1.5rem;
-  }
+  .container { padding: 1.25rem 2rem; min-height: 90px; }
+  .desktopNav { display: flex; }
+  .rightSection { display: flex; }
+  .mobileMenuButton { display: none; }
+  .logoImage { height: 56px; }
+  .navList { gap: 2rem; }
+  .navLink { font-size: 1rem; padding: 0.875rem 1.5rem; }
 }
 
 /* Large Desktop */
 @media (min-width: 1024px) {
-  .container {
-    padding: 1.5rem 3rem;
-    min-height: 100px;
-  }
-
-  .navList {
-    gap: 2.5rem;
-  }
-
-  .navLink {
-    font-size: 1.05rem;
-    padding: 1rem 1.75rem;
-  }
-
-  .ctaButton {
-    font-size: 1rem;
-    padding: 0.875rem 1.75rem;
-  }
-
-  .logoImage {
-    height: 60px;
-  }
+  .container { padding: 1.5rem 3rem; min-height: 100px; }
+  .navList { gap: 2.5rem; }
+  .navLink { font-size: 1.05rem; padding: 1rem 1.75rem; }
+  .ctaButton { font-size: 1rem; padding: 0.875rem 1.75rem; }
+  .logoImage { height: 60px; }
 }
 
 /* ========================================
@@ -584,7 +506,7 @@
   }
 }
 
-/* Focus States für Accessibility */
+/* Sichtbare Focus-Ringe (A11y) */
 .logoButton:focus,
 .navLink:focus,
 .languageButton:focus,
@@ -602,7 +524,6 @@
     color: black !important;
     box-shadow: none !important;
   }
-  
   .mobileMenuButton,
   .ctaButton,
   .languageSelector {
