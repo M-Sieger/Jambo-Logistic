@@ -2,40 +2,40 @@
    ProcessSteps.module.css
    Modern • Warm • Trustworthy  (Modern Warm Africa)
    --------------------------------------------------------------------------
-   Ziele:
-   - Vertikale Timeline (Mobile/Tablet), horizontale Timeline (Desktop)
-   - Saubere Erkennung der Section "process" (Header Active-Link)
-   - Kein visuelles Flackern bei Sticky-Header (scroll-margin-top)
+   Ziel:
+   - Optisch konsistent mit Services & TrustSection
+   - Vertikale Timeline (Mobile), horizontale Timeline (Desktop)
+   - Einheitliche Bilder, Hover-Animationen & Spacing
    ========================================================================== */
 
-/* --- GLOBALER FIX FÜR STICKY-HEADER-OFFSET --------------------------------
-   ⚠️ CSS Modules scopen Klassen, aber nicht IDs. Deshalb global selektieren.
-   So stellt Smooth-Scroll + IntersectionObserver sicher auf "process" ein.
------------------------------------------------------------------------------- */
+/* --- GLOBALER FIX FÜR STICKY-HEADER-OFFSET -------------------------------- */
 :global(#process) {
-  /* Header-Höhe (anpassbar per CSS-Variable) */
   --header-offset: 96px;
   scroll-margin-top: var(--header-offset);
 }
 
-/* Grundfläche der Komponente */
+/* ========================================================================== */
+/* SECTION-GRUNDLAYOUT                                                        */
+/* ========================================================================== */
 .steps {
   background: linear-gradient(180deg, #f4eee6 0%, #f5e8db 100%);
   padding: 4rem 1rem;
   position: relative;
-  isolation: isolate; /* sichert eigene Stacking-Context für Overlays */
+  isolation: isolate;
 }
 
-/* --------------------------- Typo & Headline ------------------------------ */
 .headline {
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: 2.5rem;
   color: var(--jambo-secondary, #0f172a);
   font-size: 2rem;
   font-weight: 600;
+  letter-spacing: 0.5px; /* leichte optische Öffnung wie bei Services */
 }
 
-/* --------------------------- Timeline (Default: vertikal) ----------------- */
+/* ========================================================================== */
+/* TIMELINE                                                                    */
+/* ========================================================================== */
 .timeline {
   display: flex;
   flex-direction: column;
@@ -44,15 +44,13 @@
   margin: 0 auto;
 }
 
-/* Einzelelement der Timeline */
 .timelineItem {
   display: flex;
   align-items: flex-start;
   gap: 1.5rem;
-  position: relative; /* für die Pfeile (Desktop) */
+  position: relative;
 }
 
-/* Marker-Spalte (Punkt + Linie) – nur in vertikaler Ansicht sichtbar */
 .marker {
   position: relative;
   display: flex;
@@ -66,7 +64,7 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: #f97316; /* warm orange */
+  background: #f97316;
   margin-top: 4px;
 }
 
@@ -77,35 +75,37 @@
   margin-top: 4px;
 }
 
-/* --------------------------- Karten-Inhalt -------------------------------- */
+/* ========================================================================== */
+/* CARD-INHALT                                                                 */
+/* ========================================================================== */
 .cardContent {
   background: #fff;
   border-radius: 16px;
   padding: 1.5rem 1.5rem 2rem;
   text-align: center;
   border: 1px solid rgba(249, 115, 22, 0.15);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
   transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  will-change: transform; /* smoother Hover */
 }
 
 .cardContent:hover {
   transform: translateY(-6px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
   border-color: rgba(249, 115, 22, 0.4);
 }
 
-/* Emoji/Icon oben */
 .cardIcon {
   font-size: 2rem;
   margin-bottom: 0.5rem;
 }
 
-/* Bildcontainer */
+/* ========================================================================== */
+/* BILD-DARSTELLUNG (wie Services)                                            */
+/* ========================================================================== */
 .imageContainer {
   display: flex;
   justify-content: center;
@@ -114,12 +114,12 @@
   margin-bottom: 1rem;
 }
 
-/* Bild */
 .stepImage {
-  width: 140px;
+  width: 100%;
+  max-width: 220px;
   height: 140px;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 12px;
   transition: transform 0.3s ease;
 }
 
@@ -127,7 +127,6 @@
   transform: scale(1.05);
 }
 
-/* Titel & Body */
 .cardTitle {
   color: var(--jambo-secondary, #0f172a);
   margin-bottom: 0.75rem;
@@ -141,7 +140,9 @@
   font-size: 0.95rem;
 }
 
-/* --------------------------- CTA-Box -------------------------------------- */
+/* ========================================================================== */
+/* CTA-BOX                                                                    */
+/* ========================================================================== */
 .ctaContainer {
   position: relative;
   background: #fff8ee;
@@ -161,25 +162,10 @@
   box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08);
 }
 
-/* Dezentes Wasserzeichen (Flaggen-/Pattern-Idee) */
-.ctaContainer::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  opacity: 0.07;
-  transform: scale(1.5);
-  z-index: 0;
-  pointer-events: none;
-}
-
 .ctaContent {
   position: relative;
   z-index: 1;
 }
-.ctaContent > * { position: relative; z-index: 1; }
 
 .ctaContent h3 {
   color: var(--jambo-secondary, #0f172a);
@@ -219,15 +205,10 @@
   transform: translateY(-1px);
 }
 
-/* --------------------------- Responsive Breakpoints ----------------------- */
-@media (max-width: 1024px) {
-  .timeline { gap: 2rem; }
-}
-
+/* ========================================================================== */
+/* RESPONSIVE                                                                 */
+/* ========================================================================== */
 @media (max-width: 768px) {
-  .steps { padding: 3rem 1rem; }
-
-  /* Stack: Marker oben, Card drunter */
   .timelineItem {
     flex-direction: column;
     align-items: center;
@@ -237,42 +218,28 @@
     min-width: auto;
     margin-bottom: 1rem;
     height: auto;
-    flex-direction: column;
   }
 
-  .line { height: 1.5rem; }
+  .line {
+    height: 1.5rem;
+  }
 
   .stepImage {
-    width: 100px;
-    height: 100px;
+    max-width: 180px;
+    height: 120px;
   }
-
-  .cardTitle { font-size: 1.125rem; }
-
-  .ctaContainer {
-    margin-top: 3rem;
-    padding: 2rem 1.5rem;
-  }
-
-  .ctaContent h3 { font-size: 1.25rem; }
 }
 
 @media (max-width: 480px) {
-  .steps { padding: 2rem 1rem; }
-
   .stepImage {
-    width: 80px;
-    height: 80px;
+    max-width: 140px;
+    height: 100px;
   }
-
-  .cardTitle { font-size: 1rem; }
-  .cardText  { font-size: 0.9rem; }
-
-  .ctaContainer { padding: 1.5rem 1rem; }
 }
 
-/* --------------------------- Desktop: Horizontal Timeline ----------------- */
-/* Ab 1024px: row-Layout mit Pfeilen zwischen Cards */
+/* ========================================================================== */
+/* DESKTOP: HORIZONTALE TIMELINE                                              */
+/* ========================================================================== */
 @media (min-width: 1024px) {
   .timeline {
     flex-direction: row;
@@ -288,10 +255,10 @@
     padding: 0 1rem;
   }
 
-  /* Vertikale Marker in Desktop ausblenden */
-  .marker { display: none; }
+  .marker {
+    display: none;
+  }
 
-  /* Pfeilverbindung zwischen Cards (nur nicht beim letzten) */
   .timelineItem:not(:last-child)::after {
     content: '';
     position: absolute;
@@ -318,22 +285,6 @@
 
   .cardContent {
     max-width: 280px;
-    width: 100%;
     padding: 2rem 1rem 2.5rem;
   }
-}
-
-/* --------------------------- Motion/Focus Hygiene ------------------------- */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-
-/* Optional: sichtbarer Focus für Buttons/Links innerhalb der Komponente */
-.buttonPrimary:focus-visible {
-  outline: 2px solid #f97316;
-  outline-offset: 2px;
 }

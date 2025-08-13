@@ -1,98 +1,139 @@
 // src/components/ProcessSteps.tsx
+// ✅ Konsistent mit Services-Section: 16:9-Bilder, AOS-Stagger, ruhige Cards
+// ✅ CLS-frei dank width/height am <img> + aspect-ratio (in CSS)
+// ✅ Robust: Default-Schritte, falls keine Props übergeben werden
+// ✅ A11y: aria-labelledby + sinnvolle Alt-Texte
+
 import React from 'react';
+
+import AOS from 'aos';
 
 // 🖼 Schrittbilder (lokal aus /assets)
 import step1Image from '../assets/step1-anfrage.jpg';
 import step2Image from '../assets/step2-abholung.jpg';
 import step3Image from '../assets/step3-container.jpg';
 import step4Image from '../assets/step4-nairobi.jpg';
-// 🎨 CSS-Modul für komponentenspezifisches Styling
 import styles from './ProcessSteps.module.css';
 
 // 🔹 Typen für Props
 type Step = {
-  icon: string;       // z. B. "📩" (optional, falls du eigene Icons nutzt)
-  title: string;      // z. B. "Anfrage senden"
-  description: string;// z. B. "Du stellst eine Anfrage ... "
+  icon?: string;        // z. B. "📩" (optional)
+  title: string;        // z. B. "Annahme"
+  description: string;  // kurz & klar, 1–2 Zeilen
+  imgSrc?: string;      // optional – wenn gesetzt, überschreibt Default-Image
+  imgAlt?: string;      // optional – sonst aus title generiert
 };
 
 type ProcessStepsProps = {
-  steps: Step[];      // Erwartet 3–4 Steps (mehr möglich – Bilder rotieren)
+  steps?: Step[];       // optional – wir liefern Default-Schritte
 };
 
-// 🖼 Bild- & Icon-Arrays (werden zyklisch verwendet, falls steps > 4)
-const stepImages = [step1Image, step2Image, step3Image, step4Image];
-const stepIcons   = ['📩', '🚚', '🚢', '📍'];
+// 🧱 Default-Schritte (MVP-ready, i18n-geeignet)
+const defaultSteps: Step[] = [
+  {
+    icon: "📩",
+    title: "Annahme",
+    description:
+      "Bring dein Paket nach Essen (NRW) oder sende es per Post. Abholung in NRW folgt bald.",
+    imgSrc: step1Image,
+  },
+  {
+    icon: "🚚",
+    title: "Transport",
+    description:
+      "Dein Paket reist sicher im Container nach Kenia. Persönliche Updates statt Tracking‑App.",
+    imgSrc: step2Image,
+  },
+  {
+    icon: "🚢",
+    title: "Ankunft",
+    description:
+      "Eingang in Nairobi – transparente Abwicklung mit klaren Zeiten & Dokumenten.",
+    imgSrc: step3Image,
+  },
+  {
+    icon: "📍",
+    title: "Zustellung",
+    description:
+      "Wir melden uns, sobald dein Paket angekommen ist – Abholung im Lager ganz einfach.",
+    imgSrc: step4Image,
+  },
+];
 
-const ProcessSteps: React.FC<ProcessStepsProps> = ({ steps }) => {
-  // Guard: wenn keine Steps übergeben wurden, Komponente nicht rendern
+// Zyklische Fallbacks (falls >4 Steps)
+const stepImages = [step1Image, step2Image, step3Image, step4Image];
+const stepIcons = ["📩", "🚚", "🚢", "📍"];
+
+const ProcessSteps: React.FC<ProcessStepsProps> = ({ steps = defaultSteps }) => {
+  // 🚀 AOS initialisieren (defensiv, falls globales init fehlt)
+  React.useEffect(() => {
+    if (typeof window !== "undefined" && (AOS as any)?.init) {
+      AOS.init({ once: true, duration: 520, easing: "ease-out" });
+    }
+  }, []);
+
+  // Guard: keine Steps → nichts rendern
   if (!steps || steps.length === 0) return null;
 
-  // A11y: Überschrift-ID, damit Section via aria-labelledby referenziert
-  const headingId = 'process-heading';
+  // A11y: Überschrift-ID für aria-labelledby
+  const headingId = "process-heading";
 
   return (
     /**
      * 🌍 EINZIGE Section mit id="process"
-     * -> WICHTIG: Diese ID muss 1:1 zum Header-Navi-Eintrag passen,
-     *    damit Active-Link-Detection sauber funktioniert.
-     *
-     * A11y:
-     * - role="region" + aria-labelledby → Screenreader bekommen eine benannte Region.
-     *
-     * UX:
-     * - Für Smooth-Scroll & Sticky-Header:
-     *   Gib dieser Section (oder global per ID) in CSS:
-     *   #process { scroll-margin-top: 96px; }  // Headerhöhe bei euch
+     * CSS (global): #process { scroll-margin-top: 96px; } // Header-Höhe
      */
     <section
       id="process"
       role="region"
       aria-labelledby={headingId}
-      className="section" // behält dein globales Layout-Spacing/Wrapper
+      className="section"
       data-section="process"
     >
       <div className="container">
-        {/* Komponentenspezifischer Wrapper (kein weiteres <section>, um Semantik flach zu halten) */}
         <div className={styles.steps} aria-label="So einfach funktioniert's">
           {/* Überschrift */}
-          <h2 id={headingId} className={styles.headline}>
+          <h2 id={headingId} className={styles.headline} data-aos="fade-up">
             So einfach funktioniert&apos;s
           </h2>
 
-          {/* Timeline mit allen Steps */}
+          {/* Timeline / Cards */}
           <div className={styles.timeline}>
             {steps.map((step, i) => {
-              // Robuste Auswahl von Icon/Bild (zyklisch, falls mehr als 4 Steps)
-              const icon   = step.icon ?? stepIcons[i % stepIcons.length];
-              const imgSrc = stepImages[i % stepImages.length];
+              const icon = step.icon ?? stepIcons[i % stepIcons.length];
+              // Wenn ein Schritt ein eigenes Bild mitbringt → nutzen, sonst zyklisches Default
+              const imgSrc = step.imgSrc ?? stepImages[i % stepImages.length];
+              const imgAlt =
+                step.imgAlt ?? `${step.title} – Illustration zum Schritt`;
 
               return (
-                <div
-                  key={`${step.title}-${i}`} // stabilere Key als nur i
+                <article
+                  key={`${step.title}-${i}`}
                   className={styles.timelineItem}
                   data-aos="fade-up"
-                  data-aos-delay={i * 100}
+                  data-aos-delay={String(i * 100)} // 0/100/200/300
                 >
-                  {/* Marker-Spalte links (rein dekorativ) */}
+                  {/* Dekorativer Marker/Line (wird per CSS gezeichnet) */}
                   <div className={styles.marker} aria-hidden="true">
                     <span className={styles.dot} />
                     {i < steps.length - 1 && <span className={styles.line} />}
                   </div>
 
-                  {/* Step-Inhalt */}
+                  {/* Card-Inhalt */}
                   <div className={styles.cardContent}>
                     {/* Emoji/Icon (dekorativ) */}
                     <div className={styles.cardIcon} aria-hidden="true">
                       {icon}
                     </div>
 
-                    {/* Step-Bild */}
+                    {/* Step-Bild – 16:9 + CLS-frei (Breite/Höhe gesetzt) */}
                     <div className={styles.imageContainer}>
                       <img
-                        src={imgSrc}
-                        alt={step.title ? `${step.title} – Illustration` : 'Process Illustration'}
                         className={styles.stepImage}
+                        src={imgSrc}
+                        alt={imgAlt}
+                        width={800}
+                        height={450} // 16:9, passend zur Services-Section
                         loading="lazy"
                         decoding="async"
                       />
@@ -102,13 +143,17 @@ const ProcessSteps: React.FC<ProcessStepsProps> = ({ steps }) => {
                     <h3 className={styles.cardTitle}>{step.title}</h3>
                     <p className={styles.cardText}>{step.description}</p>
                   </div>
-                </div>
+                </article>
               );
             })}
           </div>
 
-          {/* CTA-Bereich */}
-          <div className={styles.ctaContainer} data-aos="zoom-in" data-aos-delay="200">
+          {/* CTA-Bereich (ruhiger Abschluss der Section) */}
+          <div
+            className={styles.ctaContainer}
+            data-aos="zoom-in"
+            data-aos-delay="200"
+          >
             <div className={styles.ctaContent}>
               <h3>Bereit für deine erste Lieferung?</h3>
               <p>
@@ -116,7 +161,6 @@ const ProcessSteps: React.FC<ProcessStepsProps> = ({ steps }) => {
                 Reise mit Jambo Logistics.
               </p>
               <div className={styles.buttonGroup}>
-                {/* Interne Anker-Navigation bleibt, Header berücksichtigt scroll-margin-top */}
                 <a href="#contact" className={styles.buttonPrimary}>
                   Jetzt anfragen
                 </a>
