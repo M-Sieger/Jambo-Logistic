@@ -1,6 +1,6 @@
 import React from 'react';
 
-import globalStyles from '../styles/components.module.css';
+import globalStyles from '../styles/GlobalPolish.module.css';
 import styles from './Footer.module.css';
 
 interface FooterProps {
@@ -192,7 +192,8 @@ const Footer: React.FC<FooterProps> = ({ langSwitch = false, className = "" }) =
       <div className={styles.stickyMobileCta} aria-hidden="false">
         <a
           href="https://wa.me/491234567890"
-          className={`${globalStyles.buttonPrimary} ${styles.whatsappButton}`}
+        className={`${globalStyles.button} ${globalStyles["button--primary"]} ${globalStyles["is-lg"]} ${styles.whatsappButton}`}
+
           target="_blank"
           rel="noopener noreferrer"
         >

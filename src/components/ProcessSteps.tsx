@@ -14,6 +14,7 @@ import step1Image from '../assets/step1-anfrage.jpg';
 import step2Image from '../assets/step2-abholung.jpg';
 import step3Image from '../assets/step3-container.jpg';
 import step4Image from '../assets/step4-nairobi.jpg';
+import globalStyles from '../styles/GlobalPolish.module.css';
 import styles from './ProcessSteps.module.css';
 
 // 🔹 Typen für Props
@@ -164,7 +165,11 @@ const ProcessSteps: React.FC<ProcessStepsProps> = ({ steps = defaultSteps }) => 
                 Reise mit Jambo Logistics.
               </p>
               <div className={styles.buttonGroup}>
-                <a href="#contact" className={styles.buttonPrimary}>
+                <a
+  href="#contact"
+  className={`${globalStyles.button} ${globalStyles["button--primary"]} ${globalStyles["is-lg"]}`}
+>
+
                   Jetzt anfragen
                 </a>
               </div>

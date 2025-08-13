@@ -1,116 +1,194 @@
-.button {
-  display: inline-block;
-  min-width: 170px;
-  padding: 0.75rem 1.6rem;
-  border-radius: 5px;
-  font-weight: 600;
-  font-size: 1rem;
-  font-family: var(--font-body);
-  cursor: pointer;
-  text-align: center;
-  text-decoration: none;
-  border: none;
-  transition: all 0.25s ease;
+/* ==========================================================================
+   GlobalPolish.module.css
+   Jambo Logistics – Zentrales Button‑System (Modern Warm Africa)
+   --------------------------------------------------------------------------
+   Ziel:
+   • Eine Quelle der Wahrheit für alle CTAs (Base + Varianten + Größen)
+   • Ruhe & Konsistenz: ein Radius, ein Hover, ein Focus, ein Spacing
+   • CSS Modules – keine globalen Seiteneffekte
+   Nutzung:
+   <a className={`${styles.button} ${styles["button--primary"]} ${styles["is-lg"]}`}>Jetzt anfragen</a>
+   <button className={`${styles.button} ${styles["button--ghost"]} ${styles["is-md"]}`}>Mehr erfahren</button>
+   ========================================================================== */
+
+/* ===== Design‑Tokens (Fallbacks, echte Werte ideal in :root von base.css) */
+:root {
+  --jambo-primary: #e67e22;
+  --jambo-primary-dark: #d35400;
+  --jambo-secondary: #2c3e50;
+  --jambo-highlight: #f1c40f;
+  --jambo-text-on-dark: #ffffff;
+  --jambo-text-on-light: #0f172a;
+
+  --jambo-border: #eadfce;
+  --jambo-shadow-rgb: 20, 21, 24;
+
+  --btn-radius: 12px;
+  --btn-pad-y-md: 12px;
+  --btn-pad-x-md: 18px;
+  --btn-pad-y-lg: 14px;
+  --btn-pad-x-lg: 22px;
+  --btn-gap: 10px;
+
+  --btn-font-size-md: 15px;
+  --btn-font-size-lg: 16px;
+  --btn-font-weight: 600;
+
+  --btn-transition: 160ms cubic-bezier(.2,.6,.2,1);
 }
 
-/* 🌿 Primär */
+/* ===== Base: neutraler, zugänglicher Button */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--btn-gap);
+
+  position: relative;
+  text-decoration: none;
+  user-select: none;
+  cursor: pointer;
+
+  font-weight: var(--btn-font-weight);
+  line-height: 1;
+
+  border: 1px solid transparent;
+  border-radius: var(--btn-radius);
+  padding: 0; /* Größe kommt von .is-md / .is-lg */
+
+  transition:
+    transform var(--btn-transition),
+    box-shadow var(--btn-transition),
+    background-color var(--btn-transition),
+    border-color var(--btn-transition),
+    color var(--btn-transition);
+}
+
+/* Tastatur-Fokus (AA-konform, überall gleich) */
+.button:focus-visible {
+  outline: 2px solid var(--jambo-highlight);
+  outline-offset: 2px;
+}
+
+/* Disabled‑Zustand */
+.button[disabled],
+.button.is-disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ===== Größen */
+.is-md {
+  padding: var(--btn-pad-y-md) var(--btn-pad-x-md);
+  font-size: var(--btn-font-size-md);
+}
+
+.is-lg {
+  padding: var(--btn-pad-y-lg) var(--btn-pad-x-lg);
+  font-size: var(--btn-font-size-lg);
+}
+
+/* ===== Variante: Primary (Brand‑Orange) */
 .button--primary {
-  background-color: #1f4536; /* dunkelgrün wie Footer */
-  color: #fff;
+  background: var(--jambo-primary);
+  color: var(--jambo-text-on-dark);
+  border-color: transparent;
+  box-shadow: 0 0 0 rgba(0,0,0,0);
 }
 .button--primary:hover {
-  background-color: #153229;
+  background: var(--jambo-primary-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(230,126,34,0.25);
+}
+.button--primary:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 10px rgba(230,126,34,0.18);
+}
+
+/* ===== Variante: Secondary (seriöses Dunkelblau) */
+.button--secondary {
+  background: var(--jambo-secondary);
+  color: var(--jambo-text-on-dark);
+  border-color: transparent;
+  box-shadow: 0 0 0 rgba(0,0,0,0);
+}
+.button--secondary:hover {
+  filter: brightness(0.95);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(var(--jambo-shadow-rgb), 0.18);
+}
+.button--secondary:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 10px rgba(var(--jambo-shadow-rgb), 0.14);
+}
+
+/* ===== Variante: Ghost (transparent, dezente Border) */
+.button--ghost {
+  background: transparent;
+  color: var(--jambo-text-on-light);
+  border-color: var(--jambo-border);
+}
+.button--ghost:hover {
+  background: rgba(0,0,0,0.025);
+  border-color: var(--jambo-primary);
   transform: translateY(-1px);
 }
-
-.button--outline {
-  background: transparent;
-  border: 1.5px solid #1f4536;
-  color: #1f4536;
-  border-radius: 5px;
-}
-.button--outline:hover {
-  background-color: rgba(31, 69, 54, 0.1);
-  color: #153229;
+.button--ghost:active {
+  transform: translateY(0);
 }
 
+/* ===== Icon-Handling */
+.button > svg,
+.button > img {
+  display: inline-block;
+  width: 1.1em;
+  height: 1.1em;
+}
 
-/* 🔗 Button-Gruppen */
+/* ===== Button‑Gruppen */
 .buttonGroup {
-  display: flex;
+  display: inline-flex;
+  gap: 12px;
   flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: center;
-  align-items: center;
-  margin-top: 1.25rem;
 }
 
-
-/* 🌑 Alternative Variante für helle Hintergründe */
-.button--alt {
-  background-color: #fff;
-  color: #1a1a1a;
-  border: 1px solid #1a1a1a;
-}
-
-.button--alt:hover {
-  background-color: #f6f6f6;
-}
-
-
-
-
-
-
-/* Headlines */
-.headline {
-  font-size: 2rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  margin-bottom: 1rem;
-}
-
-.subline {
-  font-size: 1.125rem;
-  color: #666;
-  line-height: 1.5;
-}
-
-/* Section Modifier */
-.section--light {
-  background-color: #fff9f2;
-}
-
-.section--neutral {
-  background-color: #fff3e0;
-}
-
-.section--dark {
-  background-color: #ffffff;
-  color: #fdfdfd;
-}
-
-/* Text Styles */
-.textMuted {
-  color: #777;
-  font-size: 0.95rem;
-}
-
-.center {
+/* ===== Mobile: Vollbreite möglich */
+.is-block {
+  display: inline-flex;
+  width: 100%;
   text-align: center;
 }
 
-.iconBox {
-  font-size: 1.5rem;
-  opacity: 0.85;
-  margin-bottom: 0.5rem;
+/* ===== Optionale Kontrastvarianten */
+.button--primary.is-invert {
+  background: var(--jambo-text-on-dark);
+  color: var(--jambo-primary);
+  border-color: var(--jambo-text-on-dark);
+}
+.button--ghost.is-quiet {
+  border-color: rgba(0,0,0,0.08);
+  color: rgba(0,0,0,0.8);
 }
 
-/* Shadow Utility */
-.shadowSoft {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+/* ===== Responsive Feinschliff */
+@media (max-width: 480px) {
+  .buttonGroup { gap: 10px; }
+  .is-lg { font-size: 15px; }
 }
 
-.shadowStrong {
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+/* ===== Bewegungen reduzieren (A11y) */
+@media (prefers-reduced-motion: reduce) {
+  .button,
+  .button--primary,
+  .button--secondary,
+  .button--ghost {
+    transition: none;
+  }
+  .button--primary:hover,
+  .button--secondary:hover,
+  .button--ghost:hover {
+    transform: none;
+    box-shadow: none;
+  }
 }

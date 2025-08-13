@@ -9,7 +9,7 @@ import {
   SwitchTransition,
 } from 'react-transition-group';
 
-import globalStyles from '../styles/components.module.css';
+import globalStyles from '../styles/GlobalPolish.module.css';
 import styles from './Hero.module.css';
 
 interface HeroProps {
@@ -129,7 +129,8 @@ const Hero: React.FC<HeroProps> = ({
             <div className={styles.ctaContainer}>
               <button
                 onClick={handleCTAClick}
-                className={`${globalStyles.buttonPrimary} ${globalStyles.buttonLarge} ${styles.ctaButton}`}
+                className={`${styles.button} ${styles["button--primary"]} ${styles["is-lg"]}`}
+
                 aria-label={ctaLabel}
               >
                 {ctaLabel}

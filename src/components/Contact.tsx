@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import mapImage from '../assets/nairobi-map.png';
-import globalStyles from '../styles/components.module.css';
+import globalStyles from '../styles/GlobalPolish.module.css';
 import styles from './Contact.module.css';
 
 /**
@@ -101,7 +101,8 @@ const ContactFinal: React.FC = () => {
                 <button
                   type="button"
                   onClick={openCallbackModal}
-                  className={`${globalStyles.buttonSecondary} ${styles.microCtaButton}`}
+                 className={`${globalStyles.button} ${globalStyles["button--secondary"]} ${globalStyles["is-md"]} ${styles.microCtaButton}`}
+
                   aria-label="Rückruf anfragen"
                 >
                   Jetzt Rückruf anfragen
@@ -226,7 +227,8 @@ const ContactFinal: React.FC = () => {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className={`${globalStyles.buttonPrimary} ${styles.submitButton}`}
+                  className={`${globalStyles.button} ${globalStyles["button--primary"]} ${globalStyles["is-md"]} ${styles.submitButton}`}
+
                   >
                     {isSubmitting ? "Wird gesendet..." : "Anfrage senden"}
                   </button>
@@ -408,13 +410,18 @@ const ContactFinal: React.FC = () => {
                 </div>
 
                 <div className={styles.modalActions}>
-                  <button type="submit" className={`${globalStyles.buttonPrimary} ${styles.modalButton}`}>
+                 <button
+  type="submit"
+  className={`${globalStyles.button} ${globalStyles["button--primary"]} ${globalStyles["is-md"]} ${styles.modalButton}`}
+>
+
                     Abschicken
                   </button>
                   <button
                     type="button"
                     onClick={() => setIsCallbackOpen(false)}
-                    className={`${globalStyles.buttonSecondary} ${styles.modalButton}`}
+                    className={`${globalStyles.button} ${globalStyles["button--secondary"]} ${globalStyles["is-md"]} ${styles.modalButton}`}
+
                   >
                     Schließen
                   </button>
