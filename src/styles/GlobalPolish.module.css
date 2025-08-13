@@ -1,17 +1,9 @@
 /* ==========================================================================
    GlobalPolish.module.css
-   Jambo Logistics – Zentrales Button‑System (Modern Warm Africa)
-   --------------------------------------------------------------------------
-   Ziel:
-   • Eine Quelle der Wahrheit für alle CTAs (Base + Varianten + Größen)
-   • Ruhe & Konsistenz: ein Radius, ein Hover, ein Focus, ein Spacing
-   • CSS Modules – keine globalen Seiteneffekte
-   Nutzung:
-   <a className={`${styles.button} ${styles["button--primary"]} ${styles["is-lg"]}`}>Jetzt anfragen</a>
-   <button className={`${styles.button} ${styles["button--ghost"]} ${styles["is-md"]}`}>Mehr erfahren</button>
+   Jambo Logistics – Zentrales Button-System (Modern Warm Africa)
    ========================================================================== */
 
-/* ===== Design‑Tokens (Fallbacks, echte Werte ideal in :root von base.css) */
+/* ===== Design-Tokens (Fallbacks, echte Werte ideal in :root von base.css) */
 :root {
   --jambo-primary: #e67e22;
   --jambo-primary-dark: #d35400;
@@ -37,13 +29,12 @@
   --btn-transition: 160ms cubic-bezier(.2,.6,.2,1);
 }
 
-/* ===== Base: neutraler, zugänglicher Button */
+/* ===== Base: neutrale Button-Basis */
 .button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--btn-gap);
-
   position: relative;
   text-decoration: none;
   user-select: none;
@@ -54,7 +45,9 @@
 
   border: 1px solid transparent;
   border-radius: var(--btn-radius);
-  padding: 0; /* Größe kommt von .is-md / .is-lg */
+
+  /* Größe kommt über .is-md / .is-lg */
+  padding: 0;
 
   transition:
     transform var(--btn-transition),
@@ -64,13 +57,13 @@
     color var(--btn-transition);
 }
 
-/* Tastatur-Fokus (AA-konform, überall gleich) */
+/* Fokuszustand AA-konform */
 .button:focus-visible {
   outline: 2px solid var(--jambo-highlight);
   outline-offset: 2px;
 }
 
-/* Disabled‑Zustand */
+/* Disabled */
 .button[disabled],
 .button.is-disabled {
   opacity: 0.6;
@@ -89,10 +82,10 @@
   font-size: var(--btn-font-size-lg);
 }
 
-/* ===== Variante: Primary (Brand‑Orange) */
+/* ===== Primary (Brand Orange) */
 .button--primary {
   background: var(--jambo-primary);
-  color: var(--jambo-text-on-dark);
+  color: #fff !important; /* Erzwingt Weiß auch bei <a> */
   border-color: transparent;
   box-shadow: 0 0 0 rgba(0,0,0,0);
 }
@@ -106,10 +99,10 @@
   box-shadow: 0 4px 10px rgba(230,126,34,0.18);
 }
 
-/* ===== Variante: Secondary (seriöses Dunkelblau) */
+/* ===== Secondary (Dunkelblau) */
 .button--secondary {
   background: var(--jambo-secondary);
-  color: var(--jambo-text-on-dark);
+  color: #fff !important;
   border-color: transparent;
   box-shadow: 0 0 0 rgba(0,0,0,0);
 }
@@ -123,7 +116,7 @@
   box-shadow: 0 4px 10px rgba(var(--jambo-shadow-rgb), 0.14);
 }
 
-/* ===== Variante: Ghost (transparent, dezente Border) */
+/* ===== Ghost (transparent) */
 .button--ghost {
   background: transparent;
   color: var(--jambo-text-on-light);
@@ -146,21 +139,21 @@
   height: 1.1em;
 }
 
-/* ===== Button‑Gruppen */
+/* ===== Button-Gruppen */
 .buttonGroup {
   display: inline-flex;
   gap: 12px;
   flex-wrap: wrap;
 }
 
-/* ===== Mobile: Vollbreite möglich */
+/* ===== Vollbreite auf Mobile */
 .is-block {
   display: inline-flex;
   width: 100%;
   text-align: center;
 }
 
-/* ===== Optionale Kontrastvarianten */
+/* ===== Extra Varianten */
 .button--primary.is-invert {
   background: var(--jambo-text-on-dark);
   color: var(--jambo-primary);
@@ -171,13 +164,13 @@
   color: rgba(0,0,0,0.8);
 }
 
-/* ===== Responsive Feinschliff */
+/* ===== Mobile Anpassungen */
 @media (max-width: 480px) {
   .buttonGroup { gap: 10px; }
   .is-lg { font-size: 15px; }
 }
 
-/* ===== Bewegungen reduzieren (A11y) */
+/* ===== Bewegungen reduzieren */
 @media (prefers-reduced-motion: reduce) {
   .button,
   .button--primary,
