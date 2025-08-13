@@ -73,7 +73,7 @@ const Services: React.FC<ServicesProps> = ({
 }) => {
   // 🔹 AOS init (defensiv, falls nicht global initialisiert)
   React.useEffect(() => {
-    if (typeof window !== 'undefined' && (AOS as any)?.init) {
+    if (typeof window !== 'undefined' && AOS.init) {
       AOS.init({ once: true, duration: 520, easing: 'ease-out' });
     }
   }, []);

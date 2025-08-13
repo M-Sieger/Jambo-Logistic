@@ -6,8 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "lint": "pnpm exec eslint \"src/**/*.{ts,tsx}\"",
+    "preview": "vite preview",
+    "fix": "pnpm exec eslint \"src/**/*.{ts,tsx}\" --fix"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
@@ -68,11 +69,15 @@
     "@types/node": "^24.1.0",
     "@types/react": "^19.1.4",
     "@types/react-dom": "^19.1.5",
+    "@typescript-eslint/eslint-plugin": "^8.39.1",
+    "@typescript-eslint/parser": "^8.39.1",
     "@vitejs/plugin-react": "^4.4.1",
-    "eslint": "^9.25.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
+    "prettier": "^3.6.2",
     "tw-animate-css": "^1.2.9",
     "typescript": "^5.9.2",
     "vite": "^6.3.5"

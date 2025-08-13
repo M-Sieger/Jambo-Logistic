@@ -68,7 +68,7 @@ const stepIcons = ['📩', '🚚', '🚢', '📍'];
 const ProcessSteps: React.FC<ProcessStepsProps> = ({ steps = defaultSteps }) => {
   // 🚀 AOS initialisieren (defensiv, falls globales init fehlt)
   React.useEffect(() => {
-    if (typeof window !== 'undefined' && (AOS as any)?.init) {
+    if (typeof window !== 'undefined' && AOS.init) {
       AOS.init({ once: true, duration: 520, easing: 'ease-out' });
     }
   }, []);
