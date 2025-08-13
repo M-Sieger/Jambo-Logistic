@@ -1,26 +1,28 @@
 /* Hero.module.css – final IVY polished (B1-konform) */
 
+/* 🔹 Root-Container für die Hero-Section */
 .hero {
   position: relative;
-  min-height: 100vh;
+  min-height: 100vh; /* Vollbild-Höhe */
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  isolation: isolate; /* fix für stacking issues bei Modals etc. */
+  isolation: isolate; /* verhindert Stacking-Probleme bei Overlays/Modals */
 }
 
-/* BG per <img>, nicht mehr via background-* am Root */
+/* 🔹 Hero-Bild per <img> statt background-image am Container (CLS-Fix möglich) */
 .bgImg {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: cover;    /* Bild füllt Bereich ohne Verzerrung */
   object-position: center;
   z-index: 0;
 }
 
+/* 🔹 Overlay mit Farbverlauf – dunkle Variante */
 .overlay {
   position: absolute;
   inset: 0;
@@ -36,6 +38,7 @@
   z-index: 1;
 }
 
+/* 🔹 Overlay – helle Variante */
 .light .overlay {
   background: linear-gradient(
     135deg,
@@ -45,17 +48,18 @@
   );
 }
 
+/* 🔹 Content-Wrapper – zentriert, max. Breite für Lesbarkeit */
 .content {
   position: relative;
   z-index: 2;
   text-align: center;
   max-width: 1000px;
   margin: 0 auto;
-  /* kein sectionweites Padding hier – kommt global von .section */
-  padding: 0;
-  transition: opacity 0.5s ease-in-out;
+  padding: 0; /* Section-Padding kommt global */
+  transition: opacity 0.5s ease-in-out; /* sanftes Ein-/Ausblenden */
 }
 
+/* 🔹 CTA-Container unter Headline/Subline */
 .ctaContainer {
   margin-top: var(--spacing-2xl);
   display: flex;
@@ -64,27 +68,29 @@
   flex-wrap: wrap;
 }
 
+/* 🔹 CTA-Button-Styling */
 .ctaButton {
   min-width: 200px;
   box-shadow: var(--shadow-xl);
   transform: translateY(0);
   transition: all var(--transition-normal);
 }
-
 .ctaButton:hover {
   transform: translateY(-3px);
   box-shadow: 0 20px 40px rgba(230, 126, 34, 0.3);
 }
 
+/* 🔹 Scroll-Indikator am unteren Bildschirmrand */
 .scrollIndicator {
   position: absolute;
   bottom: var(--spacing-xl);
   left: 50%;
   transform: translateX(-50%);
   z-index: 3;
-  animation: bounce 2s infinite;
+  animation: bounce 2s infinite; /* sanftes Hüpfen */
 }
 
+/* 🔹 Pfeil im Kreis – visuelle Scroll-Aufforderung */
 .scrollArrow {
   display: flex;
   align-items: center;
@@ -98,32 +104,29 @@
   transition: all var(--transition-fast);
   cursor: pointer;
 }
-
 .scrollArrow:hover {
   background-color: rgba(255, 255, 255, 0.2);
   border-color: var(--color-primary);
 }
-
 .scrollArrow span {
   font-size: var(--font-size-lg);
   color: rgba(255, 255, 255, 0.9);
   font-weight: bold;
 }
 
+/* 🔹 Scroll-Arrow helle Variante */
 .light .scrollArrow {
   border-color: rgba(44, 62, 80, 0.6);
   background-color: rgba(44, 62, 80, 0.1);
 }
-
 .light .scrollArrow span {
   color: var(--color-text-primary);
 }
-
 .light .scrollArrow:hover {
   background-color: rgba(44, 62, 80, 0.2);
 }
 
-/* Sprachumschalter */
+/* 🔹 Sprachumschalter oben rechts */
 .languageSwitcher {
   position: absolute;
   top: var(--spacing-md);
@@ -132,7 +135,6 @@
   gap: var(--spacing-sm);
   z-index: 4;
 }
-
 .flagButton {
   background: transparent;
   border: none;
@@ -141,55 +143,45 @@
   opacity: 0.8;
   transition: opacity var(--transition-fast), transform var(--transition-fast);
 }
-
 .flagButton:hover {
   opacity: 1;
   transform: scale(1.1);
 }
 
-/* Transition-Fades (CSSTransition) */
-:global(.fade-enter) {
-  opacity: 0;
-}
-
+/* 🔹 Transition-Klassen für CSSTransition */
+:global(.fade-enter) { opacity: 0; }
 :global(.fade-enter-active) {
   opacity: 1;
   transition: opacity 0.5s ease-in-out;
 }
-
-:global(.fade-exit) {
-  opacity: 1;
-}
-
+:global(.fade-exit) { opacity: 1; }
 :global(.fade-exit-active) {
   opacity: 0;
   transition: opacity 0.5s ease-in-out;
 }
 
-/* Optional: animierte Headline */
+/* 🔹 Optional: animierte Headline/Subline */
 .animatedHeadline {
   opacity: 0;
   animation: fadeInUp 0.8s ease-out forwards;
 }
-
 .animatedSubline {
   opacity: 0;
   animation: fadeInUp 1s ease-out forwards;
 }
-
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Bounce für Scroll-Pfeil */
+/* 🔹 Bounce-Animation für Scroll-Pfeil */
 @keyframes bounce {
   0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
   40% { transform: translateX(-50%) translateY(-10px); }
   60% { transform: translateX(-50%) translateY(-5px); }
 }
 
-/* Responsiveness */
+/* 🔹 Responsive-Anpassungen */
 @media (max-width: 767px) {
   .hero { min-height: 100vh; }
   .ctaContainer {
@@ -200,25 +192,22 @@
   .ctaButton { width: 100%; max-width: 280px; }
   .scrollIndicator { bottom: var(--spacing-lg); }
 }
-
 @media (min-width: 768px) {
   .ctaButton { min-width: 220px; }
 }
-
 @media (min-width: 1024px) {
   .content { max-width: 900px; }
   .ctaButton { min-width: 240px; }
 }
-
 @media (min-width: 1280px) {
   .content { max-width: 1000px; }
 }
 
+/* 🔹 Barrierefreiheit & Motion-Präferenzen */
 @media (prefers-contrast: high) {
   .overlay { background: rgba(0, 0, 0, 0.8); }
   .light .overlay { background: rgba(255, 255, 255, 0.95); }
 }
-
 @media (prefers-reduced-motion: reduce) {
   .scrollIndicator { animation: none; }
   .ctaButton { transition: none; }

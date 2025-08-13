@@ -5,7 +5,8 @@
    Ziel:
    - Optisch konsistent mit Services & TrustSection
    - Vertikale Timeline (Mobile), horizontale Timeline (Desktop)
-   - Einheitliche Bilder, Hover-Animationen & Spacing
+   - Einheitliche Bilder (16:9), Hover-Animationen & ruhiges Spacing
+   - CLS-frei (Ratio-Reservierung) + Sticky-Header-Offset
    ========================================================================== */
 
 /* --- GLOBALER FIX FÜR STICKY-HEADER-OFFSET -------------------------------- */
@@ -21,7 +22,7 @@
   background: linear-gradient(180deg, #f4eee6 0%, #f5e8db 100%);
   padding: 4rem 1rem;
   position: relative;
-  isolation: isolate;
+  isolation: isolate; /* verhindert Stacking-Leaks bei Overlays */
 }
 
 .headline {
@@ -34,7 +35,7 @@
 }
 
 /* ========================================================================== */
-/* TIMELINE                                                                    */
+/* TIMELINE (Mobil: vertikal)                                                 */
 /* ========================================================================== */
 .timeline {
   display: flex;
@@ -64,7 +65,7 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: #f97316;
+  background: #f97316; /* Warm Orange */
   margin-top: 4px;
 }
 
@@ -76,7 +77,7 @@
 }
 
 /* ========================================================================== */
-/* CARD-INHALT                                                                 */
+/* CARD-INHALT                                                                */
 /* ========================================================================== */
 .cardContent {
   background: #fff;
@@ -104,22 +105,30 @@
 }
 
 /* ========================================================================== */
-/* BILD-DARSTELLUNG (wie Services)                                            */
+/* BILD-DARSTELLUNG (CLS-frei wie Services)                                   */
 /* ========================================================================== */
+/* ⚠️ WICHTIG: Wir reservieren den Bildplatz über einen Ratio-Container,
+   nicht über feste Höhen. So bleibt die Card-Höhe stabil (CLS=0). */
 .imageContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  position: relative;
   width: 100%;
+  max-width: 320px;        /* optisch ruhige Breite */
+  aspect-ratio: 16 / 9;    /* 🔒 reservierter Platz (CLS-Fix) */
   margin-bottom: 1rem;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #f5f5f5;     /* Placeholder-Farbe bis Bild geladen ist */
 }
 
+/* Bild füllt den Ratio-Container vollständig */
 .stepImage {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  max-width: 220px;
-  height: 140px;
-  object-fit: cover;
-  border-radius: 12px;
+  height: 100%;
+  object-fit: cover;       /* sauberer Zuschnitt */
+  object-position: center;
+  display: block;
   transition: transform 0.3s ease;
 }
 
@@ -224,16 +233,14 @@
     height: 1.5rem;
   }
 
-  .stepImage {
-    max-width: 180px;
-    height: 120px;
+  .imageContainer {
+    max-width: 260px; /* etwas kompakter auf Tablet/Mobile */
   }
 }
 
 @media (max-width: 480px) {
-  .stepImage {
-    max-width: 140px;
-    height: 100px;
+  .imageContainer {
+    max-width: 220px; /* kompakt auf kleinen Phones */
   }
 }
 
@@ -256,9 +263,10 @@
   }
 
   .marker {
-    display: none;
+    display: none; /* Marker-Linie nur mobil sichtbar */
   }
 
+  /* Pfeil-Verbindung zwischen den Cards (horizontale Führung) */
   .timelineItem:not(:last-child)::after {
     content: '';
     position: absolute;
@@ -286,5 +294,25 @@
   .cardContent {
     max-width: 280px;
     padding: 2rem 1rem 2.5rem;
+  }
+}
+
+/* ========================================================================== */
+/* REDUCED MOTION & HIGH CONTRAST                                             */
+/* ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .cardContent,
+  .stepImage,
+  .buttonPrimary {
+    transition: none;
+  }
+  .cardContent:hover .stepImage {
+    transform: none;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .buttonPrimary {
+    border-color: currentColor;
   }
 }

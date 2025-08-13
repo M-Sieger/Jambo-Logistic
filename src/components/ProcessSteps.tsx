@@ -3,6 +3,7 @@
 // ✅ CLS-frei dank width/height am <img> + aspect-ratio (in CSS)
 // ✅ Robust: Default-Schritte, falls keine Props übergeben werden
 // ✅ A11y: aria-labelledby + sinnvolle Alt-Texte
+// ✅ Performance: loading="lazy" + decoding="async" + sizes für responsive Auswahl
 
 import React from 'react';
 
@@ -17,7 +18,7 @@ import styles from './ProcessSteps.module.css';
 
 // 🔹 Typen für Props
 type Step = {
-  icon?: string;        // z. B. "📩" (optional)
+  icon?: string;        // z. B. "📩" (optional, dekorativ)
   title: string;        // z. B. "Annahme"
   description: string;  // kurz & klar, 1–2 Zeilen
   imgSrc?: string;      // optional – wenn gesetzt, überschreibt Default-Image
@@ -31,52 +32,52 @@ type ProcessStepsProps = {
 // 🧱 Default-Schritte (MVP-ready, i18n-geeignet)
 const defaultSteps: Step[] = [
   {
-    icon: "📩",
-    title: "Annahme",
+    icon: '📩',
+    title: 'Annahme',
     description:
-      "Bring dein Paket nach Essen (NRW) oder sende es per Post. Abholung in NRW folgt bald.",
+      'Bring dein Paket nach Essen (NRW) oder sende es per Post. Abholung in NRW folgt bald.',
     imgSrc: step1Image,
   },
   {
-    icon: "🚚",
-    title: "Transport",
+    icon: '🚚',
+    title: 'Transport',
     description:
-      "Dein Paket reist sicher im Container nach Kenia. Persönliche Updates statt Tracking‑App.",
+      'Dein Paket reist sicher im Container nach Kenia. Persönliche Updates statt Tracking‑App.',
     imgSrc: step2Image,
   },
   {
-    icon: "🚢",
-    title: "Ankunft",
+    icon: '🚢',
+    title: 'Ankunft',
     description:
-      "Eingang in Nairobi – transparente Abwicklung mit klaren Zeiten & Dokumenten.",
+      'Eingang in Nairobi – transparente Abwicklung mit klaren Zeiten & Dokumenten.',
     imgSrc: step3Image,
   },
   {
-    icon: "📍",
-    title: "Zustellung",
+    icon: '📍',
+    title: 'Zustellung',
     description:
-      "Wir melden uns, sobald dein Paket angekommen ist – Abholung im Lager ganz einfach.",
+      'Wir melden uns, sobald dein Paket angekommen ist – Abholung im Lager ganz einfach.',
     imgSrc: step4Image,
   },
 ];
 
-// Zyklische Fallbacks (falls >4 Steps)
+// 🔄 Zyklische Fallbacks (falls >4 Steps)
 const stepImages = [step1Image, step2Image, step3Image, step4Image];
-const stepIcons = ["📩", "🚚", "🚢", "📍"];
+const stepIcons = ['📩', '🚚', '🚢', '📍'];
 
 const ProcessSteps: React.FC<ProcessStepsProps> = ({ steps = defaultSteps }) => {
   // 🚀 AOS initialisieren (defensiv, falls globales init fehlt)
   React.useEffect(() => {
-    if (typeof window !== "undefined" && (AOS as any)?.init) {
-      AOS.init({ once: true, duration: 520, easing: "ease-out" });
+    if (typeof window !== 'undefined' && (AOS as any)?.init) {
+      AOS.init({ once: true, duration: 520, easing: 'ease-out' });
     }
   }, []);
 
-  // Guard: keine Steps → nichts rendern
+  // ❎ Guard: keine Steps → nichts rendern
   if (!steps || steps.length === 0) return null;
 
-  // A11y: Überschrift-ID für aria-labelledby
-  const headingId = "process-heading";
+  // 🔈 A11y: Überschrift-ID für aria-labelledby
+  const headingId = 'process-heading';
 
   return (
     /**
@@ -136,6 +137,8 @@ const ProcessSteps: React.FC<ProcessStepsProps> = ({ steps = defaultSteps }) => 
                         height={450} // 16:9, passend zur Services-Section
                         loading="lazy"
                         decoding="async"
+                        // 🔍 responsive Auswahl: mobil groß, sonst moderate Zielbreite
+                        sizes="(max-width: 640px) 92vw, (max-width: 1024px) 50vw, 400px"
                       />
                     </div>
 

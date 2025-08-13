@@ -2,7 +2,7 @@ import React, {
   useEffect,
   useRef,
   useState,
-} from 'react'; // ← useRef ergänzt!
+} from 'react';
 
 import {
   CSSTransition,
@@ -31,6 +31,7 @@ const Hero: React.FC<HeroProps> = ({
   variant = 'dark',
   className = ''
 }) => {
+  // 🌍 Rotierende Übersetzungen für Headline + Subline
   const translations = [
     { lang: 'de', flag: '🇩🇪', headline: 'Von deiner Tür bis nach Nairobi.', subline: 'Klar. Schnell. Zuverlässig. Für dich nach Kenia.' },
     { lang: 'en', flag: '🇬🇧', headline: 'From your door to Nairobi.', subline: 'Fast. Reliable. For you to Kenya.' },
@@ -38,8 +39,9 @@ const Hero: React.FC<HeroProps> = ({
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
-  const nodeRef = useRef<HTMLDivElement>(null); // 🔁 nodeRef definieren
+  const nodeRef = useRef<HTMLDivElement>(null);
 
+  // 🔄 Automatischer Sprachwechsel alle 7 Sekunden
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % translations.length);
@@ -53,6 +55,7 @@ const Hero: React.FC<HeroProps> = ({
 
   const { headline: currentHeadline, subline: currentSubline } = translations[currentIndex];
 
+  // 📩 CTA-Scroll oder benutzerdefinierte Aktion
   const handleCTAClick = () => {
     if (onCTAClick) {
       onCTAClick();
@@ -68,16 +71,27 @@ const Hero: React.FC<HeroProps> = ({
     <section
       id="hero"
       className={`${styles.hero} ${styles[variant]} ${className}`}
-      style={{
-        backgroundImage: imageUrl ? `url(${imageUrl})` : undefined,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
-      }}
     >
+      {/* 📷 Hero-Bild im Ratio-Wrapper für CLS-Fix */}
+      {imageUrl && (
+        <div className={styles.mediaWrap} aria-hidden="true">
+          <img
+            className={styles.media}
+            src={imageUrl}
+            alt=""
+            loading="eager"                // 🟢 wichtig für LCP
+            decoding="async"
+            fetchPriority="high"
+            sizes="100vw"
+          />
+        </div>
+      )}
+
+      {/* Overlay-Gradient */}
       <div className={styles.overlay}>
         <div className={`${styles.container} container`}>
           <div className={styles.content}>
+            {/* 🌐 Sprachumschalter */}
             <div className={styles.languageSwitcher}>
               {translations.map((t, index) => (
                 <button
@@ -92,13 +106,13 @@ const Hero: React.FC<HeroProps> = ({
               ))}
             </div>
 
-            {/* ✅ Übergang mit nodeRef */}
+            {/* ✨ Headline + Subline mit Transition */}
             <SwitchTransition>
               <CSSTransition
                 key={currentIndex}
                 timeout={500}
                 classNames="fade"
-                nodeRef={nodeRef} // wichtig!
+                nodeRef={nodeRef}
               >
                 <div ref={nodeRef}>
                   <h1 className={`${globalStyles.headline} ${variant === 'light' ? globalStyles.headline : globalStyles.headlineLight}`}>
@@ -111,6 +125,7 @@ const Hero: React.FC<HeroProps> = ({
               </CSSTransition>
             </SwitchTransition>
 
+            {/* 📌 CTA-Button */}
             <div className={styles.ctaContainer}>
               <button
                 onClick={handleCTAClick}
@@ -124,6 +139,7 @@ const Hero: React.FC<HeroProps> = ({
         </div>
       </div>
 
+      {/* ⬇ Scroll-Indikator */}
       <div className={styles.scrollIndicator}>
         <div className={styles.scrollArrow}>
           <span>↓</span>

@@ -1,8 +1,10 @@
 // src/components/Services.tsx
 // ✅ React + TypeScript + CSS Modules
-// ✅ Card-Images kompakter: 16:9 + max-height (Desktop), CLS-frei (width/height + aspect-ratio im CSS)
-// ✅ Keine Klassennamens-Kollisionen (services*, card*), AOS-Stagger 0/100/200/300
-// ✅ CTA-Box unverändert, #contact als Primär-CTA
+// ✅ CLS-frei: width/height + aspect-ratio im CSS
+// ✅ Lazy Loading + decoding="async" für alle Bilder (außer Hero in anderer Datei)
+// ✅ sizes-Attribute für responsive Bildauswahl
+// ✅ AOS-Stagger 0/100/200/300
+// ✅ CTA-Box mit Bild + Text + Buttons, #contact als Primär-CTA
 
 import React from 'react';
 
@@ -17,7 +19,7 @@ import homeImg from '../assets/deliver.jpeg';
 import textImg from '../assets/warehouse.jpg';
 import styles from './Services.module.css';
 
-// Datenmodell
+// 🔹 Datenmodell
 type ServiceItem = {
   id: string;
   title: string;
@@ -32,60 +34,60 @@ export interface ServicesProps {
   secondaryCtaHref?: string;
 }
 
-// Default-Items (MVP-ready)
+// 🔹 Default-Items (MVP-ready)
 const defaultItems: ServiceItem[] = [
   {
-    id: "pkg",
-    title: "Paketversand",
-    desc: "Sicher & fair nach Nairobi – privat & geschäftlich.",
+    id: 'pkg',
+    title: 'Paketversand',
+    desc: 'Sicher & fair nach Nairobi – privat & geschäftlich.',
     imgSrc: pkgImg,
-    imgAlt: "Pakete für den Versand vorbereitet",
+    imgAlt: 'Pakete für den Versand vorbereitet',
   },
   {
-    id: "ctr",
-    title: "Containertransport",
-    desc: "Planbar, dokumentiert, mit persönlichem Update.",
+    id: 'ctr',
+    title: 'Containertransport',
+    desc: 'Planbar, dokumentiert, mit persönlichem Update.',
     imgSrc: ctrImg,
-    imgAlt: "Containerverladung im Hafen",
+    imgAlt: 'Containerverladung im Hafen',
   },
   {
-    id: "home",
-    title: "Haushalt & Elektronik",
-    desc: "Sorgfältig verpackt, transparent abgewickelt.",
+    id: 'home',
+    title: 'Haushalt & Elektronik',
+    desc: 'Sorgfältig verpackt, transparent abgewickelt.',
     imgSrc: homeImg,
-    imgAlt: "Transport von Haushaltsgeräten",
+    imgAlt: 'Transport von Haushaltsgeräten',
   },
   {
-    id: "text",
-    title: "Kleidung & Textilien",
-    desc: "Sammelpakete, faire Tarife, klare Prozesse.",
+    id: 'text',
+    title: 'Kleidung & Textilien',
+    desc: 'Sammelpakete, faire Tarife, klare Prozesse.',
     imgSrc: textImg,
-    imgAlt: "Karton mit Kleidung im Lager",
+    imgAlt: 'Karton mit Kleidung im Lager',
   },
 ];
 
 const Services: React.FC<ServicesProps> = ({
   items = defaultItems,
-  primaryCtaHref = "#contact",
-  secondaryCtaHref = "#process",
+  primaryCtaHref = '#contact',
+  secondaryCtaHref = '#process',
 }) => {
-  // AOS init (defensiv, falls nicht global initialisiert)
+  // 🔹 AOS init (defensiv, falls nicht global initialisiert)
   React.useEffect(() => {
-    if (typeof window !== "undefined" && (AOS as any)?.init) {
-      AOS.init({ once: true, duration: 520, easing: "ease-out" });
+    if (typeof window !== 'undefined' && (AOS as any)?.init) {
+      AOS.init({ once: true, duration: 520, easing: 'ease-out' });
     }
   }, []);
 
   return (
     <div className={styles.services}>
-      {/* Überschrift */}
+      {/* 🔹 Überschrift */}
       <div className={styles.header}>
         <h2 className={styles.sectionTitle} data-aos="fade-up">
           Unsere Services
         </h2>
       </div>
 
-      {/* Cards */}
+      {/* 🔹 Service-Cards */}
       <div className={styles.servicesGrid}>
         {items.slice(0, 4).map((it, idx) => (
           <article
@@ -93,19 +95,20 @@ const Services: React.FC<ServicesProps> = ({
             className={styles.serviceCard}
             tabIndex={0}
             data-aos="fade-up"
-            data-aos-delay={String(idx * 100)} // 0/100/200/300
+            data-aos-delay={String(idx * 100)} // 0/100/200/300 ms Stagger
             aria-label={it.title}
           >
-            {/* Bild: CLS-frei (breite/höhe) + 16:9 + max-height via CSS */}
+            {/* Bild: CLS-frei (width/height) + aspect-ratio in CSS */}
             <div className={styles.cardImageWrap}>
               <img
                 className={styles.cardImage}
                 src={it.imgSrc}
                 alt={it.imgAlt}
                 width={800}
-                height={450}      // 16:9
+                height={450}       // 16:9
                 loading="lazy"
                 decoding="async"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
               />
             </div>
 
@@ -115,7 +118,7 @@ const Services: React.FC<ServicesProps> = ({
               {it.desc}
             </p>
 
-            {/* Sekundäre Aktion (optional) */}
+            {/* Sekundäre Aktion */}
             <span className={styles.cardAction} aria-hidden="true">
               <span className={styles.actionText}>Mehr erfahren</span>
               <span className={styles.actionArrow}>→</span>
@@ -124,7 +127,7 @@ const Services: React.FC<ServicesProps> = ({
         ))}
       </div>
 
-      {/* CTA-Box */}
+      {/* 🔹 CTA-Box */}
       <section
         className={styles.ctaSection}
         data-aos="fade-up"
@@ -141,6 +144,7 @@ const Services: React.FC<ServicesProps> = ({
               height={675}  // 16:9
               loading="lazy"
               decoding="async"
+              sizes="(max-width: 768px) 100vw, 1200px"
               alt="Persönliche Versandberatung: freundlich, klar und zuverlässig."
             />
           </div>
