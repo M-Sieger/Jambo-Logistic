@@ -185,3 +185,12 @@
     box-shadow: none;
   }
 }
+
+/* ===== Headline-Farben für Hero ===== */
+.headlineLight {
+  color: #ffffff; /* Für Dark-Hero: weiße Schrift */
+}
+
+.headlineDark {
+  color: var(--jambo-text-on-light); /* Für Light-Hero: dunkle Schrift */
+}

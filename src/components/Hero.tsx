@@ -9,7 +9,9 @@ import {
   SwitchTransition,
 } from 'react-transition-group';
 
+/** 🔧 Globales Button-/Typo-System */
 import globalStyles from '../styles/GlobalPolish.module.css';
+/** 🎨 Lokale Hero-Layout-Styles (Positionierung, Overlay, Spacing etc.) */
 import styles from './Hero.module.css';
 
 interface HeroProps {
@@ -49,22 +51,18 @@ const Hero: React.FC<HeroProps> = ({
     return () => clearInterval(intervalId);
   }, [translations.length]);
 
-  const handleLanguageClick = (index: number) => {
-    setCurrentIndex(index);
-  };
+  const handleLanguageClick = (index: number) => setCurrentIndex(index);
 
   const { headline: currentHeadline, subline: currentSubline } = translations[currentIndex];
 
-  // 📩 CTA-Scroll oder benutzerdefinierte Aktion
+  // 📩 CTA: custom Callback ODER smooth scroll zu #contact
   const handleCTAClick = () => {
     if (onCTAClick) {
       onCTAClick();
-    } else {
-      const contactElement = document.getElementById('contact');
-      if (contactElement) {
-        contactElement.scrollIntoView({ behavior: 'smooth' });
-      }
+      return;
     }
+    const el = document.getElementById('contact');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -72,14 +70,14 @@ const Hero: React.FC<HeroProps> = ({
       id="hero"
       className={`${styles.hero} ${styles[variant]} ${className}`}
     >
-      {/* 📷 Hero-Bild im Ratio-Wrapper für CLS-Fix */}
+      {/* 📷 Bild mit stabiler Ratio gegen CLS */}
       {imageUrl && (
         <div className={styles.mediaWrap} aria-hidden="true">
           <img
             className={styles.media}
             src={imageUrl}
             alt=""
-            loading="eager"                // 🟢 wichtig für LCP
+            loading="eager"            /* 🟢 wichtig für LCP */
             decoding="async"
             fetchPriority="high"
             sizes="100vw"
@@ -87,10 +85,11 @@ const Hero: React.FC<HeroProps> = ({
         </div>
       )}
 
-      {/* Overlay-Gradient */}
+      {/* 🌫 Overlay + Content-Container */}
       <div className={styles.overlay}>
         <div className={`${styles.container} container`}>
           <div className={styles.content}>
+
             {/* 🌐 Sprachumschalter */}
             <div className={styles.languageSwitcher}>
               {translations.map((t, index) => (
@@ -106,36 +105,45 @@ const Hero: React.FC<HeroProps> = ({
               ))}
             </div>
 
-            {/* ✨ Headline + Subline mit Transition */}
+            {/* ✨ Headline + Subline (fade) */}
             <SwitchTransition>
-              <CSSTransition
-                key={currentIndex}
-                timeout={500}
-                classNames="fade"
-                nodeRef={nodeRef}
-              >
+              <CSSTransition key={currentIndex} timeout={500} classNames="fade" nodeRef={nodeRef}>
                 <div ref={nodeRef}>
-                  <h1 className={`${globalStyles.headline} ${variant === 'light' ? globalStyles.headline : globalStyles.headlineLight}`}>
-                    {currentHeadline}
-                  </h1>
-                  <p className={`${globalStyles.subline} ${variant === 'light' ? globalStyles.subline : globalStyles.sublineLight}`}>
-                    {currentSubline}
-                  </p>
+                  {/* Hinweis: headline/subline-Klassen kommen aus deinem globalen Typo-Set */}
+                  <h1
+  className={`${globalStyles.headline} ${
+    variant === 'light'
+      ? globalStyles.headlineDark
+      : globalStyles.headlineLight
+  }`}
+>
+  {currentHeadline}
+</h1>
+
+                  <p
+  className={`${variant === 'light'
+    ? globalStyles.subline
+    : globalStyles.sublineLight}`}
+>
+  {currentSubline}
+</p>
+
                 </div>
               </CSSTransition>
             </SwitchTransition>
 
             {/* 📌 CTA-Button */}
             <div className={styles.ctaContainer}>
-              <button
-                onClick={handleCTAClick}
-                className={`${styles.button} ${styles["button--primary"]} ${styles["is-lg"]}`}
+      <button
+  onClick={handleCTAClick}
+  className={`${globalStyles.button} ${globalStyles["button--primary"]} ${globalStyles["is-lg"]}`}
+  aria-label={ctaLabel}
+>
+  {ctaLabel}
+</button>
 
-                aria-label={ctaLabel}
-              >
-                {ctaLabel}
-              </button>
             </div>
+
           </div>
         </div>
       </div>
