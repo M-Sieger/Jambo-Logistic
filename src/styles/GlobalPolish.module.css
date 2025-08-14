@@ -1,196 +1,171 @@
 /* ==========================================================================
    GlobalPolish.module.css
-   Jambo Logistics – Zentrales Button-System (Modern Warm Africa)
+   Modern Warm Africa – zentrales UI-Set (Buttons, Typo, Utilities)
+   --------------------------------------------------------------------------
+   Prinzip:
+   - Globale, wiederverwendbare Komponenten-Styles
+   - Lokale Modul-CSS (z. B. Hero.module.css) nur für Layout/Positionierung
    ========================================================================== */
 
-/* ===== Design-Tokens (Fallbacks, echte Werte ideal in :root von base.css) */
-:root {
-  --jambo-primary: #e67e22;
-  --jambo-primary-dark: #d35400;
-  --jambo-secondary: #2c3e50;
-  --jambo-highlight: #f1c40f;
-  --jambo-text-on-dark: #ffffff;
-  --jambo-text-on-light: #0f172a;
+/* ====== Button System ===================================================== */
 
-  --jambo-border: #eadfce;
-  --jambo-shadow-rgb: 20, 21, 24;
-
-  --btn-radius: 12px;
-  --btn-pad-y-md: 12px;
-  --btn-pad-x-md: 18px;
-  --btn-pad-y-lg: 14px;
-  --btn-pad-x-lg: 22px;
-  --btn-gap: 10px;
-
-  --btn-font-size-md: 15px;
-  --btn-font-size-lg: 16px;
-  --btn-font-weight: 600;
-
-  --btn-transition: 160ms cubic-bezier(.2,.6,.2,1);
-}
-
-/* ===== Base: neutrale Button-Basis */
 .button {
+  /* Struktur & Interaktion (Base) */
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--btn-gap);
-  position: relative;
-  text-decoration: none;
-  user-select: none;
-  cursor: pointer;
-
-  font-weight: var(--btn-font-weight);
+  gap: var(--spacing-sm);
+  padding: 0; /* Größe kommt über .is-md / .is-lg */
+  font-size: var(--font-size-base);
+  font-weight: 600;
   line-height: 1;
-
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  cursor: pointer;
   border: 1px solid transparent;
-  border-radius: var(--btn-radius);
-
-  /* Größe kommt über .is-md / .is-lg */
-  padding: 0;
-
-  transition:
-    transform var(--btn-transition),
-    box-shadow var(--btn-transition),
-    background-color var(--btn-transition),
-    border-color var(--btn-transition),
-    color var(--btn-transition);
+  min-height: 0; /* Höhe via Größenklassen */
+  transition: transform var(--transition-fast),
+              box-shadow var(--transition-fast),
+              background-color var(--transition-fast),
+              border-color var(--transition-fast),
+              color var(--transition-fast);
 }
 
-/* Fokuszustand AA-konform */
-.button:focus-visible {
-  outline: 2px solid var(--jambo-highlight);
-  outline-offset: 2px;
-}
+/* Größen – konsistente Innenabstände / Touch-Ziele */
+.is-md { padding: var(--spacing-md) var(--spacing-xl); font-size: var(--font-size-base); min-height: 48px; }
+.is-lg { padding: var(--spacing-lg) var(--spacing-2xl); font-size: var(--font-size-lg);   min-height: 56px; }
 
-/* Disabled */
-.button[disabled],
-.button.is-disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  pointer-events: none;
-}
-
-/* ===== Größen */
-.is-md {
-  padding: var(--btn-pad-y-md) var(--btn-pad-x-md);
-  font-size: var(--btn-font-size-md);
-}
-
-.is-lg {
-  padding: var(--btn-pad-y-lg) var(--btn-pad-x-lg);
-  font-size: var(--btn-font-size-lg);
-}
-
-/* ===== Primary (Brand Orange) */
+/* Varianten */
 .button--primary {
-  background: var(--jambo-primary);
-  color: #fff !important; /* Erzwingt Weiß auch bei <a> */
-  border-color: transparent;
-  box-shadow: 0 0 0 rgba(0,0,0,0);
+  background: var(--color-primary);
+  color: #fff !important;              /* sichert Weiß auch bei <a> */
+  box-shadow: var(--shadow-md);
 }
 .button--primary:hover {
-  background: var(--jambo-primary-dark);
+  background: var(--color-primary-dark);
   transform: translateY(-1px);
-  box-shadow: 0 8px 18px rgba(230,126,34,0.25);
-}
-.button--primary:active {
-  transform: translateY(0);
-  box-shadow: 0 4px 10px rgba(230,126,34,0.18);
+  box-shadow: var(--shadow-lg);
 }
 
-/* ===== Secondary (Dunkelblau) */
 .button--secondary {
-  background: var(--jambo-secondary);
+  background: var(--color-secondary);
   color: #fff !important;
-  border-color: transparent;
-  box-shadow: 0 0 0 rgba(0,0,0,0);
+  box-shadow: var(--shadow-sm);
 }
 .button--secondary:hover {
-  filter: brightness(0.95);
+  filter: brightness(.95);
   transform: translateY(-1px);
-  box-shadow: 0 8px 18px rgba(var(--jambo-shadow-rgb), 0.18);
-}
-.button--secondary:active {
-  transform: translateY(0);
-  box-shadow: 0 4px 10px rgba(var(--jambo-shadow-rgb), 0.14);
+  box-shadow: var(--shadow-md);
 }
 
-/* ===== Ghost (transparent) */
 .button--ghost {
   background: transparent;
-  color: var(--jambo-text-on-light);
-  border-color: var(--jambo-border);
+  color: var(--color-text-primary);
+  border-color: var(--color-border);
 }
 .button--ghost:hover {
-  background: rgba(0,0,0,0.025);
-  border-color: var(--jambo-primary);
+  background: rgba(0,0,0,.03);
+  border-color: var(--color-primary);
   transform: translateY(-1px);
 }
-.button--ghost:active {
-  transform: translateY(0);
+
+/* Focus & Disabled */
+.button:focus-visible { outline: 2px solid var(--color-highlight); outline-offset: 2px; }
+.button[disabled], .button.is-disabled { opacity: .6; cursor: not-allowed; pointer-events: none; }
+
+/* Icon-Größe im Button */
+.button > svg, .button > img { width: 1.1em; height: 1.1em; display: inline-block; }
+
+/* ====== Cards (leicht bereinigt) ========================================= */
+
+.card {
+  background: var(--color-neutral-light);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+  padding: var(--spacing-xl);
+  border: 1px solid var(--color-border);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+.cardHover:hover { transform: translateY(-4px); box-shadow: var(--shadow-xl); }
+.cardInteractive { composes: card cardHover; cursor: pointer; }
+
+.cardDark {
+  composes: card;
+  background: var(--color-secondary);
+  color: var(--color-text-light);
+  border-color: var(--color-secondary-light);
+}
+.cardDark h1, .cardDark h2, .cardDark h3, .cardDark h4, .cardDark h5, .cardDark h6 { color: var(--color-text-light); }
+.cardDark p { color: rgba(255,255,255,.85); }
+
+/* ====== Typografie (Hero) ================================================= */
+
+.headline {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: var(--spacing-lg);
+  font-size: var(--font-size-4xl);
+  line-height: var(--line-height-tight);
+  color: var(--color-text-primary);
+}
+.headlineLight { composes: headline; color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,.35); }
+.headlineDark  { composes: headline; color: var(--color-text-primary); }
+
+.subline {
+  font-weight: 400;
+  line-height: var(--line-height-normal);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-xl);
+  font-size: var(--font-size-xl);
+}
+.sublineLight {
+  color: rgba(255,255,255,.85) !important;   /* überschreibt globale p-Farben */
+  text-shadow: 0 1px 3px rgba(0,0,0,.6);
 }
 
-/* ===== Icon-Handling */
-.button > svg,
-.button > img {
-  display: inline-block;
-  width: 1.1em;
-  height: 1.1em;
+/* Responsive Typo */
+@media (min-width: 768px) {
+  .headline { font-size: var(--font-size-5xl); }
+  .subline  { font-size: var(--font-size-2xl); }
+}
+@media (min-width: 1024px) {
+  .headline { font-size: var(--font-size-6xl); }
 }
 
-/* ===== Button-Gruppen */
-.buttonGroup {
-  display: inline-flex;
-  gap: 12px;
-  flex-wrap: wrap;
-}
+/* ====== Layout Utilities ================================================== */
+.grid { display: grid; gap: var(--spacing-xl); }
+.gridCols1 { composes: grid; grid-template-columns: 1fr; }
+.gridCols2 { composes: grid; grid-template-columns: repeat(2,1fr); }
+.gridCols3 { composes: grid; grid-template-columns: repeat(3,1fr); }
+.gridCols4 { composes: grid; grid-template-columns: repeat(4,1fr); }
+@media (max-width: 767px) { .gridCols2, .gridCols3, .gridCols4 { grid-template-columns: 1fr; } }
+@media (min-width:768px) and (max-width:1023px) { .gridCols3, .gridCols4 { grid-template-columns: repeat(2,1fr); } }
 
-/* ===== Vollbreite auf Mobile */
-.is-block {
-  display: inline-flex;
-  width: 100%;
-  text-align: center;
-}
+.flexCenter  { display:flex; align-items:center; justify-content:center; }
+.flexBetween { display:flex; align-items:center; justify-content:space-between; }
+.flexColumn  { display:flex; flex-direction:column; }
+.flexWrap    { flex-wrap:wrap; }
 
-/* ===== Extra Varianten */
-.button--primary.is-invert {
-  background: var(--jambo-text-on-dark);
-  color: var(--jambo-primary);
-  border-color: var(--jambo-text-on-dark);
-}
-.button--ghost.is-quiet {
-  border-color: rgba(0,0,0,0.08);
-  color: rgba(0,0,0,0.8);
-}
+/* ====== Badges & Icons ==================================================== */
+.icon { width:24px; height:24px; display:inline-block; flex-shrink:0; }
+.iconLarge { composes: icon; width:48px; height:48px; }
+.iconSmall { composes: icon; width:16px; height:16px; }
 
-/* ===== Mobile Anpassungen */
-@media (max-width: 480px) {
-  .buttonGroup { gap: 10px; }
-  .is-lg { font-size: 15px; }
+.badge {
+  display:inline-flex; align-items:center;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--font-size-sm); font-weight: 500;
+  border-radius: var(--radius-md);
+  background: var(--color-highlight);
+  color: var(--color-text-primary);
 }
+.badgeSuccess { composes: badge; background: var(--color-accent); color:#fff; }
+.badgePrimary { composes: badge; background: var(--color-primary); color:#fff; }
 
-/* ===== Bewegungen reduzieren */
-@media (prefers-reduced-motion: reduce) {
-  .button,
-  .button--primary,
-  .button--secondary,
-  .button--ghost {
-    transition: none;
-  }
-  .button--primary:hover,
-  .button--secondary:hover,
-  .button--ghost:hover {
-    transform: none;
-    box-shadow: none;
-  }
-}
-
-/* ===== Headline-Farben für Hero ===== */
-.headlineLight {
-  color: #ffffff; /* Für Dark-Hero: weiße Schrift */
-}
-
-.headlineDark {
-  color: var(--jambo-text-on-light); /* Für Light-Hero: dunkle Schrift */
-}
+/* ====== Micro Animations ================================================== */
+.fadeIn { animation: fadeIn .6s ease-out; }
+.slideUp { animation: slideUp .6s ease-out; }
+.scaleIn { animation: scaleIn .4s ease-out; }
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+@keyframes slideUp { from{opacity:0; transform: translateY(30px)} to{opacity:1; transform:none} }
+@keyframes scaleIn { from{opacity:0; transform:scale(.9)} to{opacity:1; transform:scale(1)} }

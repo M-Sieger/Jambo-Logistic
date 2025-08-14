@@ -1,17 +1,9 @@
-import React, {
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { CSSTransition, SwitchTransition } from 'react-transition-group';
 
-import {
-  CSSTransition,
-  SwitchTransition,
-} from 'react-transition-group';
-
-/** 🔧 Globales Button-/Typo-System */
+/** 🔧 Globales Button-/Typo-System (Farben, Größen, Headline/Subline) */
 import globalStyles from '../styles/GlobalPolish.module.css';
-/** 🎨 Lokale Hero-Layout-Styles (Positionierung, Overlay, Spacing etc.) */
+/** 🎨 Lokales Layout (Overlay, Container, Positions-Styles) */
 import styles from './Hero.module.css';
 
 interface HeroProps {
@@ -45,31 +37,22 @@ const Hero: React.FC<HeroProps> = ({
 
   // 🔄 Automatischer Sprachwechsel alle 7 Sekunden
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % translations.length);
-    }, 7000);
-    return () => clearInterval(intervalId);
+    const id = setInterval(() => setCurrentIndex((p) => (p + 1) % translations.length), 7000);
+    return () => clearInterval(id);
   }, [translations.length]);
 
   const handleLanguageClick = (index: number) => setCurrentIndex(index);
-
   const { headline: currentHeadline, subline: currentSubline } = translations[currentIndex];
 
   // 📩 CTA: custom Callback ODER smooth scroll zu #contact
   const handleCTAClick = () => {
-    if (onCTAClick) {
-      onCTAClick();
-      return;
-    }
+    if (onCTAClick) return onCTAClick();
     const el = document.getElementById('contact');
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
-    <section
-      id="hero"
-      className={`${styles.hero} ${styles[variant]} ${className}`}
-    >
+    <section id="hero" className={`${styles.hero} ${styles[variant]} ${className}`}>
       {/* 📷 Bild mit stabiler Ratio gegen CLS */}
       {imageUrl && (
         <div className={styles.mediaWrap} aria-hidden="true">
@@ -77,7 +60,7 @@ const Hero: React.FC<HeroProps> = ({
             className={styles.media}
             src={imageUrl}
             alt=""
-            loading="eager"            /* 🟢 wichtig für LCP */
+            loading="eager"          /* 🟢 wichtig für LCP */
             decoding="async"
             fetchPriority="high"
             sizes="100vw"
@@ -109,39 +92,29 @@ const Hero: React.FC<HeroProps> = ({
             <SwitchTransition>
               <CSSTransition key={currentIndex} timeout={500} classNames="fade" nodeRef={nodeRef}>
                 <div ref={nodeRef}>
-                  {/* Hinweis: headline/subline-Klassen kommen aus deinem globalen Typo-Set */}
-                  <h1
-  className={`${globalStyles.headline} ${
-    variant === 'light'
-      ? globalStyles.headlineDark
-      : globalStyles.headlineLight
-  }`}
->
-  {currentHeadline}
-</h1>
+                  {/* Headline-Farbe je nach Variante aus GlobalPolish */}
+                  <h1 className={variant === 'light' ? globalStyles.headlineDark : globalStyles.headlineLight}>
+                    {currentHeadline}
+                  </h1>
 
-                  <p
-  className={`${variant === 'light'
-    ? globalStyles.subline
-    : globalStyles.sublineLight}`}
->
-  {currentSubline}
-</p>
-
+                  {/* Subline: hell auf dunklem Hero, sonst normal */}
+                  <p className={variant === 'light' ? globalStyles.subline : globalStyles.sublineLight}>
+                    {currentSubline}
+                  </p>
                 </div>
               </CSSTransition>
             </SwitchTransition>
 
-            {/* 📌 CTA-Button */}
+            {/* 📌 CTA-Button – globales Button-System */}
             <div className={styles.ctaContainer}>
-      <button
-  onClick={handleCTAClick}
-  className={`${globalStyles.button} ${globalStyles["button--primary"]} ${globalStyles["is-lg"]}`}
-  aria-label={ctaLabel}
->
-  {ctaLabel}
-</button>
-
+              <button
+                onClick={handleCTAClick}
+                className={`${globalStyles.button} ${globalStyles['button--primary']} ${globalStyles['is-lg']}`}
+                aria-label={ctaLabel}
+                type="button"
+              >
+                {ctaLabel}
+              </button>
             </div>
 
           </div>
