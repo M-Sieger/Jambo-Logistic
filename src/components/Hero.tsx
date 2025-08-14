@@ -116,15 +116,13 @@ const Hero: React.FC<HeroProps> = ({
             {/* 📌 CTA-Button – globales Button-System */}
             <div className={styles.ctaContainer}>
               <button
-                onClick={handleCTAClick}
-               className={`${globalStyles.button} ${globalStyles["button--primary"]} ${globalStyles["is-lg"]}`}
+  type="button"
+  onClick={handleCTAClick}
+  className={`${globalStyles.button} ${globalStyles["button--primary"]} ${globalStyles["is-lg"]} ${styles.ctaButton}`}
+>
+  {ctaLabel}
+</button>
 
-
-                aria-label={ctaLabel}
-                type="button"
-              >
-                {ctaLabel}
-              </button>
             </div>
 
           </div>

@@ -1,9 +1,9 @@
 // src/components/ProcessSteps.tsx
 // ✅ Konsistent mit Services-Section: 16:9-Bilder, AOS-Stagger, ruhige Cards
-// ✅ CLS-frei dank width/height am <img> + aspect-ratio (in CSS)
+// ✅ CLS-frei dank width/height am <img> + aspect-ratio in CSS
 // ✅ Robust: Default-Schritte, falls keine Props übergeben werden
 // ✅ A11y: aria-labelledby + sinnvolle Alt-Texte
-// ✅ Performance: loading="lazy" + decoding="async" + sizes für responsive Auswahl
+// ✅ Performance: loading="lazy" + decoding="async" + sizes
 
 import React from 'react';
 
@@ -14,20 +14,23 @@ import step1Image from '../assets/step1-anfrage.jpg';
 import step2Image from '../assets/step2-abholung.jpg';
 import step3Image from '../assets/step3-container.jpg';
 import step4Image from '../assets/step4-nairobi.jpg';
+// 🔧 Globales UI-Set (Buttons, Typo)
 import globalStyles from '../styles/GlobalPolish.module.css';
+// 🎨 Nur Layout/Timeline/Cards – KEINE Button-Farben/Größen hier!
 import styles from './ProcessSteps.module.css';
 
 // 🔹 Typen für Props
 type Step = {
-  icon?: string;        // z. B. "📩" (optional, dekorativ)
-  title: string;        // z. B. "Annahme"
-  description: string;  // kurz & klar, 1–2 Zeilen
-  imgSrc?: string;      // optional – wenn gesetzt, überschreibt Default-Image
-  imgAlt?: string;      // optional – sonst aus title generiert
+  icon?: string;       // z. B. "📩" (optional, dekorativ)
+  title: string;       // z. B. "Annahme"
+  description: string; // kurz & klar, 1–2 Zeilen
+  imgSrc?: string;     // optional – überschreibt Default-Image
+  imgAlt?: string;     // optional – sonst aus title generiert
 };
 
 type ProcessStepsProps = {
-  steps?: Step[];       // optional – wir liefern Default-Schritte
+  steps?: Step[];          // optional – wir liefern Default-Schritte
+  onCta?: () => void;      // ✅ optionaler CTA-Handler (fix für 'onCta is not defined')
 };
 
 // 🧱 Default-Schritte (MVP-ready, i18n-geeignet)
@@ -66,10 +69,10 @@ const defaultSteps: Step[] = [
 const stepImages = [step1Image, step2Image, step3Image, step4Image];
 const stepIcons = ['📩', '🚚', '🚢', '📍'];
 
-const ProcessSteps: React.FC<ProcessStepsProps> = ({ steps = defaultSteps }) => {
+const ProcessSteps: React.FC<ProcessStepsProps> = ({ steps = defaultSteps, onCta }) => {
   // 🚀 AOS initialisieren (defensiv, falls globales init fehlt)
   React.useEffect(() => {
-    if (typeof window !== 'undefined' && AOS.init) {
+    if (typeof window !== 'undefined' && AOS?.init) {
       AOS.init({ once: true, duration: 520, easing: 'ease-out' });
     }
   }, []);
@@ -80,10 +83,17 @@ const ProcessSteps: React.FC<ProcessStepsProps> = ({ steps = defaultSteps }) => 
   // 🔈 A11y: Überschrift-ID für aria-labelledby
   const headingId = 'process-heading';
 
+  // ✅ CTA-Handler sicher: entweder Prop oder Smooth-Scroll Fallback
+  const handleCta = () => {
+    if (onCta) return onCta();
+    const el = document.getElementById('contact');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     /**
      * 🌍 EINZIGE Section mit id="process"
-     * CSS (global): #process { scroll-margin-top: 96px; } // Header-Höhe
+     * CSS (global via :global in Module): #process { scroll-margin-top: 96px; } // Header-Höhe
      */
     <section
       id="process"
@@ -105,8 +115,7 @@ const ProcessSteps: React.FC<ProcessStepsProps> = ({ steps = defaultSteps }) => 
               const icon = step.icon ?? stepIcons[i % stepIcons.length];
               // Wenn ein Schritt ein eigenes Bild mitbringt → nutzen, sonst zyklisches Default
               const imgSrc = step.imgSrc ?? stepImages[i % stepImages.length];
-              const imgAlt =
-                step.imgAlt ?? `${step.title} – Illustration zum Schritt`;
+              const imgAlt = step.imgAlt ?? `${step.title} – Illustration zum Schritt`;
 
               return (
                 <article
@@ -164,14 +173,16 @@ const ProcessSteps: React.FC<ProcessStepsProps> = ({ steps = defaultSteps }) => 
                 Hol dir noch heute dein unverbindliches Angebot und starte deine
                 Reise mit Jambo Logistics.
               </p>
-              <div className={styles.buttonGroup}>
-                <a
-  href="#contact"
-  className={`${globalStyles.button} ${globalStyles["button--primary"]} ${globalStyles["is-lg"]}`}
->
 
+              {/* 📌 CTA-Buttons – rein globales System (einheitlich mit Hero & Rest) */}
+              <div className={styles.buttonGroup}>
+                <button
+                  type="button"
+                  onClick={handleCta}
+                  className={`${globalStyles.button} ${globalStyles['button--primary']} ${globalStyles['is-lg']}`}
+                >
                   Jetzt anfragen
-                </a>
+                </button>
               </div>
             </div>
           </div>
