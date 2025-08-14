@@ -1,5 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { CSSTransition, SwitchTransition } from 'react-transition-group';
+import React, {
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+
+import {
+  CSSTransition,
+  SwitchTransition,
+} from 'react-transition-group';
 
 /** 🔧 Globales Button-/Typo-System (Farben, Größen, Headline/Subline) */
 import globalStyles from '../styles/GlobalPolish.module.css';
@@ -109,7 +117,9 @@ const Hero: React.FC<HeroProps> = ({
             <div className={styles.ctaContainer}>
               <button
                 onClick={handleCTAClick}
-                className={`${globalStyles.button} ${globalStyles['button--primary']} ${globalStyles['is-lg']}`}
+               className={`${globalStyles.button} ${globalStyles["button--primary"]} ${globalStyles["is-lg"]}`}
+
+
                 aria-label={ctaLabel}
                 type="button"
               >
