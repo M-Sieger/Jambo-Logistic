@@ -1,4 +1,9 @@
+import 'aos/dist/aos.css';
+
 import React, { useEffect } from 'react';
+
+// ✅ NEU: AOS importieren (JS + CSS nur EINMAL global laden)
+import AOS from 'aos';
 
 import Footer from '../components/Footer';
 import Header from '../components/Header';
@@ -9,8 +14,8 @@ interface DefaultLayoutProps {
 }
 
 const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
+  // ☑️ Deine bestehende VH-Korrektur bleibt unangetastet
   useEffect(() => {
-    // Set viewport height CSS custom property for mobile browsers
     const setVH = () => {
       const vh = window.innerHeight * 0.01;
       document.documentElement.style.setProperty('--vh', `${vh}px`);
@@ -24,6 +29,25 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
       window.removeEventListener('resize', setVH);
       window.removeEventListener('orientationchange', setVH);
     };
+  }, []);
+
+  // ✅ NEU: AOS einmal global initialisieren (sanft, barrierearm)
+  useEffect(() => {
+    // Respektiere System-Einstellung „Bewegung reduzieren“
+    const reduce =
+      typeof window !== 'undefined' &&
+      window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    AOS.init({
+      duration: reduce ? 0 : 400, // Animation kurz & unaufdringlich
+      once: true,                 // nur beim ersten Scrollen
+      offset: 40,                 // Startpunkt vor Sichtbarkeit
+      // easing: 'ease-out',      // optional
+    });
+
+    // Falls Inhalte nachträglich gemountet werden:
+    // setTimeout(() => AOS.refresh(), 0);
   }, []);
 
   return (
@@ -41,4 +65,3 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
 };
 
 export default DefaultLayout;
-

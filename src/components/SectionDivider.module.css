@@ -1,0 +1,99 @@
+/* ==========================================================================
+   SectionDivider – Modern Warm Africa
+   Leitlinien:
+   - Tokens only (Farben/Verläufe über globale CSS‑Variablen, kein Hardcode)
+   - CLS‑frei: reservierte Fläche via --divider-h
+   - Responsiv: Höhe skaliert über Breakpoints
+   ========================================================================== */
+
+.divider {
+  /* Default‑Höhe; kann pro Instanz über Prop `height` überschrieben werden */
+  --divider-h: 80px;
+
+  /* Semantische Tokens, die über base.css/GlobalPolish gesetzt/überschrieben werden */
+  --surface-light: var(--color-neutral-light, #fff);
+  --surface-dark: var(--color-secondary, #0f172a);
+  --grad-start: var(--brand-gradient-start, var(--surface-light));
+  --grad-end: var(--brand-gradient-end, var(--color-neutral-medium, #f5f5f5));
+
+  position: relative;
+  display: block;
+  width: 100%;
+  min-height: var(--divider-h);
+  isolation: isolate; /* Verhindert, dass Schatten/Filter in Nachbarbereiche „bluten“ */
+}
+
+/* Mobile: etwas kompakter */
+@media (max-width: 480px) {
+  .divider { --divider-h: 56px; }
+}
+
+/* Desktop: mehr Raum für Wirkung */
+@media (min-width: 1025px) {
+  .divider { --divider-h: 96px; }
+}
+
+/* Optionaler Fallback: invert tauscht Start/Ende,
+   falls KEIN data-theme am Parent gesetzt wurde. */
+.invert {
+  --grad-start: var(--surface-dark);
+  --grad-end: var(--surface-light);
+}
+
+/* ============ WAVE ======================================================= */
+.variant_wave { background: none; }
+
+.waveSvg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%; /* Füllt exakt die reservierte Höhe → kein CLS */
+  display: block;
+}
+
+/* ============ DIAGONAL =================================================== */
+.variant_diagonal {
+  /* Sanfter Standard-Verlauf; konkrete Farben kommen über Tokens */
+  background: linear-gradient(180deg, var(--grad-start) 0%, var(--grad-end) 100%);
+}
+
+.diagonalShape {
+  position: absolute;
+  inset: 0;
+  /* Schräger Schnitt (ca. 8%) – sachlich, professionell */
+  clip-path: polygon(0 0, 100% 8%, 100% 100%, 0 100%);
+  background: inherit; /* nutzt den Gradient vom Wrapper */
+}
+
+/* Fallback, falls clip-path nicht unterstützt wird → normaler Verlauf ohne Schnitt */
+@supports not (clip-path: polygon(0 0)) {
+  .diagonalShape { clip-path: none; }
+}
+
+/* ============ STRAIGHT =================================================== */
+.variant_straight {
+  background: linear-gradient(180deg, var(--grad-start) 0%, var(--grad-end) 100%);
+}
+
+.straightRule {
+  position: absolute;
+  left: 0; right: 0;
+  top: calc(var(--divider-h) / 2);
+  height: 1px;
+  background:
+    linear-gradient(90deg,
+      transparent 0%,
+      var(--divider-line) 20%,
+      var(--divider-line) 80%,
+      transparent 100%);
+  box-shadow: 0 0.5px 0 0 var(--divider-shadow);
+}
+
+/* ============ Motion Preferences ======================================== */
+/* Respektiert Nutzer, die Bewegungen reduziert haben wollen */
+@media (prefers-reduced-motion: reduce) {
+  [data-aos] {
+    transition: none !important;
+    animation: none !important;
+  }
+}
