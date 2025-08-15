@@ -1,12 +1,38 @@
-/* Footer Component Styles */
+/* ==========================================================================
+   Footer Styles – Farbfix & A11y
+   Ziel: Footer-Hintergrund = Header-Blau (oder bewusst 4–6% dunkler)
+   Kontrast: Text/Icons/Links = Weiß; klare Hover/Focus-States.
+   ========================================================================== */
 
+/* 
+   OPTIONALES Theme-Token (lokal):
+   Wenn du eine subtile Abtrennung willst, setze im :root ODER hier auf dem
+   Footer-Element eine leicht dunklere Variante. 
+   - Default: exakt Header-Blau (#2c3e50 aus Tokens)
+   - Optional: ~6% dunkler für visuelle Stufe
+*/
 .footer {
-  background-color: var(--color-secondary);
+  /* Fallback-Kette:
+     1) --footer-bg (falls gesetzt)
+     2) --color-secondary-500 (Header-Blau aus Tokens)
+     3) #2c3e50 (harte Fallback-Farbe) */
+  --_footer-bg: var(--footer-bg, var(--color-secondary-500, #2c3e50));
+
+  background: var(--_footer-bg);
   color: var(--color-text-light);
-  padding: var(--spacing-4xl) 0 var(--spacing-xl);
+  padding: calc(var(--spacing-4xl)) 0 calc(var(--spacing-xl) + env(safe-area-inset-bottom));
   margin-top: auto;
+
+  /* Erhöhte Spezifität gegen globale .section--alt-Styles */
+  position: relative;
 }
 
+/* Wenn du die „leicht dunkler“-Variante möchtest, kannst du global setzen:
+   :root { --footer-bg: color-mix(in srgb, var(--color-secondary-500) 94%, black); }
+   oder manuell: --footer-bg: var(--color-secondary-700);
+*/
+
+/* Container lokal, um Kollision mit globaler .container zu vermeiden */
 .container {
   max-width: var(--container-xl);
   margin: 0 auto;
@@ -37,7 +63,7 @@
 .logoText {
   font-size: var(--font-size-2xl);
   font-weight: 800;
-  color: var(--color-text-light);
+  color: currentColor; /* = Weiß auf Blau */
 }
 
 .logoAccent {
@@ -49,7 +75,7 @@
 .companyDescription {
   font-size: var(--font-size-base);
   line-height: var(--line-height-relaxed);
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.88); /* etwas stärker für Lesbarkeit */
   margin-bottom: var(--spacing-lg);
   max-width: 300px;
   margin-left: auto;
@@ -67,13 +93,13 @@
   align-items: center;
   gap: var(--spacing-sm);
   padding: var(--spacing-sm) var(--spacing-md);
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.12); /* auf Blau gut sichtbar */
   border-radius: var(--radius-lg);
   transition: background-color var(--transition-fast);
 }
 
 .countryFlag:hover {
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color: rgba(255, 255, 255, 0.18);
 }
 
 .flagEmoji {
@@ -83,7 +109,7 @@
 .countryName {
   font-size: var(--font-size-sm);
   font-weight: 500;
-  color: var(--color-text-light);
+  color: currentColor;
 }
 
 /* Links Section */
@@ -94,7 +120,7 @@
 .sectionTitle {
   font-size: var(--font-size-lg);
   font-weight: 600;
-  color: var(--color-text-light);
+  color: currentColor;
   margin-bottom: var(--spacing-lg);
 }
 
@@ -110,17 +136,26 @@
 .footerLink {
   background: none;
   border: none;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.92);
   font-size: var(--font-size-base);
   cursor: pointer;
   padding: var(--spacing-sm);
   border-radius: var(--radius-md);
-  transition: all var(--transition-fast);
+  transition: background-color var(--transition-fast), text-decoration-color var(--transition-fast);
+  text-decoration: underline;
+  text-decoration-color: transparent; /* ruhiger Default */
 }
 
-.footerLink:hover {
-  color: var(--color-primary);
-  background-color: rgba(255, 255, 255, 0.1);
+.footerLink:hover,
+.footerLink:focus-visible {
+  background-color: rgba(255, 255, 255, 0.12);
+  text-decoration-color: rgba(255, 255, 255, 0.9);
+  outline: none; /* wir setzen unten einen sichtbaren Ring */
+}
+
+/* zusätzlicher sichtbarer Focus-Ring für A11y */
+.footerLink:focus-visible {
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.8);
 }
 
 /* Contact Section */
@@ -147,18 +182,25 @@
 }
 
 .contactLink {
-  color: rgba(255, 255, 255, 0.8);
-  text-decoration: none;
+  color: rgba(255, 255, 255, 0.92);
+  text-decoration: underline;
+  text-decoration-color: transparent;
   font-size: var(--font-size-base);
-  transition: color var(--transition-fast);
+  transition: background-color var(--transition-fast), text-decoration-color var(--transition-fast), color var(--transition-fast);
+  border-radius: var(--radius-md);
+  padding: 2px 4px;
 }
 
-.contactLink:hover {
-  color: var(--color-primary);
+.contactLink:hover,
+.contactLink:focus-visible {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.12);
+  text-decoration-color: rgba(255, 255, 255, 0.9);
+  outline: none;
 }
 
 .contactText {
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.88);
   font-size: var(--font-size-base);
 }
 
@@ -179,15 +221,26 @@
   justify-content: center;
   gap: var(--spacing-sm);
   padding: var(--spacing-sm) var(--spacing-md);
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.92);
   text-decoration: none;
   border-radius: var(--radius-md);
-  transition: all var(--transition-fast);
+  transition: background-color var(--transition-fast), color var(--transition-fast);
 }
 
-.socialLink:hover {
-  color: var(--color-primary);
-  background-color: rgba(255, 255, 255, 0.1);
+/* Icons/Text folgen der Textfarbe → hoher Kontrast garantiert */
+.socialLink .socialIcon,
+.socialLink .socialLabel,
+.footer :where(svg) {
+  color: currentColor;
+  fill: currentColor;   /* für Icons im Footer, falls inline-SVGs auftauchen */
+  stroke: currentColor; /* falls Stroke verwendet wird */
+}
+
+.socialLink:hover,
+.socialLink:focus-visible {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.12);
+  outline: none;
 }
 
 .socialIcon {
@@ -202,8 +255,8 @@
 /* Language Switch */
 .languageSwitch {
   padding: var(--spacing-xl) 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.22);
   margin-bottom: var(--spacing-xl);
   text-align: center;
 }
@@ -211,7 +264,7 @@
 .languageSwitchTitle {
   font-size: var(--font-size-base);
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.92);
   margin-bottom: var(--spacing-md);
 }
 
@@ -225,17 +278,18 @@
 .languageOption {
   background: none;
   border: 1px solid rgba(255, 255, 255, 0.3);
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.92);
   padding: var(--spacing-sm) var(--spacing-md);
   border-radius: var(--radius-md);
   font-size: var(--font-size-sm);
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition: background-color var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
 }
 
 .languageOption:hover {
-  border-color: var(--color-primary);
-  color: var(--color-primary);
+  border-color: #ffffff;
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.12);
 }
 
 .languageOptionActive {
@@ -251,12 +305,12 @@
   align-items: center;
   gap: var(--spacing-md);
   padding-top: var(--spacing-xl);
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
 }
 
 .copyright p {
   font-size: var(--font-size-sm);
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.78);
   margin: 0;
 }
 
@@ -271,18 +325,26 @@
 .legalLink {
   background: none;
   border: none;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.78);
   font-size: var(--font-size-sm);
   cursor: pointer;
-  transition: color var(--transition-fast);
+  transition: color var(--transition-fast), text-decoration-color var(--transition-fast);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  border-radius: var(--radius-md);
+  padding: 2px 4px;
 }
 
-.legalLink:hover {
-  color: var(--color-primary);
+.legalLink:hover,
+.legalLink:focus-visible {
+  color: #ffffff;
+  text-decoration-color: rgba(255, 255, 255, 0.9);
+  outline: none;
+  background-color: rgba(255, 255, 255, 0.12);
 }
 
 .linkSeparator {
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.5);
   font-size: var(--font-size-sm);
 }
 
@@ -321,80 +383,44 @@
     gap: var(--spacing-3xl);
   }
 
-  .companySection {
-    text-align: left;
-  }
-
-  .logo {
-    justify-content: flex-start;
-  }
-
-  .companyDescription {
-    text-align: left;
-    margin-left: 0;
-    margin-right: 0;
-  }
-
-  .countryFlags {
-    justify-content: flex-start;
-  }
+  .companySection { text-align: left; }
+  .logo { justify-content: flex-start; }
+  .companyDescription { text-align: left; margin-left: 0; margin-right: 0; }
+  .countryFlags { justify-content: flex-start; }
 
   .linksSection,
   .contactSection,
-  .socialSection {
-    text-align: left;
-  }
+  .socialSection { text-align: left; }
 
-  .linksList {
-    align-items: flex-start;
-  }
-
-  .contactItem {
-    justify-content: flex-start;
-  }
-
-  .socialLinks {
-    align-items: flex-start;
-  }
+  .linksList { align-items: flex-start; }
+  .contactItem { justify-content: flex-start; }
+  .socialLinks { align-items: flex-start; }
 
   .footerBottom {
     flex-direction: row;
     justify-content: space-between;
   }
 
-  .stickyMobileCta {
-    display: none;
-  }
+  .stickyMobileCta { display: none; }
 }
 
 /* Desktop Styles */
 @media (min-width: 1024px) {
-  .container {
-    padding: 0 var(--spacing-xl);
-  }
+  .container { padding: 0 var(--spacing-xl); }
 
   .footerContent {
     grid-template-columns: 2fr 1fr 1fr 1fr;
     gap: var(--spacing-4xl);
   }
 
-  .companyDescription {
-    max-width: 400px;
-  }
-
-  .socialLinks {
-    flex-direction: row;
-    gap: var(--spacing-lg);
-  }
+  .companyDescription { max-width: 400px; }
+  .socialLinks { flex-direction: row; gap: var(--spacing-lg); }
 }
 
 /* Large Desktop Styles */
 @media (min-width: 1280px) {
   .footer {
-    padding: var(--spacing-5xl) 0 var(--spacing-2xl);
+    padding: var(--spacing-5xl) 0 calc(var(--spacing-2xl) + env(safe-area-inset-bottom));
   }
-
-  .footerContent {
-    margin-bottom: var(--spacing-4xl);
-  }
+  .footerContent { margin-bottom: var(--spacing-4xl); }
 }

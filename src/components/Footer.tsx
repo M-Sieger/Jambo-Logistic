@@ -51,10 +51,10 @@ const Footer: React.FC<FooterProps> = ({ langSwitch = false, className = "" }) =
     }
   };
 
+  // WICHTIG: Keine "section--alt" Klasse am Footer, damit kein helles BG den Footer überlagert.
   return (
-    // Globaler Layout-Rahmen: konsistenter vertikaler Rhythmus
-    <footer className={`section section--alt ${styles.footer} ${className}`} role="contentinfo">
-      <div className="container">
+    <footer className={`${styles.footer} ${className}`} role="contentinfo">
+      <div className={styles.container}>
         {/* Hauptbereich des Footers */}
         <div className={styles.footerContent}>
           {/* Company Info */}
@@ -189,11 +189,10 @@ const Footer: React.FC<FooterProps> = ({ langSwitch = false, className = "" }) =
       </div>
 
       {/* Sticky Mobile CTA */}
-      <div className={styles.stickyMobileCta} aria-hidden="false">
+      <div className={styles.stickyMobileCta}>
         <a
           href="https://wa.me/491234567890"
-        className={`${globalStyles.button} ${globalStyles["button--primary"]} ${globalStyles["is-lg"]} ${styles.whatsappButton}`}
-
+          className={`${globalStyles.button} ${globalStyles["button--primary"]} ${globalStyles["is-lg"]} ${styles.whatsappButton}`}
           target="_blank"
           rel="noopener noreferrer"
         >
