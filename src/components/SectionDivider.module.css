@@ -2,15 +2,16 @@
    SectionDivider – Modern Warm Africa
    Leitlinien:
    - Tokens only (Farben/Verläufe über globale CSS‑Variablen, kein Hardcode)
-   - CLS‑frei: reservierte Fläche via --divider-h
+   - CLS-frei: reservierte Fläche via --divider-h (explizite Höhe)
    - Responsiv: Höhe skaliert über Breakpoints
+   - Rein dekorativ: keine Pointer-Events, aria-hidden im TSX
    ========================================================================== */
 
 .divider {
-  /* Default‑Höhe; kann pro Instanz über Prop `height` überschrieben werden */
+  /* Default-Höhe; kann pro Instanz via Prop `height` überschrieben werden */
   --divider-h: 80px;
 
-  /* Semantische Tokens, die über base.css/GlobalPolish gesetzt/überschrieben werden */
+  /* Semantische Tokens – kommen aus variables.css / base.css */
   --surface-light: var(--color-neutral-light, #fff);
   --surface-dark: var(--color-secondary, #0f172a);
   --grad-start: var(--brand-gradient-start, var(--surface-light));
@@ -19,8 +20,15 @@
   position: relative;
   display: block;
   width: 100%;
+
+  /* 🛑 CLS-Schutz: Fläche ist fix reserviert (nicht nur min-height) */
+  height: var(--divider-h);
   min-height: var(--divider-h);
-  isolation: isolate; /* Verhindert, dass Schatten/Filter in Nachbarbereiche „bluten“ */
+
+  /* Rendering-Sauberkeit: Dekor vom Rest trennen */
+  isolation: isolate;
+  pointer-events: none; /* Divider ist nicht interaktiv */
+  contain: paint;       /* verhindert unnötiges Repaint-Leaking */
 }
 
 /* Mobile: etwas kompakter */
@@ -33,64 +41,82 @@
   .divider { --divider-h: 96px; }
 }
 
-/* Optionaler Fallback: invert tauscht Start/Ende,
-   falls KEIN data-theme am Parent gesetzt wurde. */
+/* Optionaler Fallback:
+   Wenn KEIN data-theme gesetzt ist und du invertieren willst,
+   tauscht diese Klasse die Gradienten-Tokens lokal. */
 .invert {
   --grad-start: var(--surface-dark);
   --grad-end: var(--surface-light);
 }
 
 /* ============ WAVE ======================================================= */
+/* Hintergrund kommt aus dem SVG → Wrapper selbst hat keinen Hintergrund */
 .variant_wave { background: none; }
 
 .waveSvg {
+  /* SVG füllt exakt die reservierte Fläche → keine Layout-Shifts */
   position: absolute;
   inset: 0;
   width: 100%;
-  height: 100%; /* Füllt exakt die reservierte Höhe → kein CLS */
+  height: 100%;
   display: block;
+
+  /* Glatter Pfad, keine Treppeneffekte */
+  shape-rendering: geometricPrecision;
 }
 
 /* ============ DIAGONAL =================================================== */
+/* Sanfter Verlauf über die gesamte Fläche (Tokens definieren die Farben) */
 .variant_diagonal {
-  /* Sanfter Standard-Verlauf; konkrete Farben kommen über Tokens */
   background: linear-gradient(180deg, var(--grad-start) 0%, var(--grad-end) 100%);
 }
 
 .diagonalShape {
   position: absolute;
   inset: 0;
-  /* Schräger Schnitt (ca. 8%) – sachlich, professionell */
+
+  /* Schräger, professioneller Schnitt (ca. 8%) */
   clip-path: polygon(0 0, 100% 8%, 100% 100%, 0 100%);
-  background: inherit; /* nutzt den Gradient vom Wrapper */
+
+  /* Übernimmt den Verlauf vom Wrapper */
+  background: inherit;
 }
 
-/* Fallback, falls clip-path nicht unterstützt wird → normaler Verlauf ohne Schnitt */
+/* Fallback: wenn clip-path nicht unterstützt wird → glatter Verlauf */
 @supports not (clip-path: polygon(0 0)) {
   .diagonalShape { clip-path: none; }
 }
 
 /* ============ STRAIGHT =================================================== */
+/* Ruhiger Verlauf als Basisfläche */
 .variant_straight {
   background: linear-gradient(180deg, var(--grad-start) 0%, var(--grad-end) 100%);
 }
 
+/* Feine Linie mit subtiler Tiefe – nutzt dedizierte Tokens */
 .straightRule {
   position: absolute;
-  left: 0; right: 0;
+  left: 0;
+  right: 0;
+
+  /* Mittig in der reservierten Fläche */
   top: calc(var(--divider-h) / 2);
   height: 1px;
+
   background:
-    linear-gradient(90deg,
+    linear-gradient(
+      90deg,
       transparent 0%,
-      var(--divider-line) 20%,
-      var(--divider-line) 80%,
-      transparent 100%);
-  box-shadow: 0 0.5px 0 0 var(--divider-shadow);
+      var(--divider-line, rgba(0,0,0,0.12)) 20%,
+      var(--divider-line, rgba(0,0,0,0.12)) 80%,
+      transparent 100%
+    );
+
+  box-shadow: 0 0.5px 0 0 var(--divider-shadow, rgba(0,0,0,0.08));
 }
 
 /* ============ Motion Preferences ======================================== */
-/* Respektiert Nutzer, die Bewegungen reduziert haben wollen */
+/* Respektiert Nutzer, die Bewegungen reduzieren möchten */
 @media (prefers-reduced-motion: reduce) {
   [data-aos] {
     transition: none !important;

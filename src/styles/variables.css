@@ -141,36 +141,38 @@
   --z-tooltip: 1070;
 }
 
-
-
-/* ================================
+/* =======================================================================
    🌅 SectionDivider Theme Tokens
-   Sichtbarer Verlauf + Linie auf warmem Beige
-   ================================ */
+   -----------------------------------------------------------------------
+   Warum hier? → Global zentral, damit die Komponente nur Tokens liest.
+   Effekt: Sofort sichtbarer Divider auf hellen Warm‑Africa‑Hintergründen.
+   ======================================================================= */
 :root {
-  /* Basis (Modern Warm Africa) – gern anpassen */
-  --color-neutral-light: #fffaf3;     /* etwas wärmer als reines Weiß */
-  --color-neutral-medium: #f3e7d6;   /* sichtbares, warmes Beige */
-  --color-secondary: #2c3e50;        /* dein dunkler Bereich */
+  /* Basis-Töne für den Divider (warm & sichtbar) */
+  --color-neutral-light: #fffaf3;   /* warmes Off-White (sichtbarer als reines Weiß) */
+  --color-neutral-medium: #f3e7d6;  /* warmes Beige – gibt dem Verlauf Substanz */
+  --color-secondary: #2c3e50;       /* dunkler Gegenpol für Dark-Sections */
 
-  /* Divider-Verlauf (Light): sichtbar auf beige Section-Hintergründen */
+  /* 🌤️ Standard-Verlauf (Light-Sections): Off-White → Warmes Beige
+     → sorgt für klare, aber nicht harte Trennung */
   --brand-gradient-start: var(--color-neutral-light);
   --brand-gradient-end:   var(--color-neutral-medium);
 
-  /* Divider-Linienfarbe (Straight): leicht dunkler, aber subtil */
-  --divider-line: rgba(15, 23, 42, 0.12);  /* Subtiles Dunkel (kommt gut auf Beige) */
+  /* Linie (Straight): subtil, aber sichtbar auf warmem Beige */
+  --divider-line: rgba(15, 23, 42, 0.12);
   --divider-shadow: rgba(15, 23, 42, 0.08);
 }
 
-/* Dark-Theme (per data-theme="dark" am Section-Wrapper) */
+/* 🌙 Dark-Theme Scope (Parent setzt data-theme="dark")
+   → Dreht den Verlauf, damit Übergänge von dunklen Bereichen klar sind */
 [data-theme="dark"] {
   --brand-gradient-start: var(--color-secondary);
   --brand-gradient-end:   var(--color-neutral-light);
+
+  /* Linie auf dunklem Grund: heller, aber dezent */
   --divider-line: rgba(255, 255, 255, 0.22);
   --divider-shadow: rgba(255, 255, 255, 0.14);
 }
-
-
 
 /* =========================
    📱 Responsive Typo Adjust

@@ -1,3 +1,5 @@
+import './styles/variables.css';
+
 import React, { useEffect } from 'react';
 
 import AOS from 'aos';
