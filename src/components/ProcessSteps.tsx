@@ -14,8 +14,6 @@ import step1Image from '../assets/step1-anfrage.jpg';
 import step2Image from '../assets/step2-abholung.jpg';
 import step3Image from '../assets/step3-container.jpg';
 import step4Image from '../assets/step4-nairobi.jpg';
-// 🔧 Globales UI-Set (Buttons, Typo)
-import globalStyles from '../styles/GlobalPolish.module.css';
 // 🎨 Nur Layout/Timeline/Cards – KEINE Button-Farben/Größen hier!
 import styles from './ProcessSteps.module.css';
 
@@ -179,7 +177,8 @@ const ProcessSteps: React.FC<ProcessStepsProps> = ({ steps = defaultSteps, onCta
                 <button
                   type="button"
                   onClick={handleCta}
-                  className={`${globalStyles.button} ${globalStyles['button--primary']} ${globalStyles['is-lg']}`}
+                  className={`${styles.button} ${styles['button--primary']} ${styles['is-lg']}`}
+
                 >
                   Jetzt anfragen
                 </button>

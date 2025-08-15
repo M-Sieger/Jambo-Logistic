@@ -114,16 +114,17 @@ const Hero: React.FC<HeroProps> = ({
             </SwitchTransition>
 
             {/* 📌 CTA-Button – globales Button-System */}
-            <div className={styles.ctaContainer}>
-              <button
-  type="button"
-  onClick={handleCTAClick}
-  className={`${globalStyles.button} ${globalStyles["button--primary"]} ${globalStyles["is-lg"]} ${styles.ctaButton}`}
->
-  {ctaLabel}
-</button>
-
-            </div>
+           <div className={styles.ctaContainer}>
+  <button
+    type="button"
+    onClick={handleCTAClick}
+    // NUR die globalen Klassen + optionaler on-hero (mehr Shadow)
+    className={`${globalStyles.button} ${globalStyles["button--primary"]} ${globalStyles["is-lg"]} ${globalStyles["button--on-hero"]}`}
+    data-test="cta-hero"
+  >
+    {ctaLabel}
+  </button>
+</div>
 
           </div>
         </div>

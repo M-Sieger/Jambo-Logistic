@@ -69,16 +69,6 @@
 }
 
 /* 🔹 CTA-Button-Styling */
-.ctaButton {
-  min-width: 200px;
-  box-shadow: var(--shadow-xl);
-  transform: translateY(0);
-  transition: var(--transition-normal);
-}
-.ctaButton:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 20px 40px rgba(230,126,34,.3);
-}
 
 
 /* 🔹 Scroll-Indikator am unteren Bildschirmrand */
