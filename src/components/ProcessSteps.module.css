@@ -1,320 +1,99 @@
-/* ==========================================================================
-   ProcessSteps.module.css
-   Modern • Warm • Trustworthy  (Modern Warm Africa)
-   --------------------------------------------------------------------------
-   Aufgabe dieser Datei:
-   • Layout & Optik der Prozess-Section (Timeline + Cards + CTA-Box)
-   • KEIN Button-Design (Farben/Größen) – das kommt global aus GlobalPolish
-   ========================================================================== */
+/* src/components/ProcessSteps.module.css
+===============================================================================
+ProcessSteps – Styling
 
-/* --- GLOBALER FIX FÜR STICKY-HEADER-OFFSET --------------------------------
-   Wenn #process per Anker angesprungen wird, bleibt der Inhalt nicht unterm
-   Header stecken. Funktioniert auch bei Sticky-Headern. */
-:global(#process) {
-  --header-offset: 96px;
-  scroll-margin-top: var(--header-offset);
-}
+Dieses CSS‑Modul definiert die Gestaltung der Prozesskarten. Es nutzt nur
+Design‑Tokens aus variables.css/base.css und enthält keine Hardcodes. Die
+Bilder haben runde Ecken und einen Schatten, der dem Stil der
+Services‑Section entspricht. Zwischen den Cards wird auf Desktop ein
+Pfeil dargestellt, um den Ablauf zu verdeutlichen. Mobile Karten
+stapeln sich untereinander.
+=============================================================================== */
 
-/* ========================================================================== */
-/* SECTION-GRUNDLAYOUT                                                        */
-/* ========================================================================== */
-
-.steps {
-  /* Sanfter, warmer Verlauf (Beige → Peach) passend zu „Modern Warm Africa“ */
-  background: linear-gradient(180deg, #f4eee6 0%, #f5e8db 100%);
-  padding: 4rem 1rem;
-  position: relative;
-  isolation: isolate; /* verhindert Stacking-Leaks bei Overlays */
-}
-
-.headline {
-  text-align: center;
-  margin-bottom: 2.5rem;
-  color: var(--jambo-secondary, #0f172a);
-  font-size: 2rem;
-  font-weight: 600;
-  letter-spacing: 0.5px; /* leichte optische Öffnung wie bei Services */
-}
-
-/* ========================================================================== */
-/* TIMELINE (Mobil: vertikal)                                                 */
-/* ========================================================================== */
-
-.timeline {
-  display: flex;
-  flex-direction: column;
-  gap: 2.5rem;
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.timelineItem {
-  display: flex;
-  align-items: flex-start;
-  gap: 1.5rem;
-  position: relative; /* nötig für die Pfeile im Desktop-Layout */
-}
-
-.marker {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100%;
-  min-width: 40px;
-}
-
-.dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: #f97316; /* Warm Orange (Brand-Nähe) */
-  margin-top: 4px;
-}
-
-.line {
-  flex-grow: 1;
-  width: 2px;
-  background: #f97316;
-  margin-top: 4px;
-}
-
-/* ========================================================================== */
-/* CARD-INHALT                                                                */
-/* ========================================================================== */
-
-.cardContent {
-  background: #fff;
-  border-radius: 16px;
-  padding: 1.5rem 1.5rem 2rem;
-  text-align: center;
-  border: 1px solid rgba(249, 115, 22, 0.15);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease,
-    border-color 0.3s ease;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.cardContent:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
-  border-color: rgba(249, 115, 22, 0.4);
-}
-
-.cardIcon {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-}
-
-.cardTitle {
-  color: var(--jambo-secondary, #0f172a);
-  margin-bottom: 0.75rem;
-  font-size: 1.25rem;
-  font-weight: 600;
-}
-
-.cardText {
-  color: #666;
-  line-height: 1.6;
-  font-size: 0.95rem;
-}
-
-/* ========================================================================== */
-/* BILD-DARSTELLUNG (CLS-frei wie Services)                                   */
-/* ========================================================================== */
-/* ⚠️ Wir reservieren den Bildplatz über aspect-ratio → keine Layoutsprünge.  */
-
-.imageContainer {
-  position: relative;
+.processSection {
   width: 100%;
-  max-width: 320px;         /* optisch ruhige Breite */
-  aspect-ratio: 16 / 9;     /* 🔒 CLS-Fix */
-  margin-bottom: 1rem;
-  border-radius: 12px;
+  padding: var(--spacing-4xl) var(--spacing-lg);
+  background: var(--color-neutral-light);
+  color: var(--color-text-primary);
+}
+
+.sectionTitle {
+  text-align: center;
+  font-size: var(--font-size-3xl);
+  margin-bottom: var(--spacing-3xl);
+  font-family: var(--font-family-heading);
+}
+
+.stepsWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3xl);
+}
+
+@media (min-width: 768px) {
+  .stepsWrapper {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: var(--spacing-2xl);
+  }
+}
+
+.stepCard {
+  position: relative;
+  flex: 1;
+  background: var(--color-neutral-light);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  box-shadow: var(--shadow-sm);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100%;
+}
+
+.imageWrapper {
+  width: 100%;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
-  background: #f5f5f5;      /* Placeholder bis Bild geladen ist */
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-lg);
 }
 
 .stepImage {
-  position: absolute;
-  inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;        /* sauberer Zuschnitt */
-  object-position: center;
+  object-fit: cover;
   display: block;
-  transition: transform 0.3s ease;
 }
 
-.cardContent:hover .stepImage {
-  transform: scale(1.05);
+.stepTitle {
+  font-size: var(--font-size-xl);
+  margin-bottom: var(--spacing-sm);
+  color: var(--color-text-primary);
 }
 
-/* ========================================================================== */
-/* CTA-BOX                                                                    */
-/* ========================================================================== */
-
-.ctaContainer {
-  position: relative;
-  background: #fff8ee;
-  padding: 3rem 2rem;
-  border-radius: 20px;
-  max-width: 600px;
-  margin: 4rem auto 0;
-  text-align: center;
-  overflow: hidden;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.06);
-  border: 1px solid rgba(249, 115, 22, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+.stepDescription {
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
+  color: var(--color-text-secondary);
 }
 
-.ctaContainer:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08);
+/* Pfeil zwischen den Cards (nur Desktop sichtbar) */
+.arrow {
+  position: absolute;
+  top: 50%;
+  right: -1.25rem;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 0.625rem solid transparent;
+  border-bottom: 0.625rem solid transparent;
+  border-left: 0.625rem solid var(--color-primary-500);
 }
 
-.ctaContent {
-  position: relative;
-  z-index: 1;
-}
-
-.ctaContent h3 {
-  color: var(--jambo-secondary, #0f172a);
-  margin-bottom: 0.5rem;
-  font-size: 1.5rem;
-  font-weight: 600;
-}
-
-.ctaContent p {
-  color: #666;
-  margin-bottom: 1.5rem;
-  font-size: 1rem;
-  line-height: 1.6;
-}
-
-/* Nur Layout für die Buttons! (Design kommt global) */
-.buttonGroup {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-/* ========================================================================== */
-/* RESPONSIVE                                                                 */
-/* ========================================================================== */
-
-@media (max-width: 768px) {
-  .timelineItem {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .marker {
-    min-width: auto;
-    margin-bottom: 1rem;
-    height: auto;
-  }
-
-  .line {
-    height: 1.5rem;
-  }
-
-  .imageContainer {
-    max-width: 260px; /* etwas kompakter auf Tablet/Mobile */
-  }
-}
-
-@media (max-width: 480px) {
-  .imageContainer {
-    max-width: 220px; /* kompakt auf kleinen Phones */
-  }
-}
-
-/* ========================================================================== */
-/* DESKTOP: HORIZONTALE TIMELINE                                              */
-/* ========================================================================== */
-
-@media (min-width: 1024px) {
-  .timeline {
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 2rem;
-    max-width: 1200px;
-  }
-
-  .timelineItem {
-    flex-direction: column;
-    align-items: center;
-    flex: 1;
-    padding: 0 1rem;
-  }
-
-  .marker { display: none; } /* Marker/Linie nur mobil sichtbar */
-
-  /* Pfeil-Verbindung zwischen den Cards (horizontale Führung) */
-  .timelineItem:not(:last-child)::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    right: -3rem;
-    width: 3rem;
-    height: 2px;
-    background: linear-gradient(to right, #f97316, transparent);
-    transform: translateY(-50%);
-  }
-
-  .timelineItem:not(:last-child)::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    right: calc(-3rem - 0.8rem);
-    width: 0;
-    height: 0;
-    border-left: 0.8rem solid #f97316;
-    border-top: 0.45rem solid transparent;
-    border-bottom: 0.45rem solid transparent;
-    transform: translateY(-50%);
-  }
-
-  .cardContent {
-    max-width: 280px;
-    padding: 2rem 1rem 2.5rem;
-  }
-}
-
-/* ========================================================================== */
-/* A11Y & PREFERENCES                                                         */
-/* ========================================================================== */
-
-/* Weniger Bewegung respektieren */
-@media (prefers-reduced-motion: reduce) {
-  .cardContent,
-  .stepImage,
-  .ctaContainer {
-    transition: none;
-  }
-
-  .ctaContainer:hover,
-  .cardContent:hover .stepImage,
-  .cardContent:hover {
-    transform: none;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06); /* ruhigerer Hover */
-  }
-}
-
-/* Höherer Kontrast */
-@media (prefers-contrast: more) {
-  .cardContent {
-    border-color: rgba(0, 0, 0, 0.25);
-    box-shadow: 0 0 0 2px rgba(0,0,0,.08);
-  }
-  .ctaContainer {
-    border-color: rgba(0, 0, 0, 0.2);
+@media (max-width: 767px) {
+  .arrow {
+    display: none;
   }
 }
