@@ -1,24 +1,19 @@
 /* ========================================
    JUMBO LOGISTICS HEADER - AIRBNB MEETS AFRICA
-   Modern, warm, professionell – IVY-inspiriert
+   Modern, warm, professionell – Fullscreen Mobile Nav
    ======================================== */
 
-/* ========================================
-   MAIN HEADER STRUCTURE
-   - fixed, blur, gradient
-   - Zustände: .atTop (Start, hoher Kontrast), .scrolled (kompakt)
-   ======================================== */
+/* ===== Header Base (fixed, blur, gradient) ===== */
 .header {
   position: fixed;
   top: 0; left: 0; right: 0;
-  z-index: 1000;
+  z-index: 2000;
 
-  /* Grund: tiefer, seriöser Gradient + sanfter Farb-Drift */
   background: linear-gradient(135deg, #2c3e50 0%, #34495e 50%, #2c3e50 100%);
   background-size: 200% 200%;
   animation: gradientShift 15s ease-in-out infinite;
 
-  /* Warmes Overlay (Gold/Orange/Grün) */
+  /* Warmes Overlay */
   background-image: linear-gradient(
     135deg,
     rgba(230, 126, 34, 0.08) 0%,
@@ -26,23 +21,20 @@
     rgba(39, 174, 96, 0.03) 100%
   );
 
-  /* Glasmorphismus + Trennlinie */
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(241, 196, 15, 0.2);
-
   transition: background-color .3s ease, box-shadow .3s ease, padding .3s ease;
 }
+@keyframes gradientShift { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
 
-/* ✅ Startzustand: mehr Deckkraft für sicheren Typo-Kontrast im Blur */
+/* Start: hoher Kontrast (Text klar sichtbar) */
 .atTop {
-  /* dunkler, leicht opaker Wash über Content */
   background: linear-gradient(
       135deg,
-      rgba(32, 49, 67, 0.82) 0%,
-      rgba(40, 60, 80, 0.82) 100%
+      rgba(32, 49, 67, 0.9) 0%,
+      rgba(40, 60, 80, 0.9) 100%
     ),
-    /* erhält warmes Overlay darunter für „Warm Africa“-Note */
     linear-gradient(
       135deg,
       rgba(230, 126, 34, 0.10) 0%,
@@ -53,33 +45,27 @@
   -webkit-backdrop-filter: blur(18px);
 }
 
-/* Scrollzustand: klarer, kompakter Header */
+/* Scroll: kompakter + Schatten */
 .scrolled {
   background: linear-gradient(135deg, rgba(44, 62, 80, 0.95) 0%, rgba(52, 73, 94, 0.95) 100%);
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
   border-bottom-color: rgba(241, 196, 15, 0.25);
 }
 
-@keyframes gradientShift {
-  0%, 100% { background-position: 0% 50%; }
-  50%      { background-position: 100% 50%; }
-}
-
-/* Layout-Container */
+/* ===== Header Layout Container ===== */
 .container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 1.5rem;  /* konstant → weniger Layout-Shift */
+  padding: 1rem 1.5rem;
   min-height: 80px;
   max-width: 1400px;
   margin: 0 auto;
-  position: relative;
+  position: relative; /* Anker für mobilen Trigger (absolut) */
+  z-index: 2001;
 }
 
-/* ========================================
-   LOGO
-   ======================================== */
+/* ===== Logo ===== */
 .logo { flex-shrink: 0; }
 
 .logoButton {
@@ -88,35 +74,24 @@
   padding: .5rem; border-radius: 8px;
   transition: background .3s ease, transform .3s ease;
 }
-
 .logoButton:hover { transform: translateY(-1px); background: rgba(255,255,255,.05); }
 
 .logoImage {
   height: 48px; width: auto;
   transition: transform .3s ease, filter .3s ease;
   filter: drop-shadow(0 2px 4px rgba(0,0,0,.1));
-  will-change: transform;
 }
-
-/* Scroll-State: Logo etwas kompakter */
 .scrolled .logoImage { transform: scale(.92); }
 .logoButton:hover .logoImage { transform: scale(1.02); }
 
-/* ========================================
-   DESKTOP NAVIGATION
-   ======================================== */
-.desktopNav {
-  display: none;      /* ab 768px sichtbar */
-  flex: 1; justify-content: center;
-  margin: 0 2rem;
-}
+/* ===== Desktop Navigation ===== */
+.desktopNav { display: none; flex: 1; justify-content: center; margin: 0 2rem; }
 
 .navList {
   display: flex; align-items: center; gap: 1.5rem;
   list-style: none; margin: 0; padding: 0;
 }
 
-/* Basis: hoher Kontrast auf dunklem Header */
 .navLink {
   background: none; border: none; cursor: pointer;
   font-size: .95rem; font-weight: 600; letter-spacing: .3px;
@@ -124,18 +99,13 @@
   padding: .75rem 1.25rem; border-radius: 20px;
   transition: color .3s ease, background .3s ease, transform .2s ease, box-shadow .3s ease;
 }
-
-/* Hover/Fokus */
 .navLink:hover,
 .navLink:focus-visible {
   color: #f1c40f;
   background: rgba(241,196,15,.10);
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(241,196,15,.15);
-  outline: none;
 }
-
-/* Aktiver Link: gold/orange „Pill“ */
 .navLinkActive {
   color: #0e1b2c;
   background: linear-gradient(135deg, rgba(230,126,34,.90), rgba(241,196,15,.85));
@@ -143,16 +113,9 @@
   font-weight: 700;
 }
 
-/* ========================================
-   RIGHT SECTION (Language + CTA)
-   ======================================== */
-.rightSection {
-  display: none; align-items: center; gap: 1rem; flex-shrink: 0;
-}
+/* ===== Right Section (Desktop) ===== */
+.rightSection { display: none; align-items: center; gap: 1rem; flex-shrink: 0; }
 
-/* ========================================
-   LANGUAGE SELECTOR
-   ======================================== */
 .languageSelector { position: relative; }
 
 .languageButton {
@@ -161,212 +124,192 @@
   border: 1px solid rgba(241,196,15,.30);
   color: #fdf6e3;
   padding: .5rem .75rem; border-radius: 16px; cursor: pointer;
-  transition: background .3s ease, border-color .3s ease, transform .2s ease, box-shadow .3s ease;
+  transition: background .3s, border-color .3s, transform .2s, box-shadow .3s;
   font-size: .9rem; font-weight: 600;
+  -webkit-touch-callout: none; user-select: none;
 }
-.languageButton:hover {
-  background: rgba(241,196,15,.15);
-  border-color: #f1c40f;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(241,196,15,.20);
-}
+.languageButton:hover { background: rgba(241,196,15,.15); border-color: #f1c40f; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(241,196,15,.20); }
 
 .languageFlag { font-size: 1.1rem; }
 .languageCode { font-weight: 700; letter-spacing: .5px; }
 
-.languageArrow {
-  font-size: .7rem; color: rgba(253,246,227,.7);
-  transition: transform .3s ease, color .3s ease;
-}
+.languageArrow { font-size: .7rem; color: rgba(253,246,227,.7); transition: transform .3s, color .3s; }
 .languageArrowOpen { transform: rotate(180deg); color: #f1c40f; }
 
-/* Dropdown */
 .languageDropdown {
   position: absolute; top: calc(100% + .5rem); right: 0;
-  background: #2c3e50;
-  border: 1px solid rgba(241,196,15,.2);
-  border-radius: 12px; overflow: hidden; min-width: 160px;
-  box-shadow: 0 8px 32px rgba(0,0,0,.3);
-  backdrop-filter: blur(20px); z-index: 1010;
-  animation: dropdownFade .3s ease;
+  background: #2c3e50; border: 1px solid rgba(241,196,15,.2);
+  border-radius: 12px; overflow: hidden; min-width: 180px;
+  box-shadow: 0 8px 32px rgba(0,0,0,.3); backdrop-filter: blur(20px);
+  z-index: 2050; animation: dropdownFade .3s ease;
 }
-@keyframes dropdownFade {
-  from { opacity: 0; transform: translateY(-8px) scale(.98); }
-  to   { opacity: 1; transform: translateY(0)   scale(1);   }
-}
+@keyframes dropdownFade { from { opacity: 0; transform: translateY(-8px) scale(.98);} to { opacity:1; transform: translateY(0) scale(1);} }
 
 .languageOption {
   display: flex; align-items: center; gap: .75rem; width: 100%;
   background: none; border: none; cursor: pointer;
-  color: #fdf6e3; padding: .75rem 1rem;
-  font-size: .95rem; font-weight: 500;
-  transition: background .2s ease, color .2s ease, transform .1s ease;
+  color: #fdf6e3; padding: .75rem 1rem; font-size: .95rem; font-weight: 500;
+  transition: background .2s, color .2s, transform .1s;
 }
 .languageOption:hover { background: rgba(241,196,15,.10); color: #f1c40f; }
-.languageOptionActive {
-  background: linear-gradient(135deg, rgba(230,126,34,.20), rgba(241,196,15,.15));
-  color: #fdf6e3; font-weight: 700;
-}
+.languageOptionActive { background: linear-gradient(135deg, rgba(230,126,34,.20), rgba(241,196,15,.15)); color:#fdf6e3; font-weight:700; }
 .languageLabel { font-weight: 600; }
 
-/* ========================================
-   CTA BUTTON
-   ======================================== */
 .ctaButton {
   background: linear-gradient(135deg, #e67e22 0%, #f1c40f 100%);
   border: none; color: #0e1b2c;
   padding: .75rem 1.5rem; border-radius: 20px; cursor: pointer;
   font-size: .95rem; font-weight: 800; letter-spacing: .3px;
-  transition: transform .2s ease, box-shadow .3s ease, filter .3s ease;
+  transition: transform .2s, box-shadow .3s, filter .3s;
   box-shadow: 0 4px 15px rgba(230,126,34,.30);
 }
-.ctaButton:hover {
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 6px 20px rgba(230,126,34,.40);
-  filter: saturate(1.05);
-}
+.ctaButton:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 6px 20px rgba(230,126,34,.40); filter: saturate(1.05); }
 
-/* ========================================
-   MOBILE MENU BUTTON
-   ======================================== */
-.mobileMenuButton {
-  display: flex; flex-direction: column; justify-content: center; align-items: center;
-  width: 44px; height: 44px;
-  background: rgba(253,246,227,.10);
-  border: 1px solid rgba(241,196,15,.30);
-  border-radius: 8px; cursor: pointer;
-  transition: background .3s ease, border-color .3s ease, transform .2s ease;
+/* ===== Mobile Trigger (Burger) – öffnet Fullscreen Overlay ===== */
+.mobileMenuButton{
+  position: absolute;
+  right: max(16px, env(safe-area-inset-right));
+  top: 50%;
+  transform: translateY(-50%);
+  display:flex; flex-direction:column; justify-content:center; align-items:center;
+  width: 46px; height: 46px;
+  background: rgba(253,246,227,.15);
+  border: 1px solid rgba(241,196,15,.35);
+  border-radius: 10px; cursor: pointer; z-index: 2002;
+  -webkit-tap-highlight-color: transparent;
+  transition: background .3s, border-color .3s, transform .2s;
 }
-.mobileMenuButton:hover {
-  background: rgba(241,196,15,.15);
-  border-color: #f1c40f;
-  transform: translateY(-1px);
-}
-.hamburgerLine {
-  width: 20px; height: 2px; background-color: #fdf6e3;
-  transition: transform .3s ease, opacity .3s ease;
-  transform-origin: center; border-radius: 1px;
-}
-.hamburgerLine:not(:last-child) { margin-bottom: 4px; }
-.hamburgerLine:nth-child(1).hamburgerLineOpen { transform: rotate(45deg) translate(5px, 5px); }
-.hamburgerLine:nth-child(2).hamburgerLineOpen { opacity: 0; transform: scale(0); }
-.hamburgerLine:nth-child(3).hamburgerLineOpen { transform: rotate(-45deg) translate(5px, -5px); }
+.mobileMenuButton:hover{ background: rgba(241,196,15,.20); border-color:#f1c40f; transform: translateY(-50%) translateY(-1px); }
+.hamburgerLine{ width:22px; height:2px; background-color:#fdf6e3; transition: transform .3s, opacity .3s; border-radius:1px; }
+.hamburgerLine:not(:last-child){ margin-bottom:4px; }
 
-/* ========================================
-   MOBILE NAVIGATION (Slide-in)
-   ======================================== */
-.mobileNav {
-  position: fixed; inset: 0; z-index: 1020;
+/* ===== Fullscreen Overlay Menu (Mobile) ===== */
+/* CHANGE: Hintergrund deutlich opaker + leichter Warm-Tint,
+   damit der Hero-Content nicht „durchscheint“ und Text/Buttons klar bleiben */
+.mobileOverlayFull{
+  position: fixed; inset: 0;
+  z-index: 3000; /* über Header */
   background:
-    linear-gradient(135deg, #2c3e50 0%, #34495e 100%),
-    linear-gradient(135deg, rgba(230,126,34,.10) 0%, rgba(241,196,15,.05) 50%, rgba(39,174,96,.03) 100%);
-  overflow-y: auto; animation: slideIn .3s ease;
+    /* Warm Africa Tint (sehr subtil) */
+    linear-gradient(135deg, rgba(230,126,34,0.06) 0%, rgba(241,196,15,0.04) 50%, rgba(39,174,96,0.03) 100%),
+    /* Haupt-Hintergrund: fast deckend für hohe Lesbarkeit */
+    linear-gradient(180deg, rgba(32,49,67,0.96) 0%, rgba(40,60,80,0.96) 100%);
+  animation: overlayFade .25s ease forwards;
 }
-@keyframes slideIn {
-  from { transform: translateX(-100%); opacity: 0; }
-  to   { transform: translateX(  0%); opacity: 1; }
-}
-.mobileNavContent { padding: 6rem 2rem 2rem; min-height: 100vh; }
+@keyframes overlayFade { from{ opacity: 0 } to{ opacity: 1 } }
 
-.mobileNavList { list-style: none; margin: 0 0 2rem 0; padding: 0; }
-
-.mobileNavLink {
-  display: block; width: 100%;
-  background: none; border: none; text-align: left; cursor: pointer;
-  font-size: 1.3rem; font-weight: 600; letter-spacing: .5px;
-  color: #fdf6e3; padding: 1rem 0;
-  border-bottom: 1px solid rgba(241,196,15,.10);
-  transition: color .2s ease, transform .2s ease, background .2s ease, padding-left .2s ease;
-}
-.mobileNavLink:hover {
-  color: #f1c40f; transform: translateX(8px); padding-left: 1rem;
-  background: linear-gradient(90deg, rgba(241,196,15,.10), transparent);
-}
-.mobileNavLinkActive {
-  color: #f1c40f; font-weight: 700;
-  background: linear-gradient(90deg, rgba(230,126,34,.15), transparent);
-  border-left: 3px solid #f1c40f; padding-left: 1rem;
+.mobileOverlayContent{
+  position: relative;
+  display: flex; flex-direction: column; gap: 1.25rem;
+  max-width: 800px; margin: 0 auto;
+  padding: calc(1.25rem + env(safe-area-inset-top)) 1.25rem 2rem;
+  min-height: 100vh;
+  color: #fdf6e3;
 }
 
-/* Mobile Language */
-.mobileLanguageSection { margin: 2rem 0; }
-.mobileLanguageTitle {
-  color: #fdf6e3; font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; letter-spacing: .5px;
+/* Close (X) oben rechts im Overlay */
+.mobileOverlayClose{
+  position: absolute;
+  right: max(16px, env(safe-area-inset-right));
+  top: calc(12px + env(safe-area-inset-top));
+  width: 44px; height: 44px;
+  display: grid; place-items: center;
+  font-size: 28px; line-height: 1; color: #fdf6e3;
+  background: rgba(253,246,227,.12);                   /* CHANGE: etwas opaker */
+  border: 1px solid rgba(241,196,15,.40);             /* CHANGE: klarerer Rand */
+  border-radius: 10px; cursor: pointer;
+  transition: transform .2s, background .3s, border-color .3s;
+  z-index: 1;
 }
-.mobileLanguageGrid { display: grid; grid-template-columns: 1fr; gap: .5rem; }
+.mobileOverlayClose:hover{ transform: scale(1.04); background: rgba(241,196,15,.22); border-color:#f1c40f; }
 
-.mobileLanguageOption {
-  display: flex; align-items: center; gap: 1rem;
-  background: rgba(253,246,227,.05);
-  border: 1px solid rgba(241,196,15,.20);
-  color: #fdf6e3; padding: .75rem 1rem; border-radius: 8px; cursor: pointer;
-  font-size: 1rem; font-weight: 600;
-  transition: background .2s ease, border-color .2s ease, transform .1s ease;
-}
-.mobileLanguageOption:hover {
-  background: rgba(241,196,15,.10);
-  border-color: #f1c40f; transform: translateX(5px);
-}
-.mobileLanguageOptionActive {
-  background: linear-gradient(135deg, rgba(230,126,34,.20), rgba(241,196,15,.15));
-  border-color: #f1c40f; font-weight: 700;
-}
+/* kleines Brand-Element */
+.mobileBrand{ margin-top: 2.75rem; margin-bottom: .5rem; }
+.mobileBrandLogo{ height: 36px; width: auto; filter: drop-shadow(0 2px 6px rgba(0,0,0,.25)); }
 
-/* Mobile CTA */
-.mobileNavCta { margin-top: 2rem; }
-.mobileCtaButton {
-  display: flex; align-items: center; justify-content: center; width: 100%;
+.mobileList{
+  list-style: none; margin: .5rem 0 1rem 0; padding: 0;
+  display: grid; gap: .5rem;
+}
+.mobileItem{
+  width: 100%;
+  background: rgba(253,246,227,.10);                   /* CHANGE: leicht opaker */
+  border: 1px solid rgba(241,196,15,.24);              /* CHANGE: etwas kräftiger */
+  color: #fdf6e3;
+  padding: .9rem 1rem;
+  border-radius: 12px;
+  text-align: left; cursor: pointer;
+  font-size: 1.125rem; font-weight: 700; letter-spacing: .3px;
+  transition: transform .15s, background .2s, border-color .2s;
+}
+.mobileItem:hover{ transform: translateX(6px); background: rgba(241,196,15,.16); border-color:#f1c40f; }
+.mobileItemActive{ background: linear-gradient(135deg, rgba(230,126,34,.26), rgba(241,196,15,.22)); border-color:#f1c40f; }
+
+/* Sprache als Pill-Buttons – kein Dropdown auf Mobile */
+.mobileLangBlock{ margin-top: .5rem; }
+.mobileLangTitle{ font-size: .95rem; font-weight: 800; letter-spacing: .4px; opacity: .95; margin-bottom: .5rem; }
+.mobileLangGrid{ display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
+
+.mobileLangPill{
+  display: flex; align-items: center; gap: .6rem;
+  background: rgba(253,246,227,.10);                   /* CHANGE: etwas opaker */
+  border: 1px solid rgba(241,196,15,.24);
+  color: #fdf6e3; padding: .7rem .9rem; border-radius: 999px;
+  cursor: pointer; font-weight: 700;
+  transition: transform .15s, background .2s, border-color .2s;
+}
+.mobileLangPill:hover{ transform: translateY(-2px); background: rgba(241,196,15,.16); border-color:#f1c40f; }
+.mobileLangPillActive{ background: linear-gradient(135deg, rgba(230,126,34,.26), rgba(241,196,15,.22)); border-color:#f1c40f; }
+
+.languageFlag { font-size: 1.1rem; }
+.languageLabel { font-weight: 700; }
+
+/* Mobile CTA im Overlay */
+.mobileCta{
+  margin-top: .5rem;
   background: linear-gradient(135deg, #e67e22 0%, #f1c40f 100%);
-  border: none; color: #0e1b2c; padding: 1rem 2rem; border-radius: 20px; cursor: pointer;
-  font-size: 1.1rem; font-weight: 800; letter-spacing: .5px;
-  transition: transform .2s ease, box-shadow .3s ease;
-  box-shadow: 0 4px 15px rgba(230,126,34,.30);
+  border: none; color: #0e1b2c;
+  padding: 1rem 1.25rem; border-radius: 16px; cursor: pointer;
+  font-size: 1.05rem; font-weight: 900; letter-spacing: .4px;
+  transition: transform .2s, box-shadow .3s;
+  box-shadow: 0 6px 18px rgba(230,126,34,.35);
 }
-.mobileCtaButton:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 6px 20px rgba(230,126,34,.40); }
+.mobileCta:hover{ transform: translateY(-2px) scale(1.01); box-shadow: 0 10px 26px rgba(230,126,34,.45); }
 
-/* Overlay zum Schließen */
-.mobileOverlay {
-  position: fixed; inset: 0; z-index: 1015;
-  background-color: rgba(0,0,0,.5); animation: fadeIn .3s ease;
-}
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-/* ========================================
-   BREAKPOINTS
-   ======================================== */
+/* ===== Breakpoints ===== */
 @media (min-width: 768px) {
   .container { padding: 1.25rem 2rem; min-height: 90px; }
   .desktopNav { display: flex; }
   .rightSection { display: flex; }
-  .mobileMenuButton { display: none; }
+  .mobileMenuButton { display: none; } /* Desktop: kein Burger */
   .logoImage { height: 56px; }
   .navList { gap: 2rem; }
   .navLink { font-size: 1rem; padding: .875rem 1.5rem; }
 }
+
 @media (min-width: 1024px) {
   .container { padding: 1.5rem 3rem; min-height: 100px; }
   .navList { gap: 2.5rem; }
   .navLink { font-size: 1.05rem; padding: 1rem 1.75rem; }
   .ctaButton { font-size: 1rem; padding: .875rem 1.75rem; }
-  .logoImage { height: 60px; } /* ✅ vollständig geschlossen */
+  .logoImage { height: 60px; }
 }
 
-/* ========================================
-   A11y & Performance
-   ======================================== */
+/* ===== A11y & Performance ===== */
 @media (prefers-reduced-motion: reduce) {
   * { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
-/* Sichtbare Focus-Ringe */
 .logoButton:focus,
 .navLink:focus,
 .languageButton:focus,
 .ctaButton:focus,
-.mobileMenuButton:focus {
-  outline: 2px solid #f1c40f; outline-offset: 2px;
-}
+.mobileMenuButton:focus,
+.mobileOverlayClose:focus,
+.mobileItem:focus,
+.mobileLangPill:focus,
+.mobileCta:focus { outline: 2px solid #f1c40f; outline-offset: 2px; }
 
-/* Print */
+/* ===== Print ===== */
 @media print {
   .header { position: static; background: white !important; color: black !important; box-shadow: none !important; }
   .mobileMenuButton, .ctaButton, .languageSelector { display: none !important; }

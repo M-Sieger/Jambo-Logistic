@@ -1,11 +1,12 @@
 import React, {
+  useCallback,
   useEffect,
   useState,
 } from 'react';
 
 // Assets & Styles
 import Logo from '../assets/JamboLogisticLogo.png';
-// Hook: liefert die aktuell sichtbare Section-ID (setzt Active-Link)
+// Viewport-basierte Active-Section-Erkennung (stabil für "Process")
 import { useActiveSection } from '../hooks/useActiveSection';
 import styles from './Header.module.css';
 
@@ -15,24 +16,24 @@ interface HeaderProps {
 
 interface NavigationItem {
   label: string;
-  href: string; // z. B. '#services'
-  id: string;   // z. B. 'services' – muss zur Section-ID im DOM passen
+  href: string; // '#services'
+  id: string;   // 'services' – exakt wie DOM-Section-ID
 }
 
 interface Language {
-  code: string;
-  label: string;
-  flag: string;
+  code: string;  // 'DE'
+  label: string; // 'Deutsch'
+  flag: string;  // Emoji/Icon
 }
 
 const Header: React.FC<HeaderProps> = ({ className = '' }) => {
-  // UI-State
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [currentLanguage, setCurrentLanguage] = useState('DE');
-  const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false); // steuert .atTop / .scrolled
+  // ===== State
+  const [isMenuOpen, setIsMenuOpen] = useState(false);                 // Mobile: Fullscreen-Overlay
+  const [currentLanguage, setCurrentLanguage] = useState('DE');        // Aktuelle Sprache
+  const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false); // Desktop: Dropdown
+  const [isScrolled, setIsScrolled] = useState(false);                 // Header-Zustand (atTop/scrolled)
 
-  // Navigationseinträge (i18n-ready durch Labels)
+  // ===== Daten
   const navigationItems: NavigationItem[] = [
     { label: 'Home',     href: '#hero',     id: 'hero' },
     { label: 'Services', href: '#services', id: 'services' },
@@ -41,97 +42,98 @@ const Header: React.FC<HeaderProps> = ({ className = '' }) => {
     { label: 'Contact',  href: '#contact',  id: 'contact' },
   ];
 
-  // Sprachen
   const languages: Language[] = [
     { code: 'DE', label: 'Deutsch',   flag: '🇩🇪' },
     { code: 'EN', label: 'English',   flag: '🇬🇧' },
     { code: 'SW', label: 'Kiswahili', flag: '🇰🇪' },
   ];
 
-  // Active Section bestimmen (berücksichtigt Header-Offset für Sticky-Header)
+  // ===== Active Link (robust mit Header-Offset)
   const ids = navigationItems.map((i) => i.id);
   const activeSection = useActiveSection(ids, { headerOffset: 96 });
 
-  // Scroll-Listener (setzt Kompaktzustand & bessere Lesbarkeit)
+  // ===== Scroll-State (atTop/scrolled)
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY >= 50);
-    onScroll(); // Initialzustand setzen
+    onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Smooth-Scroll zu Ankern
-  const handleNavClick = (href: string) => {
+  // ===== Smooth scroll zu ID und mobile Menü schließen
+  const handleNavClick = useCallback((href: string) => {
     const el = document.querySelector(href);
     if (el) el.scrollIntoView({ behavior: 'smooth' });
-    setIsMenuOpen(false); // Mobile-Menü schließen
-  };
+    setIsMenuOpen(false);
+  }, []);
 
-  // CTA → Kontakt
+  // ===== CTA → Contact
   const handleCTAClick = () => {
     const el = document.getElementById('contact');
     if (el) el.scrollIntoView({ behavior: 'smooth' });
+    setIsMenuOpen(false);
   };
 
-  // Sprache wechseln
+  // ===== Language (Desktop + Mobile im Overlay)
   const handleLanguageChange = (languageCode: string) => {
     setCurrentLanguage(languageCode);
     setIsLanguageDropdownOpen(false);
   };
 
-  // Klick außerhalb schließt Mobile-Menü & Sprachdropdown
+  // ===== Outside-Click: Desktop-Dropdown schließen
   useEffect(() => {
     const onDocClick = (event: MouseEvent) => {
       const target = event.target as Element;
-      // Mobile-Menü schließen, wenn außerhalb von Header ODER Mobile-Nav geklickt wird
-      if (
-        isMenuOpen &&
-        !target.closest(`.${styles.header}`) &&
-        !target.closest(`.${styles.mobileNav}`)
-      ) {
-        setIsMenuOpen(false);
-      }
-      // Sprachdropdown schließen, wenn außerhalb des Selectors geklickt wird
-      if (
-        isLanguageDropdownOpen &&
-        !target.closest(`.${styles.languageSelector}`)
-      ) {
+      if (isLanguageDropdownOpen && !target.closest(`.${styles.languageSelector}`)) {
         setIsLanguageDropdownOpen(false);
       }
     };
     document.addEventListener('click', onDocClick);
     return () => document.removeEventListener('click', onDocClick);
-  }, [isMenuOpen, isLanguageDropdownOpen]);
+  }, [isLanguageDropdownOpen]);
 
-  const currentLang =
-    languages.find((l) => l.code === currentLanguage) || languages[0];
+  // ===== ESC schließt Overlay (Mobile)
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsMenuOpen(false);
+        setIsLanguageDropdownOpen(false);
+      }
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, []);
+
+  // ===== Body-Scroll sperren, wenn Overlay offen (Mobile-A11y)
+  useEffect(() => {
+    const original = document.body.style.overflow;
+    document.body.style.overflow = isMenuOpen ? 'hidden' : original || '';
+    return () => { document.body.style.overflow = original; };
+  }, [isMenuOpen]);
+
+  const currentLang = languages.find((l) => l.code === currentLanguage) || languages[0];
 
   return (
     <header
-      // ✅ .atTop sichert hohen Kontrast im Startzustand (nicht gescrolled)
       className={[
         styles.header,
-        isScrolled ? styles.scrolled : styles.atTop,
+        isScrolled ? styles.scrolled : styles.atTop, // Start: hoher Kontrast
         className,
       ].join(' ')}
     >
       <div className={styles.container}>
-        {/* Logo → Home */}
+        {/* ==== Logo → Home */}
         <div className={styles.logo}>
           <button
             onClick={() => handleNavClick('#hero')}
             className={styles.logoButton}
             aria-label="Go to homepage"
           >
-            <img
-              src={Logo}
-              alt="Jambo Logistics"
-              className={styles.logoImage}
-            />
+            <img src={Logo} alt="Jambo Logistics" className={styles.logoImage} />
           </button>
         </div>
 
-        {/* Desktop-Navigation */}
+        {/* ==== Desktop-Navigation */}
         <nav className={styles.desktopNav} aria-label="Main navigation">
           <ul className={styles.navList}>
             {navigationItems.map((item) => (
@@ -151,14 +153,11 @@ const Header: React.FC<HeaderProps> = ({ className = '' }) => {
           </ul>
         </nav>
 
-        {/* Rechte Seite: Sprache + CTA */}
+        {/* ==== Rechte Seite (Desktop): Language + CTA */}
         <div className={styles.rightSection}>
-          {/* Language Selector */}
           <div className={styles.languageSelector}>
             <button
-              onClick={() =>
-                setIsLanguageDropdownOpen(!isLanguageDropdownOpen)
-              }
+              onClick={() => setIsLanguageDropdownOpen((v) => !v)}
               className={styles.languageButton}
               aria-expanded={isLanguageDropdownOpen}
               aria-haspopup="true"
@@ -177,81 +176,80 @@ const Header: React.FC<HeaderProps> = ({ className = '' }) => {
             </button>
 
             {isLanguageDropdownOpen && (
-              <div className={styles.languageDropdown}>
+              <div className={styles.languageDropdown} role="menu">
                 {languages.map((language) => (
                   <button
                     key={language.code}
                     onClick={() => handleLanguageChange(language.code)}
                     className={[
                       styles.languageOption,
-                      currentLanguage === language.code
-                        ? styles.languageOptionActive
-                        : '',
+                      currentLanguage === language.code ? styles.languageOptionActive : '',
                     ].join(' ')}
+                    role="menuitem"
                   >
                     <span className={styles.languageFlag}>{language.flag}</span>
-                    <span className={styles.languageLabel}>
-                      {language.label}
-                    </span>
+                    <span className={styles.languageLabel}>{language.label}</span>
                   </button>
                 ))}
               </div>
             )}
           </div>
 
-          {/* CTA */}
           <button onClick={handleCTAClick} className={styles.ctaButton}>
             Jetzt anfragen
           </button>
         </div>
 
-        {/* Mobile Toggle */}
+        {/* ==== Mobile: Trigger für Fullscreen-Overlay */}
         <button
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          onClick={() => setIsMenuOpen(true)}
           className={styles.mobileMenuButton}
           aria-expanded={isMenuOpen}
-          aria-controls="mobile-menu"
-          aria-label="Toggle navigation menu"
+          aria-controls="mobile-overlay-menu"
+          aria-label="Open navigation menu"
         >
-          <span
-            className={[
-              styles.hamburgerLine,
-              isMenuOpen ? styles.hamburgerLineOpen : '',
-            ].join(' ')}
-          />
-          <span
-            className={[
-              styles.hamburgerLine,
-              isMenuOpen ? styles.hamburgerLineOpen : '',
-            ].join(' ')}
-          />
-          <span
-            className={[
-              styles.hamburgerLine,
-              isMenuOpen ? styles.hamburgerLineOpen : '',
-            ].join(' ')}
-          />
+          <span className={styles.hamburgerLine} />
+          <span className={styles.hamburgerLine} />
+          <span className={styles.hamburgerLine} />
         </button>
       </div>
 
-      {/* Mobile Navigation */}
+      {/* ==== Fullscreen Overlay Menü (Mobile) */}
       {isMenuOpen && (
-        <nav
-          id="mobile-menu"
-          className={styles.mobileNav}
-          aria-label="Mobile navigation"
+        <div
+          id="mobile-overlay-menu"
+          className={styles.mobileOverlayFull}
+          role="dialog"
+          aria-modal="true"
+          onClick={() => setIsMenuOpen(false)} // Klick auf Hintergrund schließt
         >
-          <div className={styles.mobileNavContent}>
-            <ul className={styles.mobileNavList}>
+          <div
+            className={styles.mobileOverlayContent}
+            onClick={(e) => e.stopPropagation()} // Inhalt klickbar lassen
+          >
+            {/* Close (X) */}
+            <button
+              className={styles.mobileOverlayClose}
+              onClick={() => setIsMenuOpen(false)}
+              aria-label="Close navigation menu"
+            >
+              ×
+            </button>
+
+            {/* Branding (optional klein) */}
+            <div className={styles.mobileBrand}>
+              <img src={Logo} alt="Jambo Logistics" className={styles.mobileBrandLogo} />
+            </div>
+
+            {/* Links */}
+            <ul className={styles.mobileList}>
               {navigationItems.map((item) => (
                 <li key={item.id}>
                   <button
                     onClick={() => handleNavClick(item.href)}
                     className={[
-                      styles.mobileNavLink,
-                      activeSection === item.id
-                        ? styles.mobileNavLinkActive
-                        : '',
+                      styles.mobileItem,
+                      activeSection === item.id ? styles.mobileItemActive : '',
                     ].join(' ')}
                     aria-current={activeSection === item.id ? 'page' : undefined}
                   >
@@ -261,47 +259,32 @@ const Header: React.FC<HeaderProps> = ({ className = '' }) => {
               ))}
             </ul>
 
-            {/* Mobile Language */}
-            <div className={styles.mobileLanguageSection}>
-              <h3 className={styles.mobileLanguageTitle}>Language</h3>
-              <div className={styles.mobileLanguageGrid}>
+            {/* Language Auswahl (ohne Dropdown – robust) */}
+            <div className={styles.mobileLangBlock}>
+              <h3 className={styles.mobileLangTitle}>Language</h3>
+              <div className={styles.mobileLangGrid}>
                 {languages.map((language) => (
                   <button
                     key={language.code}
                     onClick={() => handleLanguageChange(language.code)}
                     className={[
-                      styles.mobileLanguageOption,
-                      currentLanguage === language.code
-                        ? styles.mobileLanguageOptionActive
-                        : '',
+                      styles.mobileLangPill,
+                      currentLanguage === language.code ? styles.mobileLangPillActive : '',
                     ].join(' ')}
                   >
                     <span className={styles.languageFlag}>{language.flag}</span>
-                    <span className={styles.languageLabel}>
-                      {language.label}
-                    </span>
+                    <span className={styles.languageLabel}>{language.label}</span>
                   </button>
                 ))}
               </div>
             </div>
 
-            {/* Mobile CTA */}
-            <div className={styles.mobileNavCta}>
-              <button onClick={handleCTAClick} className={styles.mobileCtaButton}>
-                Jetzt anfragen
-              </button>
-            </div>
+            {/* CTA */}
+            <button onClick={handleCTAClick} className={styles.mobileCta}>
+              Jetzt anfragen
+            </button>
           </div>
-        </nav>
-      )}
-
-      {/* Overlay zum Schließen */}
-      {isMenuOpen && (
-        <div
-          className={styles.mobileOverlay}
-          onClick={() => setIsMenuOpen(false)}
-          aria-hidden="true"
-        />
+        </div>
       )}
     </header>
   );
