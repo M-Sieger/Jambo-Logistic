@@ -92,16 +92,5 @@ Bitte halte dich an die Code-Standards (React + CSS Modules, modulare Struktur).
 📄 Lizenz
 MIT © 2025 – Jambo Logistics
 
-yaml
-Kopieren
-Bearbeiten
-
----
-
-👉 Vorschlag: Ich kann dir noch eine **gekürzte One-Liner-Version** schreiben (für LinkedIn/Repo-Startseite) oder eine **Marketing-orientierte** Variante mit Screenshots & Badges.  
-Willst du die **kurze oder die ausführlich-visualisierte** Variante?
-
-
-
 
 
