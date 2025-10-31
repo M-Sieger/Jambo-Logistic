@@ -1,3 +1,15 @@
+// ---------------------------------------------------------
+// Datei: Contact.tsx
+// Zweck: Kontakt-Section mit Formular, Contact-Cards und Map
+// Besonderheiten:
+// - Kontaktformular mit Live-Validation und aria-invalid für A11y
+// - 3 Contact-Cards (WhatsApp, E-Mail, Telefon) mit Icons
+// - Callback-Request-Section für Rückruf-Anfragen
+// - Nairobi-Map-Image für geografische Verortung
+// - Responsive: Mobile 1-spaltig, Desktop 2-spaltig
+// Stand: 30.10.2025
+// ---------------------------------------------------------
+
 import React, {
   useId,
   useMemo,
@@ -7,14 +19,6 @@ import React, {
 import mapImage from '../assets/nairobi-map.png';
 import globalStyles from '../styles/GlobalPolish.module.css';
 import styles from './Contact.module.css';
-
-/**
- * ContactFinal – Kontakt-Sektion
- * Ziele:
- * - Modern, luftig, AA‑Kontrast, mobil 1‑spaltig, Desktop 2‑spaltig
- * - Klare Affordance (wo tippe ich?), feste Textarea-Höhe
- * - A11y: saubere Labels, IDs, Live-Regionen, aria-invalid
- */
 
 type SubmitState = 'idle' | 'success' | 'error';
 type CallbackState = 'idle' | 'sent' | 'error';

@@ -1,3 +1,14 @@
+// ---------------------------------------------------------
+// Datei: Footer.tsx
+// Zweck: Footer mit Company-Info, Quick-Links, Legal-Links, Social-Media
+// Besonderheiten:
+// - 4-spaltiges Layout (Desktop), 1-spaltig (Mobile)
+// - Language-Switch optional (langSwitch-Prop)
+// - Social-Media-Links mit Icons
+// - Copyright-Notice mit aktuellem Jahr
+// Stand: 30.10.2025
+// ---------------------------------------------------------
+
 import React from 'react';
 
 import globalStyles from '../styles/GlobalPolish.module.css';

@@ -1,25 +1,17 @@
-// src/components/ProcessSteps.tsx
+// ---------------------------------------------------------
+// Datei: ProcessSteps.tsx
+// Zweck: 3-Schritte-Prozess-Visualisierung für Ablauferklärung
+// Besonderheiten:
+// - Zeigt 3 Steps mit Bild, Nummer-Badge, Titel, Beschreibung
+// - Pfeil-Connector zwischen Steps (nur Desktop-Ansicht)
+// - Aspect-Ratio für Bilder (object-fit: cover) für CLS-freies Layout
+// - Token-basiertes Styling (CSS Custom Properties aus variables.css)
+// Stand: 30.10.2025
+// ---------------------------------------------------------
+
 import React from 'react';
 
 import styles from './ProcessSteps.module.css';
-
-// -----------------------------------------------------------------------------
-// ProcessSteps
-//
-// Dieses Component zeigt eine Reihe von Schritten zur Erklärung des Ablaufs.
-// Es übernimmt eine Liste von Schritten via Props und rendert für jeden Schritt
-// ein Card‑Element mit Bild, Titel und Beschreibung. Zwischen den Cards wird
-// optional ein Pfeil dargestellt (nur Desktop), um den Ablauf zu visualisieren.
-//
-// Änderungen gegenüber der Vorversion:
-// - Die zuvor sichtbaren Dateipfade (z. B. "/src/assets/..."), die über den
-//   Bildern lagen, wurden vollständig entfernt. Bilder werden jetzt direkt
-//   per <img> eingebunden.
-// - Die Bildcontainer nutzen eine feste Aspect-Ratio und object-fit: cover,
-//   damit nichts verzerrt oder aus dem Rahmen springt.
-// - Alle Styling‑Details sind in der zugehörigen CSS‑Modul-Datei ausgelagert;
-//   dort sind runde Ecken, Schatten und Arrow-Styles definiert.
-// - Das Component bleibt token-basiert und CLS-frei durch reservierte Höhen.
 
 interface ProcessStep {
   icon: string;

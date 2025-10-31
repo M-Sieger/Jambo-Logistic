@@ -1,10 +1,13 @@
-// src/components/Services.tsx
-// ✅ React + TypeScript + CSS Modules
-// ✅ CLS-frei: width/height + aspect-ratio im CSS
-// ✅ Lazy Loading + decoding="async" für alle Bilder (außer Hero in anderer Datei)
-// ✅ sizes-Attribute für responsive Bildauswahl
-// ✅ AOS-Stagger 0/100/200/300
-// ✅ CTA-Box mit Bild + Text + Buttons, #contact als Primär-CTA
+// ---------------------------------------------------------
+// Datei: Services.tsx
+// Zweck: Service-Übersicht mit 4 Service-Cards und CTA-Section
+// Besonderheiten:
+// - Service-Cards mit Bildern, Lazy Loading, aspect-ratio für CLS-freies Layout
+// - AOS-Stagger-Animation (0/100/200/300ms) für sanften Scroll-Effekt
+// - CTA-Section mit Beratungs-Bild und zwei Buttons (Primär: Contact, Sekundär: Prozess)
+// - Background-Image mit Overlay für bessere Text-Lesbarkeit
+// Stand: 30.10.2025
+// ---------------------------------------------------------
 
 import React from 'react';
 
@@ -26,6 +29,7 @@ type ServiceItem = {
   desc: string;     // 1-Zeile, kurz & klar
   imgSrc: string;
   imgAlt: string;
+  priceHint?: string; // ✅ Neu: "Preise auf Anfrage" oder "Individuelle Lösungen"
 };
 
 export interface ServicesProps {
@@ -42,6 +46,7 @@ const defaultItems: ServiceItem[] = [
     desc: 'Sicher & fair nach Nairobi – privat & geschäftlich.',
     imgSrc: pkgImg,
     imgAlt: 'Pakete für den Versand vorbereitet',
+    priceHint: 'Preise auf Anfrage', // ✅
   },
   {
     id: 'ctr',
@@ -49,6 +54,7 @@ const defaultItems: ServiceItem[] = [
     desc: 'Planbar, dokumentiert, mit persönlichem Update.',
     imgSrc: ctrImg,
     imgAlt: 'Containerverladung im Hafen',
+    priceHint: 'Individuelle Lösung', // ✅
   },
   {
     id: 'home',
@@ -56,6 +62,7 @@ const defaultItems: ServiceItem[] = [
     desc: 'Sorgfältig verpackt, transparent abgewickelt.',
     imgSrc: homeImg,
     imgAlt: 'Transport von Haushaltsgeräten',
+    priceHint: 'Preise auf Anfrage', // ✅
   },
   {
     id: 'text',
@@ -63,6 +70,7 @@ const defaultItems: ServiceItem[] = [
     desc: 'Sammelpakete, faire Tarife, klare Prozesse.',
     imgSrc: textImg,
     imgAlt: 'Karton mit Kleidung im Lager',
+    priceHint: 'Preise auf Anfrage', // ✅
   },
 ];
 
@@ -117,6 +125,11 @@ const Services: React.FC<ServicesProps> = ({
             <p className={styles.cardDescription} title={it.desc}>
               {it.desc}
             </p>
+
+            {/* ✅ Preis-Hinweis */}
+            {it.priceHint && (
+              <span className={styles.priceHint}>{it.priceHint}</span>
+            )}
 
             {/* Sekundäre Aktion */}
             <span className={styles.cardAction} aria-hidden="true">

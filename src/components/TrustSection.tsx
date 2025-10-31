@@ -1,6 +1,13 @@
-// TrustSection.tsx — Metrics-Version (keine Logos, keine Quote)
-// Präfixierte Klassen (trust*) → keine Kollisionen mit Services/Process
-// AOS optional via Prop; Default: true
+// ---------------------------------------------------------
+// Datei: TrustSection.tsx
+// Zweck: Trust-Section mit Metriken (Social Proof) und optionalem Quote
+// Besonderheiten:
+// - Zeigt 3 Metriken (z.B. 200+ Container, 5+ Jahre, 100% Zufriedenheit)
+// - Optional: Partner-Logos (noch nicht implementiert)
+// - Optional: Kundenzitat mit Highlight-Effekt
+// - AOS-Animation optional steuerbar via Prop
+// Stand: 30.10.2025
+// ---------------------------------------------------------
 
 import React, { useMemo } from 'react';
 
@@ -13,10 +20,17 @@ export type TrustMetric = {
   description?: string;
 };
 
+export type Testimonial = {
+  text: string;
+  author: string;
+  service: string;
+};
+
 export type TrustSectionProps = {
   title?: string;
   subtitle?: string;
   metrics?: TrustMetric[];
+  testimonials?: Testimonial[]; // ✅ Neu
   aos?: boolean;
 };
 
@@ -45,13 +59,28 @@ const defaultMetrics: TrustMetric[] = [
   { icon: <IconStar />, label: "Top‑Bewertungen", value: "4,9/5", description: "Zufriedenheit" },
   { icon: <IconShield />, label: "Sicher versenden", description: "Optionale Versicherung" },
   { icon: <IconHandshake />, label: "Direkter Ansprechpartner", description: "DE & KE, WhatsApp/Telefon" },
-  { icon: <IconBolt />, label: "Schnelle Antwort", value: "≤ 24 h", description: "Mo–Sa" },
+  { icon: <IconBolt />, label: "Schnelle Antwort", value: "≤ 24 h", description: "Mo–Sa" },
+];
+
+// ✅ Default-Testimonials (Platzhalter - mit Macha abstimmen!)
+const defaultTestimonials: Testimonial[] = [
+  {
+    text: "Macha hat meinen Container pünktlich nach Nairobi gebracht. Toller Service!",
+    author: "Peter M., Essen",
+    service: "Container-Transport"
+  },
+  {
+    text: "Schnell, zuverlässig und persönlich. Genau was ich gesucht habe.",
+    author: "Sarah K., Diaspora",
+    service: "Paketversand"
+  }
 ];
 
 const TrustSection: React.FC<TrustSectionProps> = ({
   title = "Verlässlich von Deutschland nach Nairobi.",
   subtitle = "Persönliche Betreuung, faire Preise und sichere Abwicklung – ohne App‑Chaos.",
   metrics = defaultMetrics,
+  testimonials = defaultTestimonials, // ✅ Neu
   aos = true,
 }) => {
   const metricsWithIcons = useMemo(
@@ -96,6 +125,24 @@ const TrustSection: React.FC<TrustSectionProps> = ({
             </li>
           ))}
         </ul>
+
+        {/* ✅ Testimonials */}
+        {testimonials && testimonials.length > 0 && (
+          <div className={styles.testimonialsSection} {...(aos ? { "data-aos": "fade-up", "data-aos-delay": "200" } : {})}>
+            <h3 className={styles.testimonialsTitle}>Was unsere Kunden sagen</h3>
+            <div className={styles.testimonialsGrid}>
+              {testimonials.map((t, i) => (
+                <blockquote key={i} className={styles.testimonial}>
+                  <p className={styles.testimonialText}>"{t.text}"</p>
+                  <footer className={styles.testimonialFooter}>
+                    <cite className={styles.testimonialAuthor}>{t.author}</cite>
+                    <span className={styles.testimonialService}>{t.service}</span>
+                  </footer>
+                </blockquote>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );

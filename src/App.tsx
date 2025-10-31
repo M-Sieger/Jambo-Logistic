@@ -20,6 +20,7 @@ import ProcessSteps from './components/ProcessSteps';
 import SectionDivider from './components/SectionDivider'; // ✅ Divider
 import Services from './components/Services';
 import TrustSection from './components/TrustSection';
+import WhatsAppButton from './components/WhatsAppButton'; // ✅ Sticky WhatsApp
 import DefaultLayout from './layouts/DefaultLayout';
 
 const App: React.FC = () => {
@@ -62,6 +63,9 @@ const App: React.FC = () => {
 
   return (
     <DefaultLayout>
+      {/* Sticky WhatsApp Button (global, über allen Sections) */}
+      <WhatsAppButton phoneNumber="491234567890" />
+
       {/* SECTION 1: Hero – Einstieg, kein Divider davor */}
       <Hero
         headline="Von deiner Tür bis nach Nairobi."

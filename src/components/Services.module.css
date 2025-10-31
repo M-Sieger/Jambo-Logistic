@@ -89,6 +89,16 @@
   text-overflow: ellipsis;
 }
 
+/* 🔹 Preis-Hinweis – dezent, klein */
+.priceHint {
+  display: block;
+  color: var(--color-primary-500, #e67e22);
+  font-size: var(--font-size-sm, 0.875rem);
+  font-weight: 600;
+  margin: 0 var(--spacing-lg, 16px) var(--spacing-sm, 8px);
+  font-style: italic;
+}
+
 /* 🔹 Sekundäre Aktion (Link-Optik) */
 .cardAction {
   display: inline-flex;

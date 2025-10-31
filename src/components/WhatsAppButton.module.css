@@ -1,0 +1,60 @@
+/* ===================================
+   WhatsApp Sticky Button
+   =================================== */
+
+.whatsappButton {
+  position: fixed;
+  bottom: var(--spacing-lg); /* 24px */
+  right: var(--spacing-lg);
+  width: 60px;
+  height: 60px;
+  background: #25d366; /* WhatsApp Green */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.whatsappButton:hover {
+  background: #128c7e; /* Darker WhatsApp Green */
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+.whatsappButton:active {
+  transform: scale(0.95);
+}
+
+.icon {
+  width: 32px;
+  height: 32px;
+  color: white;
+}
+
+/* ===================================
+   Responsive (Mobile größer)
+   =================================== */
+
+@media (max-width: 767px) {
+  .whatsappButton {
+    width: 56px;
+    height: 56px;
+    bottom: var(--spacing-md); /* 16px */
+    right: var(--spacing-md);
+  }
+
+  .icon {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+/* Accessibility: Focus State */
+.whatsappButton:focus-visible {
+  outline: 3px solid var(--color-primary-500);
+  outline-offset: 4px;
+}

@@ -1,3 +1,14 @@
+// ---------------------------------------------------------
+// Datei: Hero.tsx
+// Zweck: Hero-Section mit dynamischem Text-Carousel und CTA
+// Besonderheiten:
+// - Headline und Subline wechseln alle 6 Sekunden mit Slide-Transition
+// - Hintergrund-Bild mit Overlay für Text-Lesbarkeit
+// - CTA-Button scrollt zu Contact-Section
+// - Responsive Design (Desktop-optimiert, Mobile-angepasst)
+// Stand: 30.10.2025
+// ---------------------------------------------------------
+
 import React, {
   useEffect,
   useRef,
@@ -113,18 +124,26 @@ const Hero: React.FC<HeroProps> = ({
               </CSSTransition>
             </SwitchTransition>
 
-            {/* 📌 CTA-Button – globales Button-System */}
-           <div className={styles.ctaContainer}>
-  <button
-    type="button"
-    onClick={handleCTAClick}
-    // NUR die globalen Klassen + optionaler on-hero (mehr Shadow)
-    className={`${globalStyles.button} ${globalStyles["button--primary"]} ${globalStyles["is-lg"]} ${globalStyles["button--on-hero"]}`}
-    data-test="cta-hero"
-  >
-    {ctaLabel}
-  </button>
-</div>
+            {/* 📌 CTA-Buttons – Primary + Secondary */}
+            <div className={styles.ctaContainer}>
+              <button
+                type="button"
+                onClick={handleCTAClick}
+                className={`${globalStyles.button} ${globalStyles["button--primary"]} ${globalStyles["is-lg"]} ${globalStyles["button--on-hero"]}`}
+                data-test="cta-hero"
+              >
+                {ctaLabel}
+              </button>
+              
+              <button
+                type="button"
+                onClick={handleCTAClick}
+                className={`${globalStyles.button} ${globalStyles["button--secondary"]} ${globalStyles["is-lg"]} ${globalStyles["button--on-hero"]}`}
+                data-test="cta-hero-secondary"
+              >
+                Kostenlose Beratung
+              </button>
+            </div>
 
           </div>
         </div>

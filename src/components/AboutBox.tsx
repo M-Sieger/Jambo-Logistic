@@ -1,3 +1,14 @@
+// ---------------------------------------------------------
+// Datei: AboutBox.tsx
+// Zweck: "Über uns" Section mit Company-Story und Features
+// Besonderheiten:
+// - Hero-Bild mit Fallback bei Ladefehler
+// - Feature-Highlights (4 Icons mit Beschreibungen)
+// - CTA-Button scrollt zu Services-Section
+// - Globales Layout (.section + .container) außerhalb des Moduls
+// Stand: 30.10.2025
+// ---------------------------------------------------------
+
 import React from 'react';
 
 import aboutImg from '../assets/aboutsection1.jpeg';   // Hero-Bild (About)
@@ -5,12 +16,6 @@ import fallbackImg
   from '../assets/boxload.jpg';       // Fallback-Bild bei Ladefehler
 import styles from './AboutBox.module.css';
 
-/**
- * AboutBox – "Über uns" / Mission-Block
- * B1-Regel: Der äußere Layout-Rahmen kommt NICHT aus dem Modul,
- * sondern aus den globalen Utilities (.section + .container).
- * Das Modul (styles.*) stylt NUR das Innenleben.
- */
 const AboutBox: React.FC = () => {
   const scrollToServices = () => {
     document.getElementById("services")?.scrollIntoView({ behavior: "smooth" });
