@@ -148,6 +148,15 @@
   opacity: 1;
   transform: scale(1.1);
 }
+.flagButton:focus-visible {
+  outline: 2px solid var(--color-primary-500, #e67e22);
+  outline-offset: 4px;
+}
+.flagButtonActive {
+  opacity: 1;
+  transform: scale(1.12);
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.35));
+}
 
 /* 🔹 Transition-Klassen für CSSTransition */
 :global(.fade-enter) { opacity: 0; }
@@ -183,8 +192,20 @@
 }
 
 /* 🔹 Responsive-Anpassungen */
-@media (max-width: 767px) {
+@media (max-width: 374px) {
   .hero { min-height: 100vh; }
+  .ctaContainer {
+    margin-top: var(--spacing-lg);
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-sm);
+  }
+  .ctaButton { width: 100%; max-width: 260px; min-width: unset; font-size: .95rem; padding: .875rem 1.25rem; }
+  .scrollIndicator { bottom: var(--spacing-md); }
+  .scrollArrow { width: 36px; height: 36px; }
+}
+@media (max-width: 767px) {
+  .hero { min-height: 100vh; padding-top: 80px; /* Header-Höhe berücksichtigen */ }
   .ctaContainer {
     margin-top: var(--spacing-xl);
     flex-direction: column;
@@ -195,10 +216,12 @@
 }
 @media (min-width: 768px) {
   .ctaButton { min-width: 220px; }
+  .hero { padding-top: 90px; }
 }
 @media (min-width: 1024px) {
   .content { max-width: 900px; }
   .ctaButton { min-width: 240px; }
+  .hero { padding-top: 100px; }
 }
 @media (min-width: 1280px) {
   .content { max-width: 1000px; }

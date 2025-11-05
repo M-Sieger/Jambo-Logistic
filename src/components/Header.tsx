@@ -6,6 +6,11 @@ import React, {
 
 // Assets & Styles
 import Logo from '../assets/JamboLogisticLogo.png';
+import {
+  LANGUAGE_OPTIONS,
+  type LanguageCode,
+  useLanguage,
+} from '../contexts/language-context';
 // Viewport-basierte Active-Section-Erkennung (stabil für "Process")
 import { useActiveSection } from '../hooks/useActiveSection';
 import styles from './Header.module.css';
@@ -20,32 +25,27 @@ interface NavigationItem {
   id: string;   // 'services' – exakt wie DOM-Section-ID
 }
 
-interface Language {
-  code: string;  // 'DE'
-  label: string; // 'Deutsch'
-  flag: string;  // Emoji/Icon
-}
-
 const Header: React.FC<HeaderProps> = ({ className = '' }) => {
   // ===== State
   const [isMenuOpen, setIsMenuOpen] = useState(false);                 // Mobile: Fullscreen-Overlay
-  const [currentLanguage, setCurrentLanguage] = useState('DE');        // Aktuelle Sprache
+  const {
+    language: currentLanguage,
+    setLanguage,
+    translations: t,
+    options: contextLanguages,
+  } = useLanguage();
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false); // Desktop: Dropdown
   const [isScrolled, setIsScrolled] = useState(false);                 // Header-Zustand (atTop/scrolled)
 
+  const languages = contextLanguages ?? LANGUAGE_OPTIONS;
+
   // ===== Daten
   const navigationItems: NavigationItem[] = [
-    { label: 'Home',     href: '#hero',     id: 'hero' },
-    { label: 'Services', href: '#services', id: 'services' },
-    { label: 'Process',  href: '#process',  id: 'process' },
-    { label: 'About',    href: '#about',    id: 'about' },
-    { label: 'Contact',  href: '#contact',  id: 'contact' },
-  ];
-
-  const languages: Language[] = [
-    { code: 'DE', label: 'Deutsch',   flag: '🇩🇪' },
-    { code: 'EN', label: 'English',   flag: '🇬🇧' },
-    { code: 'SW', label: 'Kiswahili', flag: '🇰🇪' },
+    { label: t.nav.home,     href: '#hero',     id: 'hero' },
+    { label: t.nav.services, href: '#services', id: 'services' },
+    { label: t.nav.process,  href: '#process',  id: 'process' },
+    { label: t.nav.about,    href: '#about',    id: 'about' },
+    { label: t.nav.contact,  href: '#contact',  id: 'contact' },
   ];
 
   // ===== Active Link (robust mit Header-Offset)
@@ -75,9 +75,10 @@ const Header: React.FC<HeaderProps> = ({ className = '' }) => {
   };
 
   // ===== Language (Desktop + Mobile im Overlay)
-  const handleLanguageChange = (languageCode: string) => {
-    setCurrentLanguage(languageCode);
+  const handleLanguageChange = (languageCode: LanguageCode) => {
+    setLanguage(languageCode);
     setIsLanguageDropdownOpen(false);
+    setIsMenuOpen(false); // Mobile Menu auch schließen
   };
 
   // ===== Outside-Click: Desktop-Dropdown schließen
@@ -196,7 +197,7 @@ const Header: React.FC<HeaderProps> = ({ className = '' }) => {
           </div>
 
           <button onClick={handleCTAClick} className={styles.ctaButton}>
-            Jetzt anfragen
+            {t.cta.primary}
           </button>
         </div>
 
@@ -261,7 +262,7 @@ const Header: React.FC<HeaderProps> = ({ className = '' }) => {
 
             {/* Language Auswahl (ohne Dropdown – robust) */}
             <div className={styles.mobileLangBlock}>
-              <h3 className={styles.mobileLangTitle}>Language</h3>
+              <h3 className={styles.mobileLangTitle}>{t.language.title}</h3>
               <div className={styles.mobileLangGrid}>
                 {languages.map((language) => (
                   <button
@@ -281,7 +282,7 @@ const Header: React.FC<HeaderProps> = ({ className = '' }) => {
 
             {/* CTA */}
             <button onClick={handleCTAClick} className={styles.mobileCta}>
-              Jetzt anfragen
+              {t.cta.primary}
             </button>
           </div>
         </div>

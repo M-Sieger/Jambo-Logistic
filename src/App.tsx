@@ -5,9 +5,6 @@ import React, { useEffect } from 'react';
 import AOS from 'aos';
 
 // 🖼️ Bilder & Assets
-import teamImage from './assets/about-team.jpg';
-import mapImage from './assets/nairobi-map.png';
-import serviceBackground from './assets/services-bg-savanna.jpg';
 import heroBackground from './assets/ship-container.jpg';
 import stepAnnahmeImg from './assets/step1-anfrage.jpg';
 import stepTransportImg from './assets/step2-abholung.jpg';
@@ -34,10 +31,7 @@ const App: React.FC = () => {
     });
   }, []);
 
-  // 💡 Services (Dummy – bei dir schon definiert)
-  const services = [ /* … */ ];
-
-  // 🔧 3-Schritte-Prozess
+  //  3-Schritte-Prozess
   const processSteps = [
     {
       icon: stepAnnahmeImg,
@@ -59,8 +53,6 @@ const App: React.FC = () => {
     },
   ];
 
-  const aboutParagraphs = [ /* … */ ];
-
   return (
     <DefaultLayout>
       {/* Sticky WhatsApp Button (global, über allen Sections) */}
@@ -68,20 +60,13 @@ const App: React.FC = () => {
 
       {/* SECTION 1: Hero – Einstieg, kein Divider davor */}
       <Hero
-        headline="Von deiner Tür bis nach Nairobi."
-        subline="Klar. Schnell. Zuverlässig. Für dich nach Kenia."
-        ctaLabel="Jetzt anfragen"
         imageUrl={heroBackground}
         variant="dark"
       />
 
       {/* SECTION 2: Services – liegt auf dunklem Theme */}
       <section id="services" data-theme="dark">
-        <Services
-          services={services}
-          columns={3}
-          backgroundImage={serviceBackground}
-        />
+        <Services />
       </section>
 
       {/* Divider 1: Services → Process
@@ -98,15 +83,7 @@ const App: React.FC = () => {
       <SectionDivider variant="straight" height="64px" />
 
       {/* SECTION 4: About – heller Info-Block */}
-      <section id="about">
-        <AboutBox
-          headline="Wer wir sind"
-          paragraphs={aboutParagraphs}
-          imageUrl={teamImage}
-          variant="light"
-          imagePosition="right"
-        />
-      </section>
+      <AboutBox />
 
       {/* Divider 3: About → Trust
           Zweck: Weicher, emotionaler Übergang in Social Proof */}
@@ -115,11 +92,7 @@ const App: React.FC = () => {
       {/* SECTION 5: Trust – alternativer Abschnitt (leicht abgesetzt) */}
       <section id="trust" className="section section--alt">
         <div className="container">
-          <TrustSection
-            showLogos={false}  // später true + partners übergeben
-            withQuote={true}
-            emphasisIndex={0}
-          />
+          <TrustSection />
         </div>
       </section>
 
@@ -130,9 +103,9 @@ const App: React.FC = () => {
       {/* SECTION 6: Contact – Abschluss/Conversion */}
       <section id="contact">
         <Contact
-          whatsappUrl="https://wa.me/491234567890"
+          whatsappNumber="491234567890"
           email="kontakt@jambologistics.com"
-          mapImage={mapImage}
+          phone="+49 123 456 789"
         />
       </section>
     </DefaultLayout>
