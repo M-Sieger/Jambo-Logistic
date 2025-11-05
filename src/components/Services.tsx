@@ -6,13 +6,15 @@
 // - AOS-Stagger-Animation (0/100/200/300ms) für sanften Scroll-Effekt
 // - CTA-Section mit Beratungs-Bild und zwei Buttons (Primär: Contact, Sekundär: Prozess)
 // - Background-Image mit Overlay für bessere Text-Lesbarkeit
-// Stand: 30.10.2025
+// - Multi-Language Support via useLanguage() Hook
+// Stand: 05.11.2025
 // ---------------------------------------------------------
 
 import React from 'react';
 
 import AOS from 'aos';
 
+import { useLanguage } from '../contexts/language-context';
 // CTA-Bild
 import ctaImgJpg from '../assets/beratung.jpeg';
 // Service-Bilder
@@ -26,59 +28,58 @@ import styles from './Services.module.css';
 type ServiceItem = {
   id: string;
   title: string;
-  desc: string;     // 1-Zeile, kurz & klar
+  desc: string;
   imgSrc: string;
   imgAlt: string;
-  priceHint?: string; // ✅ Neu: "Preise auf Anfrage" oder "Individuelle Lösungen"
+  priceHint?: string;
 };
 
 export interface ServicesProps {
-  items?: ServiceItem[];
   primaryCtaHref?: string;
   secondaryCtaHref?: string;
 }
 
-// 🔹 Default-Items (MVP-ready)
-const defaultItems: ServiceItem[] = [
-  {
-    id: 'pkg',
-    title: 'Paketversand',
-    desc: 'Sicher & fair nach Nairobi – privat & geschäftlich.',
-    imgSrc: pkgImg,
-    imgAlt: 'Pakete für den Versand vorbereitet',
-    priceHint: 'Preise auf Anfrage', // ✅
-  },
-  {
-    id: 'ctr',
-    title: 'Containertransport',
-    desc: 'Planbar, dokumentiert, mit persönlichem Update.',
-    imgSrc: ctrImg,
-    imgAlt: 'Containerverladung im Hafen',
-    priceHint: 'Individuelle Lösung', // ✅
-  },
-  {
-    id: 'home',
-    title: 'Haushalt & Elektronik',
-    desc: 'Sorgfältig verpackt, transparent abgewickelt.',
-    imgSrc: homeImg,
-    imgAlt: 'Transport von Haushaltsgeräten',
-    priceHint: 'Preise auf Anfrage', // ✅
-  },
-  {
-    id: 'text',
-    title: 'Kleidung & Textilien',
-    desc: 'Sammelpakete, faire Tarife, klare Prozesse.',
-    imgSrc: textImg,
-    imgAlt: 'Karton mit Kleidung im Lager',
-    priceHint: 'Preise auf Anfrage', // ✅
-  },
-];
-
 const Services: React.FC<ServicesProps> = ({
-  items = defaultItems,
   primaryCtaHref = '#contact',
   secondaryCtaHref = '#process',
 }) => {
+  const { translations: t } = useLanguage();
+
+  // 🔹 Service-Items aus Translations
+  const items: ServiceItem[] = [
+    {
+      id: 'pkg',
+      title: t.services.items.package.title,
+      desc: t.services.items.package.desc,
+      imgSrc: pkgImg,
+      imgAlt: t.services.items.package.title,
+      priceHint: t.services.items.package.priceHint,
+    },
+    {
+      id: 'ctr',
+      title: t.services.items.container.title,
+      desc: t.services.items.container.desc,
+      imgSrc: ctrImg,
+      imgAlt: t.services.items.container.title,
+      priceHint: t.services.items.container.priceHint,
+    },
+    {
+      id: 'home',
+      title: t.services.items.household.title,
+      desc: t.services.items.household.desc,
+      imgSrc: homeImg,
+      imgAlt: t.services.items.household.title,
+      priceHint: t.services.items.household.priceHint,
+    },
+    {
+      id: 'text',
+      title: t.services.items.textiles.title,
+      desc: t.services.items.textiles.desc,
+      imgSrc: textImg,
+      imgAlt: t.services.items.textiles.title,
+      priceHint: t.services.items.textiles.priceHint,
+    },
+  ];
   // 🔹 AOS init (defensiv, falls nicht global initialisiert)
   React.useEffect(() => {
     if (typeof window !== 'undefined' && AOS.init) {
@@ -91,7 +92,7 @@ const Services: React.FC<ServicesProps> = ({
       {/* 🔹 Überschrift */}
       <div className={styles.header}>
         <h2 className={styles.sectionTitle} data-aos="fade-up">
-          Unsere Services
+          {t.services.title}
         </h2>
       </div>
 
@@ -133,7 +134,7 @@ const Services: React.FC<ServicesProps> = ({
 
             {/* Sekundäre Aktion */}
             <span className={styles.cardAction} aria-hidden="true">
-              <span className={styles.actionText}>Mehr erfahren</span>
+              <span className={styles.actionText}>{t.cta.learnMore}</span>
               <span className={styles.actionArrow}>→</span>
             </span>
           </article>
@@ -158,22 +159,22 @@ const Services: React.FC<ServicesProps> = ({
               loading="lazy"
               decoding="async"
               sizes="(max-width: 768px) 100vw, 1200px"
-              alt="Persönliche Versandberatung: freundlich, klar und zuverlässig."
+              alt={t.services.cta.title}
             />
           </div>
 
           {/* CTA-Text + Buttons */}
           <div className={styles.ctaTextBlock}>
-            <h3 className={styles.ctaTitle}>Fragen zum Versand?</h3>
+            <h3 className={styles.ctaTitle}>{t.services.cta.title}</h3>
             <p className={styles.ctaDescription}>
-              Wir beraten dich persönlich – schnell, klar und ohne Fachjargon.
+              {t.services.cta.description}
             </p>
             <div className={styles.ctaActions}>
               <a href={primaryCtaHref}>
-                <button className={styles.ctaBtnPrimary}>Jetzt Kontakt aufnehmen</button>
+                <button className={styles.ctaBtnPrimary}>{t.services.cta.primaryBtn}</button>
               </a>
               <a href={secondaryCtaHref}>
-                <button className={styles.ctaBtnSecondary}>Ablauf ansehen</button>
+                <button className={styles.ctaBtnSecondary}>{t.services.cta.secondaryBtn}</button>
               </a>
             </div>
           </div>

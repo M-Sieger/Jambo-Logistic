@@ -6,17 +6,20 @@
 // - Feature-Highlights (4 Icons mit Beschreibungen)
 // - CTA-Button scrollt zu Services-Section
 // - Globales Layout (.section + .container) außerhalb des Moduls
-// Stand: 30.10.2025
+// - Multi-Language Support via useLanguage() Hook
+// Stand: 05.11.2025
 // ---------------------------------------------------------
 
 import React from 'react';
 
-import aboutImg from '../assets/aboutsection1.jpeg';   // Hero-Bild (About)
-import fallbackImg
-  from '../assets/boxload.jpg';       // Fallback-Bild bei Ladefehler
+import aboutImg from '../assets/aboutsection1.jpeg';
+import fallbackImg from '../assets/boxload.jpg';
+import { useLanguage } from '../contexts/language-context';
 import styles from './AboutBox.module.css';
 
 const AboutBox: React.FC = () => {
+  const { translations: t } = useLanguage();
+
   const scrollToServices = () => {
     document.getElementById("services")?.scrollIntoView({ behavior: "smooth" });
   };
@@ -30,7 +33,7 @@ const AboutBox: React.FC = () => {
           {/* Textspalte */}
           <header className={styles.content}>
             <h2 className={styles.headline} data-aos="fade-up">
-              Unsere Mission: Verbindungen schaffen, die Welten bewegen.
+              {t.about.headline}
             </h2>
 
             <p
@@ -38,9 +41,7 @@ const AboutBox: React.FC = () => {
               data-aos="fade-up"
               data-aos-delay="100"
             >
-              Wir bringen Menschen zusammen – mit smarten, bezahlbaren
-              Versandlösungen zwischen Europa und Afrika. Verlässlich, schnell
-              und mit Herz.
+              {t.about.mission}
             </p>
 
             {/* Werte als semantische Liste */}
@@ -51,28 +52,25 @@ const AboutBox: React.FC = () => {
             >
               <li className={styles.valueCard}>
                 <div className={styles.valueIcon} aria-hidden="true">🌍</div>
-                <h3 className={styles.valueTitle}>Global verbunden</h3>
+                <h3 className={styles.valueTitle}>{t.about.values.global.title}</h3>
                 <p className={styles.valueText}>
-                  Wir verbinden Deutschland und Kenia mit einem starken Netzwerk
-                  aus lokalen Partnern und internationaler Expertise.
+                  {t.about.values.global.text}
                 </p>
               </li>
 
               <li className={styles.valueCard}>
                 <div className={styles.valueIcon} aria-hidden="true">⚙️</div>
-                <h3 className={styles.valueTitle}>Effizient organisiert</h3>
+                <h3 className={styles.valueTitle}>{t.about.values.efficient.title}</h3>
                 <p className={styles.valueText}>
-                  Modernste Logistik‑Technologie und optimierte Prozesse sorgen
-                  für schnelle und kostengünstige Abwicklung.
+                  {t.about.values.efficient.text}
                 </p>
               </li>
 
               <li className={styles.valueCard}>
                 <div className={styles.valueIcon} aria-hidden="true">🤝</div>
-                <h3 className={styles.valueTitle}>Persönlich betreut</h3>
+                <h3 className={styles.valueTitle}>{t.about.values.personal.title}</h3>
                 <p className={styles.valueText}>
-                  Jeder Kunde erhält einen persönlichen Ansprechpartner und
-                  individuelle Beratung für seine Versandanforderungen.
+                  {t.about.values.personal.text}
                 </p>
               </li>
             </ul>
@@ -87,9 +85,9 @@ const AboutBox: React.FC = () => {
                 type="button"
                 className={styles.ctaButton}
                 onClick={scrollToServices}
-                aria-label="Zu unseren Leistungen scrollen"
+                aria-label={t.about.cta}
               >
-                Unsere Leistungen entdecken
+                {t.about.cta}
               </button>
             </div>
           </header>

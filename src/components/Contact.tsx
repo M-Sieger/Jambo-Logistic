@@ -7,7 +7,8 @@
 // - Callback-Request-Section für Rückruf-Anfragen
 // - Nairobi-Map-Image für geografische Verortung
 // - Responsive: Mobile 1-spaltig, Desktop 2-spaltig
-// Stand: 30.10.2025
+// - Multi-Language Support via useLanguage() Hook
+// Stand: 05.11.2025
 // ---------------------------------------------------------
 
 import React, {
@@ -17,6 +18,7 @@ import React, {
 } from 'react';
 
 import mapImage from '../assets/nairobi-map.png';
+import { useLanguage } from '../contexts/language-context';
 import globalStyles from '../styles/GlobalPolish.module.css';
 import styles from './Contact.module.css';
 
@@ -24,26 +26,24 @@ type SubmitState = 'idle' | 'success' | 'error';
 type CallbackState = 'idle' | 'sent' | 'error';
 
 export interface ContactFinalProps {
-  title?: string;
-  subtitle?: string;
-  whatsappNumber?: string; // im Format 49... ohne +
+  whatsappNumber?: string;
   email?: string;
-  phone?: string; // im Format +49...
+  phone?: string;
   enableStickySidebar?: boolean;
   services?: string[];
 }
 
-const DEFAULT_SERVICES = ['Paketversand', 'Containertransport', 'Fahrzeugversand', 'Sonstiges'];
+const DEFAULT_SERVICES_DE = ['Paketversand', 'Containertransport', 'Fahrzeugversand', 'Sonstiges'];
 
 const ContactFinal: React.FC<ContactFinalProps> = ({
-  title = 'Kontakt aufnehmen',
-  subtitle = 'Bereit für Ihren Transport nach Kenia? Kontaktieren Sie uns für ein unverbindliches Angebot.',
   whatsappNumber = '491234567890',
   email = 'kontakt@jambologistics.com',
   phone = '+49 123 456 789',
   enableStickySidebar = true,
-  services = DEFAULT_SERVICES,
+  services = DEFAULT_SERVICES_DE,
 }) => {
+  const { translations: t } = useLanguage();
+
   // ---------------------------
   // Form- und UI-State
   // ---------------------------
@@ -80,16 +80,16 @@ const ContactFinal: React.FC<ContactFinalProps> = ({
   );
 
   // ---------------------------
-  // Simple Validation (leichtgewichtig, ausreichend fürs MVP)
+  // Simple Validation (jetzt mit translations)
   // ---------------------------
   const errors = useMemo(() => {
     const e: Partial<Record<keyof typeof formData, string>> = {};
-    if (!formData.name.trim()) e.name = 'Bitte Namen eingeben.';
-    if (!formData.email.trim()) e.email = 'Bitte E‑Mail eingeben.';
-    else if (!/^\S+@\S+\.\S+$/.test(formData.email)) e.email = 'Bitte gültige E‑Mail eingeben.';
-    if (!formData.message.trim()) e.message = 'Bitte Nachricht eingeben.';
+    if (!formData.name.trim()) e.name = t.contact.form.name.error;
+    if (!formData.email.trim()) e.email = t.contact.form.email.error;
+    else if (!/^\S+@\S+\.\S+$/.test(formData.email)) e.email = t.contact.form.email.errorInvalid;
+    if (!formData.message.trim()) e.message = t.contact.form.message.error;
     return e;
-  }, [formData]);
+  }, [formData, t]);
 
   const isValid = Object.keys(errors).length === 0;
 
@@ -155,8 +155,8 @@ const ContactFinal: React.FC<ContactFinalProps> = ({
       <div className="container">
         {/* Kopfbereich */}
         <header className={styles.header} data-aos="fade-up">
-          <h2 className={globalStyles.sectionTitle}>{title}</h2>
-          <p className={styles.subtitle}>{subtitle}</p>
+          <h2 className={globalStyles.sectionTitle}>{t.contact.title}</h2>
+          <p className={styles.subtitle}>{t.contact.subtitle}</p>
         </header>
 
         {/* Grid: Formular | Divider | Info */}
@@ -166,18 +166,18 @@ const ContactFinal: React.FC<ContactFinalProps> = ({
             <div className={styles.formContainer}>
               {/* Micro-CTA */}
               <div className={styles.microCta}>
-                <p className={styles.microCtaText}>Du hast Fragen zum Versand?</p>
+                <p className={styles.microCtaText}>{t.services.cta.title}</p>
                 <button
                   type="button"
                   onClick={openCallbackModal}
                   className={`${globalStyles.button} ${globalStyles['button--secondary']} ${globalStyles['is-md']} ${styles.microCtaButton}`}
-                  aria-label="Rückruf anfragen"
+                  aria-label={t.contact.callback.button}
                 >
-                  Jetzt Rückruf anfragen
+                  {t.contact.callback.button}
                 </button>
               </div>
 
-              <h3 className={styles.formTitle}>Anfrage senden</h3>
+              <h3 className={styles.formTitle}>{t.contact.form.submit}</h3>
 
               <form
                 onSubmit={handleSubmit}
@@ -188,7 +188,7 @@ const ContactFinal: React.FC<ContactFinalProps> = ({
                 {/* Row 1 */}
                 <div className={styles.formRow}>
                   <div className={styles.formGroup}>
-                    <label htmlFor={ids.name} className={styles.label}>Name *</label>
+                    <label htmlFor={ids.name} className={styles.label}>{t.contact.form.name.label} *</label>
                     <input
                       type="text"
                       id={ids.name}
@@ -198,7 +198,7 @@ const ContactFinal: React.FC<ContactFinalProps> = ({
                       onBlur={() => markTouched('name')}
                       required
                       className={styles.input}
-                      placeholder="Ihr vollständiger Name"
+                      placeholder={t.contact.form.name.placeholder}
                       autoComplete="name"
                       aria-invalid={touched.name && !!errors.name}
                       aria-describedby={touched.name && errors.name ? `${ids.name}-err` : undefined}
@@ -211,7 +211,7 @@ const ContactFinal: React.FC<ContactFinalProps> = ({
                   </div>
 
                   <div className={styles.formGroup}>
-                    <label htmlFor={ids.email} className={styles.label}>E‑Mail *</label>
+                    <label htmlFor={ids.email} className={styles.label}>{t.contact.form.email.label} *</label>
                     <input
                       type="email"
                       id={ids.email}
@@ -221,7 +221,7 @@ const ContactFinal: React.FC<ContactFinalProps> = ({
                       onBlur={() => markTouched('email')}
                       required
                       className={styles.input}
-                      placeholder="ihre@email.de"
+                      placeholder={t.contact.form.email.placeholder}
                       autoComplete="email"
                       inputMode="email"
                       aria-invalid={touched.email && !!errors.email}
@@ -238,7 +238,7 @@ const ContactFinal: React.FC<ContactFinalProps> = ({
                 {/* Row 2 */}
                 <div className={styles.formRow}>
                   <div className={styles.formGroup}>
-                    <label htmlFor={ids.phone} className={styles.label}>Telefon</label>
+                    <label htmlFor={ids.phone} className={styles.label}>{t.contact.form.phone.label}</label>
                     <input
                       type="tel"
                       id={ids.phone}
@@ -246,14 +246,14 @@ const ContactFinal: React.FC<ContactFinalProps> = ({
                       value={formData.phone}
                       onChange={handleInputChange}
                       className={styles.input}
-                      placeholder="+49 123 456 789"
+                      placeholder={t.contact.form.phone.placeholder}
                       autoComplete="tel"
                       inputMode="tel"
                     />
                   </div>
 
                   <div className={styles.formGroup}>
-                    <label htmlFor={ids.service} className={styles.label}>Service</label>
+                    <label htmlFor={ids.service} className={styles.label}>{t.contact.form.service.label}</label>
                     <select
                       id={ids.service}
                       name="service"
@@ -261,7 +261,7 @@ const ContactFinal: React.FC<ContactFinalProps> = ({
                       onChange={handleInputChange}
                       className={styles.select}
                     >
-                      <option value="">Service auswählen</option>
+                      <option value="">{t.contact.form.service.placeholder}</option>
                       {services.map((s) => (
                         <option key={s} value={s}>{s}</option>
                       ))}
@@ -271,7 +271,7 @@ const ContactFinal: React.FC<ContactFinalProps> = ({
 
                 {/* Nachricht */}
                 <div className={styles.formGroup}>
-                  <label htmlFor={ids.message} className={styles.label}>Nachricht *</label>
+                  <label htmlFor={ids.message} className={styles.label}>{t.contact.form.message.label} *</label>
                   <textarea
                     id={ids.message}
                     name="message"
@@ -280,7 +280,7 @@ const ContactFinal: React.FC<ContactFinalProps> = ({
                     onBlur={() => markTouched('message')}
                     required
                     className={styles.textarea}
-                    placeholder="Beschreiben Sie Ihre Anfrage..."
+                    placeholder={t.contact.form.message.placeholder}
                     aria-invalid={touched.message && !!errors.message}
                     aria-describedby={touched.message && errors.message ? `${ids.message}-err` : undefined}
                   />
@@ -289,19 +289,15 @@ const ContactFinal: React.FC<ContactFinalProps> = ({
                       {errors.message}
                     </span>
                   )}
-                  {/* Optionaler Mini‑Hint steigert Completion‑Rate */}
-                  <small className={styles.helperText}>
-                    Tipp: Zielort, Paketgröße/Gewicht oder gewünschte Abholung nennen – dann antworten wir schneller.
-                  </small>
                 </div>
 
                 {/* Status */}
                 <div id={ids.formStatus} className={styles.statusRegion} aria-live="polite">
                   {submitStatus === 'success' && (
-                    <div className={styles.successMessage}>✅ Vielen Dank! Ihre Nachricht wurde erfolgreich gesendet.</div>
+                    <div className={styles.successMessage}>✅ {t.contact.success}</div>
                   )}
                   {submitStatus === 'error' && (
-                    <div className={styles.errorMessage}>❌ Es gab einen Fehler beim Senden. Bitte versuchen Sie es erneut.</div>
+                    <div className={styles.errorMessage}>❌ {t.contact.error}</div>
                   )}
                 </div>
 
@@ -312,7 +308,7 @@ const ContactFinal: React.FC<ContactFinalProps> = ({
                     disabled={isSubmitting}
                     className={`${globalStyles.button} ${globalStyles['button--primary']} ${globalStyles['is-md']} ${styles.submitButton}`}
                   >
-                    {isSubmitting ? 'Wird gesendet...' : 'Anfrage senden'}
+                    {isSubmitting ? t.contact.form.submitting : t.contact.form.submit}
                   </button>
                 </div>
               </form>

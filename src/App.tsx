@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 
 import AOS from 'aos';
 
+import { useLanguage } from './contexts/language-context';
 // 🖼️ Bilder & Assets
 import heroBackground from './assets/ship-container.jpg';
 import stepAnnahmeImg from './assets/step1-anfrage.jpg';
@@ -21,6 +22,8 @@ import WhatsAppButton from './components/WhatsAppButton'; // ✅ Sticky WhatsApp
 import DefaultLayout from './layouts/DefaultLayout';
 
 const App: React.FC = () => {
+  const { translations: t } = useLanguage();
+
   // AOS einmal global initialisieren (Animationen sanft & unaufdringlich)
   useEffect(() => {
     AOS.init({
@@ -31,25 +34,22 @@ const App: React.FC = () => {
     });
   }, []);
 
-  //  3-Schritte-Prozess
+  //  3-Schritte-Prozess (jetzt aus translations)
   const processSteps = [
     {
       icon: stepAnnahmeImg,
-      title: 'Annahme',
-      description:
-        'Bring dein Paket persönlich nach Essen (NRW) oder sende es bequem per Post. Abholung in NRW folgt bald.',
+      title: t.process.steps.pickup.title,
+      description: t.process.steps.pickup.description,
     },
     {
       icon: stepTransportImg,
-      title: 'Transport',
-      description:
-        'Dein Paket reist sicher im Container nach Kenia. Persönliche Updates statt Tracking-App.',
+      title: t.process.steps.transport.title,
+      description: t.process.steps.transport.description,
     },
     {
       icon: stepZustellungImg,
-      title: 'Zustellung',
-      description:
-        'Wir melden uns, sobald dein Paket in Nairobi angekommen ist – Abholung im Lager ganz einfach.',
+      title: t.process.steps.delivery.title,
+      description: t.process.steps.delivery.description,
     },
   ];
 

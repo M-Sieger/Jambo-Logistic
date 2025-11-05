@@ -6,11 +6,13 @@
 // - Pfeil-Connector zwischen Steps (nur Desktop-Ansicht)
 // - Aspect-Ratio für Bilder (object-fit: cover) für CLS-freies Layout
 // - Token-basiertes Styling (CSS Custom Properties aus variables.css)
-// Stand: 30.10.2025
+// - Multi-Language Support via useLanguage() Hook
+// Stand: 05.11.2025
 // ---------------------------------------------------------
 
 import React from 'react';
 
+import { useLanguage } from '../contexts/language-context';
 import styles from './ProcessSteps.module.css';
 
 interface ProcessStep {
@@ -24,9 +26,11 @@ interface ProcessStepsProps {
 }
 
 const ProcessSteps: React.FC<ProcessStepsProps> = ({ steps }) => {
+  const { translations: t } = useLanguage();
+
   return (
     <section className={styles.processSection} data-theme="light">
-      <h2 className={styles.sectionTitle}>So einfach funktioniert&apos;s</h2>
+      <h2 className={styles.sectionTitle}>{t.process.title}</h2>
       <div className={styles.stepsWrapper}>
         {steps.map((step, index) => {
           const hasNext = index < steps.length - 1;
