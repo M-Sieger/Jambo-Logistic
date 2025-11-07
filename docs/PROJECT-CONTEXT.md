@@ -124,7 +124,7 @@ jambo-logistics/
 │   │
 │   ├── hooks/               # Custom Hooks
 │   │   ├── useActiveSection.ts  → Scroll-basierte Navigation
-│   │   └── use-mobile.js        → Responsive Helper
+│   │   └── use-mobile.ts        → Responsive Helper
 │   │
 │   ├── layouts/             # Layout-Container
 │   │   └── DefaultLayout.tsx    → Wrapper mit Header/Footer

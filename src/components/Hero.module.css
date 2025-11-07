@@ -11,52 +11,87 @@
   isolation: isolate; /* verhindert Stacking-Probleme bei Overlays/Modals */
 }
 
-/* 🔹 Hero-Bild per <img> statt background-image am Container (CLS-Fix möglich) */
-.bgImg {
+.hero::before {
+  content: '';
   position: absolute;
   inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(14, 27, 44, 0.5) 0%,
+    rgba(14, 27, 44, 0.75) 100%
+  );
+  z-index: 1;
+  pointer-events: none;
+  transition: opacity var(--transition-normal, 200ms ease);
+}
+
+.light::before {
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.92) 0%,
+    rgba(255, 255, 255, 0.7) 100%
+  );
+}
+
+/* 🔹 Hero-Bild per <img> statt background-image am Container (CLS-Fix möglich) */
+.mediaWrap {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.media {
   width: 100%;
   height: 100%;
   object-fit: cover;    /* Bild füllt Bereich ohne Verzerrung */
   object-position: center;
-  z-index: 0;
+  display: block;
 }
 
 /* 🔹 Overlay mit Farbverlauf – dunkle Variante */
 .overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(44, 62, 80, 0.8) 0%,
-    rgba(44, 62, 80, 0.6) 50%,
-    rgba(230, 126, 34, 0.3) 100%
-  );
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1;
+  padding: var(--spacing-4xl) var(--spacing-lg);
+  background: linear-gradient(
+    135deg,
+    rgba(17, 24, 39, 0.3) 0%,
+    rgba(17, 24, 39, 0.18) 45%,
+    rgba(230, 126, 34, 0.08) 100%
+  );
+  z-index: 2;
+  backdrop-filter: blur(2px);
 }
 
 /* 🔹 Overlay – helle Variante */
 .light .overlay {
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.9) 0%,
+    rgba(255, 255, 255, 0.88) 0%,
     rgba(255, 255, 255, 0.7) 50%,
-    rgba(230, 126, 34, 0.2) 100%
+    rgba(230, 126, 34, 0.18) 100%
   );
+  backdrop-filter: blur(0);
 }
 
 /* 🔹 Content-Wrapper – zentriert, max. Breite für Lesbarkeit */
 .content {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   text-align: center;
   max-width: 1000px;
   margin: 0 auto;
   padding: 0; /* Section-Padding kommt global */
   transition: opacity 0.5s ease-in-out; /* sanftes Ein-/Ausblenden */
+}
+
+.container {
+  position: relative;
+  z-index: 3;
+  width: 100%;
 }
 
 /* 🔹 CTA-Container unter Headline/Subline */
@@ -130,32 +165,51 @@
 /* 🔹 Sprachumschalter oben rechts */
 .languageSwitcher {
   position: absolute;
-  top: var(--spacing-md);
-  right: var(--spacing-md);
+  top: var(--spacing-lg);
+  right: var(--spacing-lg);
   display: flex;
-  gap: var(--spacing-sm);
+  gap: var(--spacing-md);
   z-index: 4;
+  background: rgba(14, 27, 44, 0.45);
+  padding: var(--spacing-xs);
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(241, 196, 15, 0.20);
 }
 .flagButton {
   background: transparent;
   border: none;
-  font-size: var(--font-size-lg);
+  font-size: 2.5rem;
   cursor: pointer;
-  opacity: 0.8;
-  transition: opacity var(--transition-fast), transform var(--transition-fast);
+  opacity: 0.85;
+  transition: opacity var(--transition-fast), transform var(--transition-fast), filter var(--transition-fast);
+  padding: var(--spacing-xs);
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .flagButton:hover {
   opacity: 1;
-  transform: scale(1.1);
+  transform: scale(1.15);
 }
 .flagButton:focus-visible {
   outline: 2px solid var(--color-primary-500, #e67e22);
   outline-offset: 4px;
+  border-radius: var(--radius-sm);
 }
 .flagButtonActive {
   opacity: 1;
-  transform: scale(1.12);
-  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.35));
+  transform: scale(1.25);
+  filter: drop-shadow(0 0 8px rgba(241, 196, 15, 0.8)) drop-shadow(0 4px 12px rgba(0, 0, 0, 0.6));
+}
+
+.hero :global(.headlineLight) {
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+}
+
+.hero :global(.sublineLight) {
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.55);
 }
 
 /* 🔹 Transition-Klassen für CSSTransition */
@@ -194,6 +248,19 @@
 /* 🔹 Responsive-Anpassungen */
 @media (max-width: 374px) {
   .hero { min-height: 100vh; }
+  .languageSwitcher {
+    top: var(--spacing-sm);
+    right: var(--spacing-sm);
+    gap: var(--spacing-xs);
+    padding: 4px;
+  }
+  .flagButton {
+    font-size: 1.75rem;
+    padding: 4px;
+  }
+  .flagButtonActive {
+    transform: scale(1.15);
+  }
   .ctaContainer {
     margin-top: var(--spacing-lg);
     flex-direction: column;
@@ -206,6 +273,14 @@
 }
 @media (max-width: 767px) {
   .hero { min-height: 100vh; padding-top: 80px; /* Header-Höhe berücksichtigen */ }
+  .languageSwitcher {
+    top: var(--spacing-md);
+    right: var(--spacing-md);
+    gap: var(--spacing-sm);
+  }
+  .flagButton {
+    font-size: 2rem;
+  }
   .ctaContainer {
     margin-top: var(--spacing-xl);
     flex-direction: column;
@@ -217,11 +292,26 @@
 @media (min-width: 768px) {
   .ctaButton { min-width: 220px; }
   .hero { padding-top: 90px; }
+  .languageSwitcher {
+    top: var(--spacing-lg);
+    right: var(--spacing-lg);
+  }
+  .flagButton {
+    font-size: 2.5rem;
+  }
 }
 @media (min-width: 1024px) {
   .content { max-width: 900px; }
   .ctaButton { min-width: 240px; }
   .hero { padding-top: 100px; }
+  .languageSwitcher {
+    top: var(--spacing-xl);
+    right: var(--spacing-xl);
+    gap: var(--spacing-md);
+  }
+  .flagButton {
+    font-size: 2.75rem;
+  }
 }
 @media (min-width: 1280px) {
   .content { max-width: 1000px; }
@@ -229,8 +319,10 @@
 
 /* 🔹 Barrierefreiheit & Motion-Präferenzen */
 @media (prefers-contrast: high) {
-  .overlay { background: rgba(0, 0, 0, 0.8); }
-  .light .overlay { background: rgba(255, 255, 255, 0.95); }
+  .hero::before { background: rgba(0, 0, 0, 0.82); }
+  .overlay { background: rgba(0, 0, 0, 0.35); }
+  .light::before { background: rgba(255, 255, 255, 0.96); }
+  .light .overlay { background: rgba(255, 255, 255, 0.6); }
 }
 @media (prefers-reduced-motion: reduce) {
   .scrollIndicator { animation: none; }

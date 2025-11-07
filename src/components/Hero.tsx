@@ -16,10 +16,7 @@ import {
   SwitchTransition,
 } from 'react-transition-group';
 
-import {
-  LANGUAGE_OPTIONS,
-  useLanguage,
-} from '../contexts/language-context';
+import { useLanguage } from '../contexts/language-context';
 import globalStyles from '../styles/GlobalPolish.module.css';
 import styles from './Hero.module.css';
 
@@ -46,13 +43,9 @@ const Hero: React.FC<HeroProps> = ({
 }) => {
   const {
     language,
-    setLanguage,
     translations: t,
-    options: contextLanguages,
   } = useLanguage();
   const nodeRef = useRef<HTMLDivElement>(null);
-
-  const languages = contextLanguages ?? LANGUAGE_OPTIONS;
   const resolvedHeadline = headline ?? t.hero.headline;
   const resolvedSubline = subline ?? t.hero.subline;
   const primaryCta = ctaLabel ?? t.hero.cta;
@@ -89,23 +82,7 @@ const Hero: React.FC<HeroProps> = ({
       <div className={styles.overlay}>
         <div className={`${styles.container} container`}>
           <div className={styles.content}>
-            <div className={styles.languageSwitcher}>
-              {languages.map((lang) => (
-                <button
-                  key={lang.code}
-                  onClick={() => setLanguage(lang.code)}
-                  className={[
-                    styles.flagButton,
-                    lang.code === language ? styles.flagButtonActive : '',
-                  ].join(' ')}
-                  aria-label={`Sprache ${lang.label}`}
-                  aria-pressed={lang.code === language}
-                  type="button"
-                >
-                  {lang.flag}
-                </button>
-              ))}
-            </div>
+            {/* Language Switcher REMOVED - only in Header now */}
 
             <SwitchTransition mode="out-in">
               <CSSTransition key={language} timeout={500} classNames="fade" nodeRef={nodeRef}>

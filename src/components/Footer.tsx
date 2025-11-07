@@ -6,11 +6,12 @@
 // - Language-Switch optional (langSwitch-Prop)
 // - Social-Media-Links mit Icons
 // - Copyright-Notice mit aktuellem Jahr
-// Stand: 30.10.2025
+// Stand: 06.11.2025
 // ---------------------------------------------------------
 
 import React from 'react';
 
+import { useLanguage } from '../contexts/language-context';
 import globalStyles from '../styles/GlobalPolish.module.css';
 import styles from './Footer.module.css';
 
@@ -32,19 +33,20 @@ interface SocialLink {
 
 const Footer: React.FC<FooterProps> = ({ langSwitch = false, className = "" }) => {
   const currentYear = new Date().getFullYear();
+  const { translations: t } = useLanguage();
 
   // ⚠️ "Process" verweist auf die Steps-Section (#steps)
   const quickLinks: FooterLink[] = [
-    { label: "Services", href: "#services" },
-    { label: "Process", href: "#steps" },
-    { label: "About Us", href: "#about" },
-    { label: "Contact", href: "#contact" },
+    { label: t.nav.services, href: "#services" },
+    { label: t.nav.process, href: "#steps" },
+    { label: t.nav.about, href: "#about" },
+    { label: t.nav.contact, href: "#contact" },
   ];
 
   const legalLinks: FooterLink[] = [
-    { label: "Privacy Policy", href: "/privacy" },
-    { label: "Terms of Service", href: "/terms" },
-    { label: "Imprint", href: "/imprint" },
+    { label: t.footer.legal.privacy, href: "/privacy" },
+    { label: t.footer.legal.terms, href: "/terms" },
+    { label: t.footer.legal.imprint, href: "/imprint" },
   ];
 
   const socialLinks: SocialLink[] = [
@@ -75,24 +77,23 @@ const Footer: React.FC<FooterProps> = ({ langSwitch = false, className = "" }) =
               <span className={styles.logoAccent}>Logistics</span>
             </div>
             <p className={styles.companyDescription}>
-              Verbindet Menschen und Märkte zwischen Deutschland und Ostafrika.
-              Zuverlässiger Transport von Tür zu Tür.
+              {t.footer.company.description}
             </p>
             <div className={styles.countryFlags} aria-label="Standorte">
               <div className={styles.countryFlag}>
                 <span className={styles.flagEmoji} aria-hidden="true">🇩🇪</span>
-                <span className={styles.countryName}>Deutschland</span>
+                <span className={styles.countryName}>{t.footer.company.germany}</span>
               </div>
               <div className={styles.countryFlag}>
                 <span className={styles.flagEmoji} aria-hidden="true">🇰🇪</span>
-                <span className={styles.countryName}>Kenia</span>
+                <span className={styles.countryName}>{t.footer.company.kenya}</span>
               </div>
             </div>
           </section>
 
           {/* Quick Links */}
           <nav className={styles.linksSection} aria-label="Schnellzugriff">
-            <h3 className={styles.sectionTitle}>Quick Links</h3>
+            <h3 className={styles.sectionTitle}>{t.footer.quickLinks.title}</h3>
             <ul className={styles.linksList}>
               {quickLinks.map((link) => (
                 <li key={link.label}>
@@ -111,7 +112,7 @@ const Footer: React.FC<FooterProps> = ({ langSwitch = false, className = "" }) =
 
           {/* Contact Info */}
           <section className={styles.contactSection} aria-label="Kontaktinformationen">
-            <h3 className={styles.sectionTitle}>Contact</h3>
+            <h3 className={styles.sectionTitle}>{t.nav.contact}</h3>
             <div className={styles.contactInfo}>
               <div className={styles.contactItem}>
                 <span className={styles.contactIcon} aria-hidden="true">📧</span>
@@ -127,19 +128,19 @@ const Footer: React.FC<FooterProps> = ({ langSwitch = false, className = "" }) =
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  WhatsApp Support
+                  {t.footer.social.whatsapp}
                 </a>
               </div>
               <div className={styles.contactItem}>
                 <span className={styles.contactIcon} aria-hidden="true">📍</span>
-                <span className={styles.contactText}>Köln, Deutschland &amp; Nairobi, Kenya</span>
+                <span className={styles.contactText}>Köln, {t.footer.company.germany} &amp; Nairobi, {t.footer.company.kenya}</span>
               </div>
             </div>
           </section>
 
           {/* Social Links */}
           <nav className={styles.socialSection} aria-label="Soziale Kanäle">
-            <h3 className={styles.sectionTitle}>Connect</h3>
+            <h3 className={styles.sectionTitle}>{t.footer.social.title}</h3>
             <div className={styles.socialLinks}>
               {socialLinks.map((social) => (
                 <a

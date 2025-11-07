@@ -6,11 +6,12 @@
 // - Optional: Partner-Logos (noch nicht implementiert)
 // - Optional: Kundenzitat mit Highlight-Effekt
 // - AOS-Animation optional steuerbar via Prop
-// Stand: 30.10.2025
+// Stand: 05.11.2025
 // ---------------------------------------------------------
 
 import React, { useMemo } from 'react';
 
+import { useLanguage } from '../contexts/language-context';
 import styles from './TrustSection.module.css';
 
 export type TrustMetric = {
@@ -55,51 +56,82 @@ const IconBolt = () => (
   </svg>
 );
 
-const defaultMetrics: TrustMetric[] = [
-  { icon: <IconStar />, label: "Top‑Bewertungen", value: "4,9/5", description: "Zufriedenheit" },
-  { icon: <IconShield />, label: "Sicher versenden", description: "Optionale Versicherung" },
-  { icon: <IconHandshake />, label: "Direkter Ansprechpartner", description: "DE & KE, WhatsApp/Telefon" },
-  { icon: <IconBolt />, label: "Schnelle Antwort", value: "≤ 24 h", description: "Mo–Sa" },
-];
-
-// ✅ Default-Testimonials (Platzhalter - mit Macha abstimmen!)
-const defaultTestimonials: Testimonial[] = [
-  {
-    text: "Macha hat meinen Container pünktlich nach Nairobi gebracht. Toller Service!",
-    author: "Peter M., Essen",
-    service: "Container-Transport"
-  },
-  {
-    text: "Schnell, zuverlässig und persönlich. Genau was ich gesucht habe.",
-    author: "Sarah K., Diaspora",
-    service: "Paketversand"
-  }
-];
+const ICON_COMPONENTS = [IconStar, IconShield, IconHandshake, IconBolt];
 
 const TrustSection: React.FC<TrustSectionProps> = ({
-  title = "Verlässlich von Deutschland nach Nairobi.",
-  subtitle = "Persönliche Betreuung, faire Preise und sichere Abwicklung – ohne App‑Chaos.",
-  metrics = defaultMetrics,
-  testimonials = defaultTestimonials, // ✅ Neu
+  title,
+  subtitle,
+  metrics,
+  testimonials,
   aos = true,
 }) => {
+  const { translations: t } = useLanguage();
+
+  const translatedMetrics = useMemo<TrustMetric[]>(
+    () => [
+      {
+        label: t.trust.metrics.rating.label,
+        value: t.trust.metrics.rating.value,
+        description: t.trust.metrics.rating.description,
+      },
+      {
+        label: t.trust.metrics.secure.label,
+        description: t.trust.metrics.secure.description,
+      },
+      {
+        label: t.trust.metrics.support.label,
+        description: t.trust.metrics.support.description,
+      },
+      {
+        label: t.trust.metrics.response.label,
+        value: t.trust.metrics.response.value,
+        description: t.trust.metrics.response.description,
+      },
+    ],
+    [t]
+  );
+
+  const translatedTestimonials = useMemo<Testimonial[]>(
+    () => [
+      {
+        text: t.trust.testimonials.customer1.text,
+        author: t.trust.testimonials.customer1.author,
+        service: t.trust.testimonials.customer1.service,
+      },
+      {
+        text: t.trust.testimonials.customer2.text,
+        author: t.trust.testimonials.customer2.author,
+        service: t.trust.testimonials.customer2.service,
+      },
+    ],
+    [t]
+  );
+
+  const resolvedMetrics = metrics ?? translatedMetrics;
+  const resolvedTestimonials = testimonials ?? translatedTestimonials;
+
   const metricsWithIcons = useMemo(
     () =>
-      metrics.map((m, i) => ({
-        ...m,
-        icon:
-          m.icon ??
-          [<IconStar key="s" />, <IconShield key="sh" />, <IconHandshake key="h" />, <IconBolt key="b" />][i % 4],
-      })),
-    [metrics]
+      resolvedMetrics.map((metric, index) => {
+        const IconComponent = ICON_COMPONENTS[index % ICON_COMPONENTS.length];
+        return {
+          ...metric,
+          icon: metric.icon ?? <IconComponent />,
+        };
+      }),
+    [resolvedMetrics]
   );
+
+  const resolvedTitle = title ?? t.trust.title;
+  const resolvedSubtitle = subtitle ?? t.trust.subtitle;
+  const testimonialsTitle = t.trust.testimonialsTitle;
 
   return (
     <section id="trust" className={`section section--alt ${styles.section}`}>
       <div className={`container ${styles.wrap}`}>
         <header className={styles.header}>
-          <h2 className={styles.title}>{title}</h2>
-          {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
+          <h2 className={styles.title}>{resolvedTitle}</h2>
+          {resolvedSubtitle && <p className={styles.subtitle}>{resolvedSubtitle}</p>}
         </header>
 
         <ul className={styles.grid} {...(aos ? { "data-aos": "fade-up" } : {})}>
@@ -127,16 +159,16 @@ const TrustSection: React.FC<TrustSectionProps> = ({
         </ul>
 
         {/* ✅ Testimonials */}
-        {testimonials && testimonials.length > 0 && (
+        {resolvedTestimonials.length > 0 && (
           <div className={styles.testimonialsSection} {...(aos ? { "data-aos": "fade-up", "data-aos-delay": "200" } : {})}>
-            <h3 className={styles.testimonialsTitle}>Was unsere Kunden sagen</h3>
+            <h3 className={styles.testimonialsTitle}>{testimonialsTitle}</h3>
             <div className={styles.testimonialsGrid}>
-              {testimonials.map((t, i) => (
+              {resolvedTestimonials.map((testimonial, i) => (
                 <blockquote key={i} className={styles.testimonial}>
-                  <p className={styles.testimonialText}>"{t.text}"</p>
+                  <p className={styles.testimonialText}>"{testimonial.text}"</p>
                   <footer className={styles.testimonialFooter}>
-                    <cite className={styles.testimonialAuthor}>{t.author}</cite>
-                    <span className={styles.testimonialService}>{t.service}</span>
+                    <cite className={styles.testimonialAuthor}>{testimonial.author}</cite>
+                    <span className={styles.testimonialService}>{testimonial.service}</span>
                   </footer>
                 </blockquote>
               ))}

@@ -14,9 +14,10 @@
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  z-index: 1000;
+  z-index: 1100; /* Above header (1030) but below modals (1050) */
   transition: all 0.3s ease;
   cursor: pointer;
+  pointer-events: auto;
 }
 
 .whatsappButton:hover {

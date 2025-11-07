@@ -70,6 +70,7 @@ export interface Translations {
   trust: {
     title: string;
     subtitle: string;
+    testimonialsTitle: string;
     metrics: {
       rating: { label: string; value: string; description: string };
       secure: { label: string; description: string };
@@ -97,9 +98,9 @@ export interface Translations {
     success: string;
     error: string;
     cards: {
-      whatsapp: { title: string; description: string };
-      email: { title: string; description: string };
-      phone: { title: string; description: string };
+      whatsapp: { title: string; description: string; action: string };
+      email: { title: string; description: string; action: string };
+      phone: { title: string; description: string; hours: string };
     };
     callback: {
       title: string;
@@ -108,6 +109,18 @@ export interface Translations {
       submit: string;
       success: string;
       error: string;
+    };
+    sidebar: {
+      title: string;
+      responseTitle: string;
+      responseDescription: string;
+      tagline: string;
+      mapTitle: string;
+      mapDescription: string;
+    };
+    testimonial: {
+      text: string;
+      author: string;
     };
   };
   // Footer
@@ -241,6 +254,7 @@ export const translations: Record<LanguageCode, Translations> = {
     trust: {
       title: 'Verlässlich von Deutschland nach Nairobi.',
       subtitle: 'Über 200 zufriedene Kunden vertrauen unserem Service.',
+      testimonialsTitle: 'Was unsere Kunden sagen',
       metrics: {
         rating: { label: 'Top‑Bewertungen', value: '4,9/5', description: 'Zufriedenheit' },
         secure: { label: 'Sicher versenden', description: 'Optionale Versicherung' },
@@ -275,9 +289,9 @@ export const translations: Record<LanguageCode, Translations> = {
       success: 'Vielen Dank! Wir melden uns innerhalb von 24 Stunden.',
       error: 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.',
       cards: {
-        whatsapp: { title: 'WhatsApp', description: 'Schnelle Antwort via WhatsApp' },
-        email: { title: 'E-Mail', description: 'Schreiben Sie uns eine E-Mail' },
-        phone: { title: 'Telefon', description: 'Rufen Sie uns direkt an' },
+        whatsapp: { title: 'WhatsApp', description: 'Schnelle Antwort via WhatsApp', action: 'Jetzt chatten →' },
+        email: { title: 'E-Mail', description: 'Schreiben Sie uns eine E-Mail', action: 'E-Mail senden →' },
+        phone: { title: 'Telefon', description: 'Rufen Sie uns direkt an', hours: 'Mo–Fr: 9:00 – 18:00 Uhr' },
       },
       callback: {
         title: 'Rückruf anfordern',
@@ -286,6 +300,18 @@ export const translations: Record<LanguageCode, Translations> = {
         submit: 'Rückruf anfordern',
         success: 'Danke! Wir rufen Sie innerhalb von 24h zurück.',
         error: 'Bitte geben Sie eine gültige Telefonnummer ein.',
+      },
+      sidebar: {
+        title: 'Direkter Kontakt',
+        responseTitle: 'Schnelle Antwort',
+        responseDescription: 'Wir antworten innerhalb von 2 Stunden während der Geschäftszeiten.',
+        tagline: 'Jambo ist deine Brücke zwischen Deutschland & Kenia – verlässlich, persönlich, schnell.',
+        mapTitle: 'Unsere Route',
+        mapDescription: 'Direkte Verbindung Deutschland → Kenia',
+      },
+      testimonial: {
+        text: '„Ich habe mein Paket sicher nach Nairobi geschickt – und wurde persönlich betreut. Danke Jambo!"',
+        author: '– Amina M., Berlin → Nairobi',
       },
     },
     footer: {
@@ -414,6 +440,7 @@ export const translations: Record<LanguageCode, Translations> = {
     trust: {
       title: 'Reliable from Germany to Nairobi.',
       subtitle: 'Over 200 satisfied customers trust our service.',
+      testimonialsTitle: 'What our customers say',
       metrics: {
         rating: { label: 'Top Ratings', value: '4.9/5', description: 'Satisfaction' },
         secure: { label: 'Secure Shipping', description: 'Optional Insurance' },
@@ -448,9 +475,9 @@ export const translations: Record<LanguageCode, Translations> = {
       success: 'Thank you! We will contact you within 24 hours.',
       error: 'An error occurred. Please try again.',
       cards: {
-        whatsapp: { title: 'WhatsApp', description: 'Quick response via WhatsApp' },
-        email: { title: 'Email', description: 'Send us an email' },
-        phone: { title: 'Phone', description: 'Call us directly' },
+        whatsapp: { title: 'WhatsApp', description: 'Quick response via WhatsApp', action: 'Chat now →' },
+        email: { title: 'Email', description: 'Send us an email', action: 'Send email →' },
+        phone: { title: 'Phone', description: 'Call us directly', hours: 'Mon–Fri: 9:00 AM – 6:00 PM' },
       },
       callback: {
         title: 'Request Callback',
@@ -459,6 +486,18 @@ export const translations: Record<LanguageCode, Translations> = {
         submit: 'Request Callback',
         success: 'Thanks! We will call you back within 24h.',
         error: 'Please enter a valid phone number.',
+      },
+      sidebar: {
+        title: 'Direct Contact',
+        responseTitle: 'Fast Response',
+        responseDescription: 'We respond within 2 hours during business hours.',
+        tagline: 'Jambo is your bridge between Germany & Kenya – reliable, personal, fast.',
+        mapTitle: 'Our Route',
+        mapDescription: 'Direct connection Germany → Kenya',
+      },
+      testimonial: {
+        text: '"I safely shipped my package to Nairobi – and received personal service. Thanks Jambo!"',
+        author: '– Amina M., Berlin → Nairobi',
       },
     },
     footer: {
@@ -587,6 +626,7 @@ export const translations: Record<LanguageCode, Translations> = {
     trust: {
       title: 'Ya kuaminika kutoka Ujerumani hadi Nairobi.',
       subtitle: 'Zaidi ya wateja 200 walioridhika wanaamini huduma yetu.',
+      testimonialsTitle: 'Wanasema nini wateja wetu',
       metrics: {
         rating: { label: 'Ukadiriaji Bora', value: '4.9/5', description: 'Kuridhika' },
         secure: { label: 'Usafirishaji Salama', description: 'Bima ya hiari' },
@@ -621,9 +661,9 @@ export const translations: Record<LanguageCode, Translations> = {
       success: 'Asante! Tutawasiliana nawe ndani ya masaa 24.',
       error: 'Hitilafu imetokea. Tafadhali jaribu tena.',
       cards: {
-        whatsapp: { title: 'WhatsApp', description: 'Jibu la haraka kupitia WhatsApp' },
-        email: { title: 'Barua pepe', description: 'Tutumie barua pepe' },
-        phone: { title: 'Simu', description: 'Tupigie moja kwa moja' },
+        whatsapp: { title: 'WhatsApp', description: 'Jibu la haraka kupitia WhatsApp', action: 'Tangaza sasa →' },
+        email: { title: 'Barua pepe', description: 'Tutumie barua pepe', action: 'Tuma barua pepe →' },
+        phone: { title: 'Simu', description: 'Tupigie moja kwa moja', hours: 'Jumatatu–Ijumaa: 9:00 – 18:00' },
       },
       callback: {
         title: 'Omba Kupigwa Simu',
@@ -632,6 +672,18 @@ export const translations: Record<LanguageCode, Translations> = {
         submit: 'Omba Kupigwa Simu',
         success: 'Asante! Tutakupigia simu ndani ya masaa 24.',
         error: 'Tafadhali weka nambari halali ya simu.',
+      },
+      sidebar: {
+        title: 'Mawasiliano ya Moja kwa Moja',
+        responseTitle: 'Jibu la Haraka',
+        responseDescription: 'Tunajibu ndani ya masaa 2 wakati wa biashara.',
+        tagline: 'Jambo ni daraja lako kati ya Ujerumani & Kenya – ya kuaminika, kibinafsi, haraka.',
+        mapTitle: 'Njia Yetu',
+        mapDescription: 'Uhusiano wa moja kwa moja Ujerumani → Kenya',
+      },
+      testimonial: {
+        text: '"Nilituma pakiti yangu kwa usalama hadi Nairobi – na nilipewa huduma ya kibinafsi. Asante Jambo!"',
+        author: '– Amina M., Berlin → Nairobi',
       },
     },
     footer: {

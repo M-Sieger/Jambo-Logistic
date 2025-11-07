@@ -56,6 +56,32 @@
 
 ---
 
+## 🎨 Phase 0.1: Warm Professional Brand Refresh (Iteration)
+
+**Ziel:** Die bestehende Landing Page optisch und funktional an das geplante „Warm Professional“-Branding anzugleichen, bevor Backend-Arbeiten starten.
+
+**Status (Stand: 07.11.2025):** 🔄 In Umsetzung
+
+**Bereits umgesetzt:**
+- ✅ Sprachumschalter Desktop: Emoji → Textcodes mit hohem Kontrast (Sprache: DE | EN | SW)
+- ✅ Sprachumschalter Mobile: Codes + Langnamen, größere Touch-Flächen, aktiver Orange-Verlauf
+- ✅ Navigation Desktop: Flex-Wrap + dynamische Abstände verhindern Cut-Off bei längeren Swahili-Bezeichnungen
+- ✅ Kontaktbereich: Orange WhatsApp-Kontaktkarte wird auf Mobile vollständig ausgeblendet (nur Sticky-CTA aktiv)
+
+**Offene UX-Aufgaben (Warm Professional):**
+- [ ] Mobile Menü neu gestalten (Gradient #1a2f3a → #0f1f28, aktive States, strukturierte Links)
+- [ ] Globales Color-Token-Update in `src/styles/variables.css` (Navy, Orange, Sand, Kente-Akzente)
+- [ ] Typografie-Feintuning (Schriftgrößen, Zeilenhöhen, Kontrastprüfung für DE/EN/SW)
+- [ ] Trust-Section erweitern (Testimonials mit Portraits, Social Proof Badges)
+- [ ] Sticky WhatsApp Button optisch harmonisieren (Icon + Copy, Schatten, Border)
+
+**Deliverables:**
+- Styleboard & Guidelines (`docs/BRANDING-WARM.md`, neu anzulegen)
+- Aktualisierte Komponenten (Header, Mobile Menu, Buttons, Cards)
+- Visual QA-Checkliste (Desktop, Tablet, Mobile, High-Contrast)
+
+---
+
 ## 📋 Phase 1A: Lean MVP (wenn Prozesse SEHR rudimentär)
 
 **Zeitraum:** Monat 1-2  

@@ -318,6 +318,13 @@
 .emailMethod { background: #ffffff; }
 .phoneMethod { background: #ffffff; }
 
+/* Verstecke orangen WhatsApp-Button auf Mobile (grüner sticky Button ist aktiv) */
+@media (max-width: 767px) {
+  .contactMethod.whatsappMethod {
+    display: none !important;
+  }
+}
+
 /* Response-Hinweis */
 .responseTime {
   display: grid;

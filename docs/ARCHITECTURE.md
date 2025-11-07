@@ -196,7 +196,7 @@ jambo-logistics/
 │   │
 │   ├── 📁 hooks/                 # Custom React Hooks
 │   │   ├── useActiveSection.ts   # Scroll-basierte Navigation
-│   │   └── use-mobile.js         # Responsive Helper
+│   │   └── use-mobile.ts         # Responsive Helper
 │   │
 │   ├── 📁 layouts/               # Layout-Wrapper
 │   │   └── DefaultLayout.tsx     # Header + Children + Footer

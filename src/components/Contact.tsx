@@ -19,6 +19,7 @@ import React, {
 
 import mapImage from '../assets/nairobi-map.png';
 import { useLanguage } from '../contexts/language-context';
+import { useIsMobile } from '../hooks/use-mobile.ts';
 import globalStyles from '../styles/GlobalPolish.module.css';
 import styles from './Contact.module.css';
 
@@ -43,6 +44,7 @@ const ContactFinal: React.FC<ContactFinalProps> = ({
   services = DEFAULT_SERVICES_DE,
 }) => {
   const { translations: t } = useLanguage();
+  const isMobile = useIsMobile();
 
   // ---------------------------
   // Form- und UI-State
@@ -300,7 +302,6 @@ const ContactFinal: React.FC<ContactFinalProps> = ({
                     <div className={styles.errorMessage}>❌ {t.contact.error}</div>
                   )}
                 </div>
-
                 {/* CTA */}
                 <div className={styles.formActions}>
                   <button
@@ -313,11 +314,6 @@ const ContactFinal: React.FC<ContactFinalProps> = ({
                 </div>
               </form>
 
-              {/* Social Proof */}
-              <figure className={styles.quoteCard}>
-                <p>„Ich habe mein Paket sicher nach Nairobi geschickt – und wurde persönlich betreut. Danke Jambo!“</p>
-                <figcaption>– Amina M., Berlin → Nairobi</figcaption>
-              </figure>
             </div>
           </section>
 
@@ -327,49 +323,51 @@ const ContactFinal: React.FC<ContactFinalProps> = ({
           {/* SIDEBAR */}
           <aside
             className={styles.infoSection}
-            aria-label="Direkter Kontakt & Route"
+            aria-label={t.contact.sidebar.title}
             data-aos="fade-left"
             data-sticky={enableStickySidebar ? 'true' : 'false'}
           >
             <div className={styles.infoContainer}>
-              <h3 className={styles.infoTitle}>Direkter Kontakt</h3>
+              <h3 className={styles.infoTitle}>{t.contact.sidebar.title}</h3>
 
               <div className={styles.contactMethods}>
                 {/* WhatsApp */}
-                <button
-                  type="button"
-                  onClick={() => {
-                    const message = formData.name
-                      ? `Hallo! Ich bin ${formData.name} und interessiere mich für ${formData.service || 'Ihre Services'}. ${
-                          formData.message || 'Können Sie mir mehr Informationen geben?'
-                        }`
-                      : 'Hallo! Ich interessiere mich für Ihre Logistik-Services. Können Sie mir mehr Informationen geben?';
-                    const encodedMessage = encodeURIComponent(message);
-                    window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank', 'noopener,noreferrer');
-                  }}
-                  className={`${styles.contactMethod} ${styles.whatsappMethod}`}
-                  aria-label="WhatsApp-Chat öffnen"
-                >
-                  <div className={styles.methodIcon}><span aria-hidden="true">📱</span></div>
-                  <div className={styles.methodContent}>
-                    <h4 className={styles.methodTitle}>WhatsApp</h4>
-                    <p className={styles.methodDescription}>Schnelle Antwort garantiert</p>
-                    <span className={styles.methodAction}>Jetzt chatten →</span>
-                  </div>
-                </button>
+                {!isMobile && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const message = formData.name
+                        ? `Hallo! Ich bin ${formData.name} und interessiere mich für ${formData.service || 'Ihre Services'}. ${
+                            formData.message || 'Können Sie mir mehr Informationen geben?'
+                          }`
+                        : 'Hallo! Ich interessiere mich für Ihre Logistik-Services. Können Sie mir mehr Informationen geben?';
+                      const encodedMessage = encodeURIComponent(message);
+                      window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank', 'noopener,noreferrer');
+                    }}
+                    className={`${styles.contactMethod} ${styles.whatsappMethod}`}
+                    aria-label={t.contact.cards.whatsapp.title}
+                  >
+                    <div className={styles.methodIcon}><span aria-hidden="true">📱</span></div>
+                    <div className={styles.methodContent}>
+                      <h4 className={styles.methodTitle}>{t.contact.cards.whatsapp.title}</h4>
+                      <p className={styles.methodDescription}>{t.contact.cards.whatsapp.description}</p>
+                      <span className={styles.methodAction}>{t.contact.cards.whatsapp.action}</span>
+                    </div>
+                  </button>
+                )}
 
                 {/* E-Mail */}
                 <a
                   href={`mailto:${email}`}
                   className={`${styles.contactMethod} ${styles.emailMethod}`}
-                  aria-label={`E‑Mail senden an ${email}`}
+                  aria-label={`${t.contact.cards.email.title}`}
                   rel="noopener noreferrer"
                 >
                   <div className={styles.methodIcon}><span aria-hidden="true">✉️</span></div>
                   <div className={styles.methodContent}>
-                    <h4 className={styles.methodTitle}>E‑Mail</h4>
+                    <h4 className={styles.methodTitle}>{t.contact.cards.email.title}</h4>
                     <p className={styles.methodDescription}>{email}</p>
-                    <span className={styles.methodAction}>E‑Mail senden →</span>
+                    <span className={styles.methodAction}>{t.contact.cards.email.action}</span>
                   </div>
                 </a>
 
@@ -385,12 +383,12 @@ const ContactFinal: React.FC<ContactFinalProps> = ({
                       window.open(`tel:${phone.replace(/\s/g, '')}`, '_self');
                     }
                   }}
-                  aria-label="Telefonnummer anrufen"
+                  aria-label={t.contact.cards.phone.title}
                 >
                   <div className={styles.methodIcon}><span aria-hidden="true">📞</span></div>
                   <div className={styles.methodContent}>
-                    <h4 className={styles.methodTitle}>Telefon</h4>
-                    <p className={styles.methodDescription}>Mo–Fr: 9:00 – 18:00 Uhr</p>
+                    <h4 className={styles.methodTitle}>{t.contact.cards.phone.title}</h4>
+                    <p className={styles.methodDescription}>{t.contact.cards.phone.hours}</p>
                     <span className={styles.methodAction}>{phone}</span>
                   </div>
                 </div>
@@ -400,21 +398,21 @@ const ContactFinal: React.FC<ContactFinalProps> = ({
               <div className={styles.responseTime}>
                 <div className={styles.responseIcon}><span aria-hidden="true">⚡</span></div>
                 <div className={styles.responseContent}>
-                  <h4 className={styles.responseTitle}>Schnelle Antwort</h4>
-                  <p className={styles.responseDescription}>Wir antworten innerhalb von 2 Stunden während der Geschäftszeiten.</p>
+                  <h4 className={styles.responseTitle}>{t.contact.sidebar.responseTitle}</h4>
+                  <p className={styles.responseDescription}>{t.contact.sidebar.responseDescription}</p>
                 </div>
               </div>
 
               {/* Tagline */}
               <div className={styles.tagline}>
-                <p>Jambo ist deine Brücke zwischen Deutschland &amp; Kenia – verlässlich, persönlich, schnell.</p>
+                <p>{t.contact.sidebar.tagline}</p>
               </div>
 
               {/* Karte */}
               <div className={styles.mapContainer} data-aos="zoom-in" data-aos-delay={200}>
                 <div className={styles.mapHeader}>
-                  <h4 className={styles.mapTitle}>Unsere Route</h4>
-                  <p className={styles.mapDescription}>Direkte Verbindung Deutschland → Kenia</p>
+                  <h4 className={styles.mapTitle}>{t.contact.sidebar.mapTitle}</h4>
+                  <p className={styles.mapDescription}>{t.contact.sidebar.mapDescription}</p>
                 </div>
                 <div className={styles.mapImageContainer}>
                   <img
